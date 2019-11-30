@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".seekPersonFragment"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="7dp"
+        >
+
+
+
+
+        <ImageButton
+            android:id="@+id/imageButton26"
+            android:layout_width="59dp"
+            android:layout_height="39dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginRight="0dp"
+            android:background="@android:color/transparent"
+            android:scaleType="centerInside"
+            app:srcCompat="@mipmap/gain" />
+
+        <ImageView
+            android:id="@+id/imageView8"
+            android:layout_width="297dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="17dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_toStartOf="@+id/imageButton26"
+            android:layout_toLeftOf="@+id/imageButton26"
+            app:srcCompat="@mipmap/search1" />
+
+        <EditText
+            android:id="@+id/editText6"
+            android:layout_width="275dp"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/imageView8"
+            android:layout_alignLeft="@+id/imageView8"
+            android:layout_alignTop="@+id/imageView8"
+            android:layout_alignEnd="@+id/imageView8"
+            android:layout_alignRight="@+id/imageView8"
+            android:layout_alignBottom="@+id/imageView8"
+            android:layout_marginStart="11dp"
+            android:layout_marginLeft="11dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
+            android:background="@null"
+            android:ems="10"
+            android:textSize="15dp"
+            android:hint="输入语种、性别"
+            android:inputType="textPersonName" />
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/Info_classify"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="1dp"
+        android:background="#e7e7e7" />
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:scrollbars="none">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp"
+            >
+
+
+
+
+            <TextView
+                android:id="@+id/textView41"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="语种："
+                />
+
+            <Button
+                android:id="@+id/E_btn"
+                android:layout_width="51dp"
+                android:layout_height="19dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_background"
+                android:scaleType="centerInside"
+                android:text="英语" />
+            <Button
+                android:id="@+id/K_btn"
+                android:layout_width="51dp"
+                android:layout_height="19dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_background"
+                android:scaleType="centerInside"
+                android:text="韩语" />
+            <Button
+                android:id="@+id/J_btn"
+                android:layout_width="51dp"
+                android:layout_height="19dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_background"
+                android:scaleType="centerInside"
+                android:text="日语" />
+            <Button
+                android:id="@+id/T_btn"
+                android:layout_width="51dp"
+                android:layout_height="19dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_background"
+                android:scaleType="centerInside"
+                android:text="泰语" />
+            <Button
+                android:id="@+id/C_btn"
+                android:layout_width="51dp"
+                android:layout_height="19dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_background"
+                android:scaleType="centerInside"
+                android:text="汉语" />
+            <Button
+                android:id="@+id/I_btn"
+                android:layout_width="51dp"
+                android:layout_height="19dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_background"
+                android:scaleType="centerInside"
+                android:text="印度语" />
+            <Button
+                android:id="@+id/P_btn"
+                android:layout_width="51dp"
+                android:layout_height="19dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_background"
+                android:scaleType="centerInside"
+                android:text="葡萄牙语" />
+            <Button
+                android:id="@+id/S_btn"
+                android:layout_width="51dp"
+                android:layout_height="19dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_background"
+                android:scaleType="centerInside"
+                android:text="西班牙语" />
+        </LinearLayout>
+    </HorizontalScrollView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/Info_classify"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="1dp"
+        android:background="#e7e7e7" />
+    <ListView
+        android:id="@+id/seekperson_listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>
+
+
+

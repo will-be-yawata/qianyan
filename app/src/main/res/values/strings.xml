@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">迁言</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_seek_person">seekPerson</string>
+    <drawable name="color2">#4bb1e7</drawable>
+
+</resources>
