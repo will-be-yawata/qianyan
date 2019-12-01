@@ -80,12 +80,16 @@
             android:layout_toRightOf="@+id/textView31"
             android:ems="10"
             android:inputType="textPassword" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_below="@id/editText5"
+            android:layout_marginLeft="27dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_login"
+            android:text="登录"/>
 
     </RelativeLayout>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn_login"/>
+
 
     <RelativeLayout
         android:layout_width="match_parent"

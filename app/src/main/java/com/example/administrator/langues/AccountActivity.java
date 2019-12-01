@@ -14,7 +14,7 @@ public class AccountActivity extends AppCompatActivity {
         setContentView(R.layout.activity_account);
 
         //返回按钮
-        account_return= (ImageButton) findViewById(R.id.account_return);
+        account_return=  findViewById(R.id.account_return);
         account_return.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

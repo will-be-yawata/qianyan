@@ -82,6 +82,7 @@ public class EMHelp {
                     activity.finish();
                 } catch (Throwable throwable) {
                     user.release();
+                    Log.e("test","I am here");
                     activity.runOnUiThread(()->Toast.makeText(activity.getApplicationContext(),throwable.getMessage(),Toast.LENGTH_SHORT).show());
                 }
             }
@@ -89,6 +90,7 @@ public class EMHelp {
             public void onError(int code, String error) {
                 activity.runOnUiThread(()->Toast.makeText(activity.getApplicationContext(),error,Toast.LENGTH_SHORT).show());
                 User.getInstance().release();
+                Log.e("test","on Error,I am here");
             }
             @Override
             public void onProgress(int progress, String status) {
