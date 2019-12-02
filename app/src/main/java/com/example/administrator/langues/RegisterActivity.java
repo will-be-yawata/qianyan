@@ -21,11 +21,15 @@ import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
+import util.EMHelp;
+
 public class RegisterActivity extends AppCompatActivity {
 
 private EditText name;
 private EditText pwd;
 private ImageButton btn;
+private EditText nicknameEdit_box;
+private EMHelp emHelp;
 
     public static String ROOT="http://172.16.245.206:88/qianyan/public/index/";
     //    public static String ROOT="http://119.23.216.103/qianyan/public/index/";
@@ -45,12 +49,15 @@ private ImageButton btn;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         initView();
+        emHelp=new EMHelp();
+        emHelp.init(this);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 Log.i("mData",name.getText().toString());
                 Log.i("mData",pwd.getText().toString());
+
                 register();
 
             }
@@ -60,37 +67,40 @@ private ImageButton btn;
 
     private void initView() {
         name=findViewById(R.id.editText2);
+        nicknameEdit_box=findViewById(R.id.nicknameEdit);
         pwd=findViewById(R.id.editText3);
         btn=findViewById(R.id.imageButton25);
     }
     private void register() {
             String userName=name.getText().toString();
             String userPwd=pwd.getText().toString();
-            RequestParams params=new RequestParams(ROOT+REGISTER);
-            params.setMultipart(false);
-            params.addBodyParameter("name",userName);
-            params.addBodyParameter("pwd",userPwd);
-            x.http().post(params, new Callback.CommonCallback<String>(){
-                @Override
-                public void onSuccess(String result) {
-                    Map<String,Object> data=JSON.parseObject(result,new TypeReference<HashMap<String,Object>>(){});
-                    if((boolean)data.get("success")){
-
-                        runOnUiThread(()-> Toast.makeText(x.app(),data.get("message").toString(),Toast.LENGTH_LONG).show());
-                    }else{
-                        runOnUiThread(()->Toast.makeText(x.app(),data.get("message").toString(),Toast.LENGTH_LONG).show());
-                    }
-                }
-                @Override
-                public void onError(Throwable ex, boolean isOnCallback) {
-                    Toast.makeText(x.app(),"网络错误\n"+ex.getMessage(),Toast.LENGTH_LONG).show();
-                }
-                @Override
-                public void onCancelled(CancelledException cex) {
-                    Toast.makeText(x.app(),"操作被取消",Toast.LENGTH_LONG).show();
-                }
-                @Override
-                public void onFinished() {}
-            });
+            String nickname=nicknameEdit_box.getText().toString();
+//            emHelp.registered()
+//            RequestParams params=new RequestParams(ROOT+REGISTER);
+//            params.setMultipart(false);
+//            params.addBodyParameter("name",userName);
+//            params.addBodyParameter("pwd",userPwd);
+//            x.http().post(params, new Callback.CommonCallback<String>(){
+//                @Override
+//                public void onSuccess(String result) {
+//                    Map<String,Object> data=JSON.parseObject(result,new TypeReference<HashMap<String,Object>>(){});
+//                    if((boolean)data.get("success")){
+//
+//                        runOnUiThread(()-> Toast.makeText(x.app(),data.get("message").toString(),Toast.LENGTH_LONG).show());
+//                    }else{
+//                        runOnUiThread(()->Toast.makeText(x.app(),data.get("message").toString(),Toast.LENGTH_LONG).show());
+//                    }
+//                }
+//                @Override
+//                public void onError(Throwable ex, boolean isOnCallback) {
+//                    Toast.makeText(x.app(),"网络错误\n"+ex.getMessage(),Toast.LENGTH_LONG).show();
+//                }
+//                @Override
+//                public void onCancelled(CancelledException cex) {
+//                    Toast.makeText(x.app(),"操作被取消",Toast.LENGTH_LONG).show();
+//                }
+//                @Override
+//                public void onFinished() {}
+//            });
     }
 }

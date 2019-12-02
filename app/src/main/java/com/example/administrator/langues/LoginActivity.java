@@ -1,5 +1,6 @@
 package com.example.administrator.langues;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,7 +15,7 @@ import util.EMHelp;
 public class LoginActivity extends AppCompatActivity {
     private Button login_button;
     private EditText usertext,pwdtext;
-    private TextView resign;
+    private TextView resign_text;
     private EMHelp emHelp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,15 +33,22 @@ public class LoginActivity extends AppCompatActivity {
                 user_login(phone,pwdtextcon);
             }
         });
+        resign_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
+                finish();
+            }
+        });
 
     }
 
     public void initViews(){
         login_button=(Button)findViewById(R.id.btn_login);
-        Log.i("ttg",login_button.getText().toString());
+//        Log.i("ttg",login_button.getText().toString());
         usertext=(EditText) findViewById(R.id.editText4);
         pwdtext=(EditText)findViewById(R.id.editText5);
-        resign=(TextView)findViewById(R.id.textView33);
+        resign_text=(TextView)findViewById(R.id.textView33);
     }
 
     public void user_login(String phone,String pwd){
