@@ -4,12 +4,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.example.administrator.langues.R;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -17,15 +19,15 @@ import org.xutils.http.RequestParams;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.xutils.common.Callback;
-import org.xutils.http.RequestParams;
 import org.xutils.x;
 
 public class RegisterActivity extends AppCompatActivity {
 
-private EditText name;
-private EditText pwd;
-private ImageButton btn;
+    private EditText tellphone;
+    private EditText pwd;
+    private ImageButton btn;
+    private Button register_btn;
+    boolean isChanged = false;
 
     public static String ROOT="http://172.16.245.206:88/qianyan/public/index/";
     //    public static String ROOT="http://119.23.216.103/qianyan/public/index/";
@@ -49,48 +51,51 @@ private ImageButton btn;
             @Override
             public void onClick(View view) {
 
-                Log.i("mData",name.getText().toString());
+                Log.i("mData",tellphone.getText().toString());
                 Log.i("mData",pwd.getText().toString());
                 register();
 
             }
         });
 
+
+
     }
 
     private void initView() {
-        name=findViewById(R.id.editText2);
-        pwd=findViewById(R.id.editText3);
-        btn=findViewById(R.id.imageButton25);
+        tellphone=findViewById(R.id.rg_tellphone);
+        pwd=findViewById(R.id.rg_code);
+        btn=findViewById(R.id.rg_code_btn);
+        register_btn=findViewById(R.id.rg_register_btn);
     }
     private void register() {
-            String userName=name.getText().toString();
-            String userPwd=pwd.getText().toString();
-            RequestParams params=new RequestParams(ROOT+REGISTER);
-            params.setMultipart(false);
-            params.addBodyParameter("name",userName);
-            params.addBodyParameter("pwd",userPwd);
-            x.http().post(params, new Callback.CommonCallback<String>(){
-                @Override
-                public void onSuccess(String result) {
-                    Map<String,Object> data=JSON.parseObject(result,new TypeReference<HashMap<String,Object>>(){});
-                    if((boolean)data.get("success")){
+        String userName=tellphone.getText().toString();
+        String userPwd=pwd.getText().toString();
+        RequestParams params=new RequestParams(ROOT+REGISTER);
+        params.setMultipart(false);
+        params.addBodyParameter("tellphone",userName);
+        params.addBodyParameter("pwd",userPwd);
+        x.http().post(params, new Callback.CommonCallback<String>(){
+            @Override
+            public void onSuccess(String result) {
+                Map<String,Object> data=JSON.parseObject(result,new TypeReference<HashMap<String,Object>>(){});
+                if((boolean)data.get("success")){
 
-                        runOnUiThread(()-> Toast.makeText(x.app(),data.get("message").toString(),Toast.LENGTH_LONG).show());
-                    }else{
-                        runOnUiThread(()->Toast.makeText(x.app(),data.get("message").toString(),Toast.LENGTH_LONG).show());
-                    }
+                    runOnUiThread(()-> Toast.makeText(x.app(),data.get("message").toString(),Toast.LENGTH_LONG).show());
+                }else{
+                    runOnUiThread(()->Toast.makeText(x.app(),data.get("message").toString(),Toast.LENGTH_LONG).show());
                 }
-                @Override
-                public void onError(Throwable ex, boolean isOnCallback) {
-                    Toast.makeText(x.app(),"网络错误\n"+ex.getMessage(),Toast.LENGTH_LONG).show();
-                }
-                @Override
-                public void onCancelled(CancelledException cex) {
-                    Toast.makeText(x.app(),"操作被取消",Toast.LENGTH_LONG).show();
-                }
-                @Override
-                public void onFinished() {}
-            });
+            }
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Toast.makeText(x.app(),"网络错误\n"+ex.getMessage(),Toast.LENGTH_LONG).show();
+            }
+            @Override
+            public void onCancelled(CancelledException cex) {
+                Toast.makeText(x.app(),"操作被取消",Toast.LENGTH_LONG).show();
+            }
+            @Override
+            public void onFinished() {}
+        });
     }
 }
