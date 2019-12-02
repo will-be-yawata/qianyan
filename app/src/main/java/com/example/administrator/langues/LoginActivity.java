@@ -30,7 +30,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String phone=usertext.getText().toString();
                 String pwdtextcon=pwdtext.getText().toString();
-                user_login(phone,pwdtextcon);
+                emHelp.login(phone,pwdtextcon);
+
             }
         });
         resign_text.setOnClickListener(new View.OnClickListener() {
@@ -51,8 +52,4 @@ public class LoginActivity extends AppCompatActivity {
         resign_text=(TextView)findViewById(R.id.textView33);
     }
 
-    public void user_login(String phone,String pwd){
-
-        emHelp.login(phone,pwd);
-    }
 }

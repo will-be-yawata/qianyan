@@ -1,5 +1,6 @@
 package com.example.administrator.langues;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -57,8 +58,18 @@ private EMHelp emHelp;
 
                 Log.i("mData",name.getText().toString());
                 Log.i("mData",pwd.getText().toString());
+                String userName=name.getText().toString();
+                String userPwd=pwd.getText().toString();
+                boolean res=emHelp.registered(userName,"",userPwd);
+                if(res){
+                    Toast.makeText(getBaseContext(),"注册成功",Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(RegisterActivity.this,LoginActivity.class));
+                    finish();
+                }
+                else {
+                    Toast.makeText(getBaseContext(),"注册失败",Toast.LENGTH_SHORT).show();
+                }
 
-                register();
 
             }
         });
@@ -67,14 +78,12 @@ private EMHelp emHelp;
 
     private void initView() {
         name=findViewById(R.id.editText2);
-        nicknameEdit_box=findViewById(R.id.nicknameEdit);
         pwd=findViewById(R.id.editText3);
         btn=findViewById(R.id.imageButton25);
     }
     private void register() {
             String userName=name.getText().toString();
             String userPwd=pwd.getText().toString();
-            String nickname=nicknameEdit_box.getText().toString();
 //            emHelp.registered()
 //            RequestParams params=new RequestParams(ROOT+REGISTER);
 //            params.setMultipart(false);

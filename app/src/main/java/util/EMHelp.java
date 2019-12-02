@@ -52,11 +52,11 @@ public class EMHelp {
         params.addBodyParameter("pwd",pwd);
         try {
             result=JSON.parseObject(x.http().postSync(params,String.class),new TypeReference<HashMap<String,Object>>(){});
-            activity.runOnUiThread(()->Toast.makeText(x.app(),result.get("message").toString(),Toast.LENGTH_SHORT).show());
+            activity.runOnUiThread(()->Toast.makeText(x.app(),result.get("message").toString()+"success",Toast.LENGTH_SHORT).show());
             if(Boolean.parseBoolean(result.get("success").toString())) return true;
         } catch (Throwable throwable) {
             System.out.println("mData:错误");
-            activity.runOnUiThread(()->Toast.makeText(activity.getApplicationContext(),throwable.getMessage(),Toast.LENGTH_SHORT).show());
+            activity.runOnUiThread(()->Toast.makeText(activity.getApplicationContext(),throwable.getMessage()+"error",Toast.LENGTH_SHORT).show());
         }
         return false;
     }
