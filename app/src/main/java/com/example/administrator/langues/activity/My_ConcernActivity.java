@@ -1,4 +1,4 @@
-package com.example.administrator.langues;
+package com.example.administrator.langues.activity;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +11,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.example.administrator.langues.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;

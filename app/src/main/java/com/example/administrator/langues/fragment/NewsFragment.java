@@ -1,4 +1,4 @@
-package com.example.administrator.langues;
+package com.example.administrator.langues.fragment;
 
 
 import android.content.Context;
@@ -36,6 +36,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.administrator.langues.R;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.example.administrator.langues;
+package com.example.administrator.langues.fragment;
 
 
 import android.content.Context;
@@ -18,6 +18,8 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.administrator.langues.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package com.example.administrator.langues;
+package com.example.administrator.langues.fragment;
 
 import android.content.Context;
 import android.graphics.Bitmap;

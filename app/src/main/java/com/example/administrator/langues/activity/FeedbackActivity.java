@@ -1,4 +1,4 @@
-package com.example.administrator.langues;
+package com.example.administrator.langues.activity;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -14,6 +14,8 @@ import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+
+import com.example.administrator.langues.R;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

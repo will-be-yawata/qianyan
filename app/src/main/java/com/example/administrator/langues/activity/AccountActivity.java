@@ -1,9 +1,11 @@
-package com.example.administrator.langues;
+package com.example.administrator.langues.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+
+import com.example.administrator.langues.R;
 
 public class AccountActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.example.administrator.langues;
+package com.example.administrator.langues.activity;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -17,6 +17,9 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.example.administrator.langues.OnSignedSuccess;
+import com.example.administrator.langues.R;
 import com.example.administrator.langues.SignDate;
 
 public class Sign_In_Activity extends AppCompatActivity {

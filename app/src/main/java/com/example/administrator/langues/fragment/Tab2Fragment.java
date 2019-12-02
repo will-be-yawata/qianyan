@@ -1,7 +1,6 @@
-package com.example.administrator.langues;
+package com.example.administrator.langues.fragment;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -13,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import com.example.administrator.langues.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,52 +21,61 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SquareFragment extends Fragment {
-    private TabLayout square_tab;
-    private ViewPager square_viewpager;
+public class Tab2Fragment extends Fragment {
+
+    private TabLayout tabLayout;
+
     private List<String> titles;
     private List<Fragment> fragments;
-    private ImageButton deliver;
+    private ViewPager viewPager;
+    private ImageButton deliver;//发表按钮
+    private String[] datas = {"选项1", "选项2", "选项3", "选项4", "选项5"};
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view=inflater.inflate(R.layout.fragment_square, container, false);
+        View view=inflater.inflate(R.layout.fragment_tab2, container, false);
 
-        deliver=view.findViewById(R.id.deliver);
+        //推荐与关注导航
+        tabLayout = (TabLayout) view.findViewById(R.id.tabs2);
+        viewPager = (ViewPager) view.findViewById(R.id.viewpager);
+        fragments = new ArrayList<>();
+        RecommendFragment recommendFragment=new RecommendFragment();
+        fragments.add(recommendFragment);
+        fondFragment fondFragment=new fondFragment();
+        fragments.add(fondFragment);
+        titles = new ArrayList<>();
+        titles.add("推荐");
+        titles.add("关注");
+        FragmentViewPagerAdapter adapter = new FragmentViewPagerAdapter(getChildFragmentManager(), fragments, titles);
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
+        viewPager.setCurrentItem(0);
+
+       ///发表下拉菜单
+        deliver= (ImageButton) view.findViewById(R.id.deliver);
         deliver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent intent=new Intent(getContext(),Deliver_textActivity.class);
-                startActivity(intent);
+
 
             }
         });
 
-        square_tab=view.findViewById(R.id.square_tab);
-        square_viewpager=view.findViewById(R.id.square_viewpager);
-
-        fragments = new ArrayList<>();
-        squareFindFragment squareFindFragment=new squareFindFragment();
-        fragments.add(squareFindFragment);
-        squareFriendFragment squareFriendFragment=new squareFriendFragment();
-        fragments.add(squareFriendFragment);
-        titles = new ArrayList<>();
-        titles.add("广场");
-        titles.add("动态");
-        squareFindAdapter adapter = new squareFindAdapter(getChildFragmentManager(), fragments, titles);
-        square_viewpager.setAdapter(adapter);
-        square_tab.setupWithViewPager(square_viewpager);
-        square_viewpager.setCurrentItem(0);
-
         return view;
     }
-    public class squareFindAdapter extends FragmentPagerAdapter {
+
+
+
+
+        public class FragmentViewPagerAdapter extends FragmentPagerAdapter {
         private List<Fragment> fragments;
         private List<String> titles;
-        public squareFindAdapter(FragmentManager manager, List<Fragment> fragments, List<String> titles) {
+        public FragmentViewPagerAdapter(FragmentManager manager, List<Fragment> fragments, List<String> titles) {
             super(manager);
             this.fragments = fragments;
             this.titles = titles;
@@ -86,5 +95,6 @@ public class SquareFragment extends Fragment {
         }
 
     }
+
 
 }

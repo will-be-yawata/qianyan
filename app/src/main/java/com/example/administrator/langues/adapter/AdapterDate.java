@@ -1,4 +1,4 @@
-package com.example.administrator.langues;
+package com.example.administrator.langues.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -10,6 +10,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.administrator.langues.DateUtil;
+import com.example.administrator.langues.OnSignedSuccess;
+import com.example.administrator.langues.R;
 
 import java.util.ArrayList;
 import java.util.List;

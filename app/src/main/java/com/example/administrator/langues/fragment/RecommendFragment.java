@@ -1,4 +1,4 @@
-package com.example.administrator.langues;
+package com.example.administrator.langues.fragment;
 
 
 
@@ -32,6 +32,9 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.administrator.langues.PullDownView;
+import com.example.administrator.langues.R;
+import com.example.administrator.langues.fragment.VolleyBitmapLruCache;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -42,7 +45,7 @@ import java.util.Map;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RecommendFragment extends Fragment implements  PullDownView.OnPullDownListener{
+public class RecommendFragment extends Fragment implements PullDownView.OnPullDownListener {
 
     private ImageButton concern;
     private static ImageLoader imageLoader;// 图片缓存器

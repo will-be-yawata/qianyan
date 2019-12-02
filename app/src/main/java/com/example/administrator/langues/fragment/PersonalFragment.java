@@ -1,4 +1,4 @@
-package com.example.administrator.langues;
+package com.example.administrator.langues.fragment;
 
 
 import android.content.Intent;
@@ -11,7 +11,15 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.example.administrator.langues.R;
+import com.example.administrator.langues.activity.AccountActivity;
+import com.example.administrator.langues.activity.Deliver_detail_Activity;
+import com.example.administrator.langues.activity.FeedbackActivity;
+import com.example.administrator.langues.activity.My_ConcernActivity;
+import com.example.administrator.langues.activity.My_DeliverActivity;
+import com.example.administrator.langues.activity.SettingActivity;
+import com.example.administrator.langues.activity.Sign_In_Activity;
 
 
 /**

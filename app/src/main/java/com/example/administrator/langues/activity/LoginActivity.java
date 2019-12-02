@@ -1,4 +1,4 @@
-package com.example.administrator.langues;
+package com.example.administrator.langues.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+
+import com.example.administrator.langues.R;
 
 import util.EMHelp;
 
