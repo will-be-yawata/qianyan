@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,6 +34,9 @@ import com.jay.ui.PhotoPickerActivity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import entry.User;
+import util.core.DynamicOperation;
 
 public class Deliver_textActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -86,7 +90,15 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
         mScreenHeight= display.getHeight();
         mScreenWidth = display.getWidth();
 
-
+        Button publish=findViewById(R.id.deliver_btn);
+        AutoCompleteTextView text=findViewById(R.id.autoCompleteTextView2);
+        publish.setOnClickListener(v->{
+            for (int i = 0; i < results.size(); i++) {
+                Log.i("mData",results.get(i));
+            }
+            User.getInstance().setPhone("15728283804");
+            (new DynamicOperation()).publishDynamic(text.getText().toString(),results);
+        });
 
 
     }
