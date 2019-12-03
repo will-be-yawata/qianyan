@@ -8,7 +8,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+
+import com.hyphenate.chat.EMClient;
 
 import util.EMHelp;
 
@@ -22,9 +25,16 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initViews();
+        if(EMClient.getInstance().getCurrentUser()==""){
+            Toast.makeText(getBaseContext(),"请先登录",Toast.LENGTH_SHORT).show();
+        }else{
+            EMClient.getInstance().logout(true);
+        }
+//        Log.i("test",EMClient.getInstance().getCurrentUser()+"|"+EMClient.getInstance().getCurrentUser());
 
         emHelp=new EMHelp();
         emHelp.init(this);
+
         login_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

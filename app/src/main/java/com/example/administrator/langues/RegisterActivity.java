@@ -60,15 +60,13 @@ private EMHelp emHelp;
                 Log.i("mData",pwd.getText().toString());
                 String userName=name.getText().toString();
                 String userPwd=pwd.getText().toString();
-                boolean res=emHelp.registered(userName,"",userPwd);
-                if(res){
-                    Toast.makeText(getBaseContext(),"注册成功",Toast.LENGTH_SHORT).show();
+                try {
+                    emHelp.registered(userName,userPwd);
                     startActivity(new Intent(RegisterActivity.this,LoginActivity.class));
-                    finish();
-                }
-                else {
+                }catch (Exception e){
                     Toast.makeText(getBaseContext(),"注册失败",Toast.LENGTH_SHORT).show();
                 }
+
 
 
             }
