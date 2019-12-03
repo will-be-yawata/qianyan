@@ -28,7 +28,6 @@ public class RegisterActivity extends AppCompatActivity {
 private EditText name;
 private EditText pwd;
 private ImageButton btn;
-private EditText nicknameEdit_box;
 private EMHelp emHelp;
 
     public static String ROOT="http://172.16.245.206:88/qianyan/public/index/";
@@ -67,14 +66,18 @@ private EMHelp emHelp;
 
     private void initView() {
         name=findViewById(R.id.editText2);
-        nicknameEdit_box=findViewById(R.id.nicknameEdit);
         pwd=findViewById(R.id.editText3);
         btn=findViewById(R.id.imageButton25);
     }
     private void register() {
             String userName=name.getText().toString();
             String userPwd=pwd.getText().toString();
-            String nickname=nicknameEdit_box.getText().toString();
+            emHelp.registered(userName,userPwd);
+//            if(emHelp.registered(userName,"123",userPwd)){
+//                runOnUiThread(()->Toast.makeText(getApplicationContext(),"成功",Toast.LENGTH_LONG));
+//            }else{
+//                runOnUiThread(()->Toast.makeText(getApplicationContext(),"失败",Toast.LENGTH_LONG));
+//            }
 //            emHelp.registered()
 //            RequestParams params=new RequestParams(ROOT+REGISTER);
 //            params.setMultipart(false);

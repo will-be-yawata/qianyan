@@ -17,6 +17,7 @@ import com.hyphenate.chat.EMMessage;
 import com.hyphenate.exceptions.EMNoActiveCallException;
 import com.hyphenate.exceptions.EMServiceNotReadyException;
 
+import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
@@ -37,28 +38,34 @@ public class EMHelp {
         this.activity=activity;
     }
 
-    /**
-     * 检查完用户名和密码的合法性后再调用
-     * @param phone 唯一标识，用户编号，手机号码
-     * @param nickname 用户昵称
-     * @param pwd 用户密码
-     * @return
-     */
-    public boolean registered(String phone,String nickname,String pwd){
-        Map<String,Object> result;
+    public void registered(String phone,String pwd){
         RequestParams params=new RequestParams(Url.ROOT+Url.REGISTER);
         params.addBodyParameter("phone",phone);
-        params.addBodyParameter("nickname",nickname);
         params.addBodyParameter("pwd",pwd);
-        try {
-            result=JSON.parseObject(x.http().postSync(params,String.class),new TypeReference<HashMap<String,Object>>(){});
-            activity.runOnUiThread(()->Toast.makeText(x.app(),result.get("message").toString(),Toast.LENGTH_SHORT).show());
-            if(Boolean.parseBoolean(result.get("success").toString())) return true;
-        } catch (Throwable throwable) {
-            System.out.println("mData:错误");
-            activity.runOnUiThread(()->Toast.makeText(activity.getApplicationContext(),throwable.getMessage(),Toast.LENGTH_SHORT).show());
-        }
-        return false;
+        x.http().post(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String s) {
+                HashMap res=JSON.parseObject(s,new TypeReference<HashMap<String,Object>>(){});
+                Log.i("mData",res.get("message").toString());
+                Log.i("mData",""+(boolean)res.get("success"));
+                activity.runOnUiThread(()->Toast.makeText(activity.getApplicationContext(),res.get("message").toString(),Toast.LENGTH_LONG).show());
+            }
+
+            @Override
+            public void onError(Throwable throwable, boolean b) {
+                Log.i("mData","onError:"+throwable.getMessage());
+            }
+
+            @Override
+            public void onCancelled(CancelledException e) {
+                Log.i("mData","onCancelled:"+e.getMessage());
+            }
+
+            @Override
+            public void onFinished() {
+                Log.i("mData","onFinished: 结束");
+            }
+        });
     }
     public void login(String phone,String pwd){
         EMClient.getInstance().login(phone, pwd, new EMCallBack() {
