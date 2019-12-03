@@ -44,15 +44,3 @@ dependencies {
     implementation project(':photopicker')
     implementation files('libs/fastjson-1.2.5.jar')
 }
-/*MobSDK {
-    appKey "2c2251f394e08"
-    appSecret "bbb0dbce8beba06822ecedfe878d9867"
-    SMSSDK {
-        gui false
-        //默认使用GUI，若不使用GUI，通过以下开关关闭
-        //gui false
-        //若使用GUI的自动填充验证码功能，需打开此设置
-        //autoSMS true
-    }
-}
-*/

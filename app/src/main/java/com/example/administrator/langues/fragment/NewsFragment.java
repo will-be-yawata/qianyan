@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.SimpleAdapter;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +40,7 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.administrator.langues.R;
+//import com.example.administrator.langues.activity.Friends_chatActivity;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -50,6 +54,10 @@ import java.util.Map;
  */
 public class NewsFragment extends Fragment {
     ImageButton insert;
+    private TabLayout news_tab;
+    private ViewPager news_viewpager;
+    private List<String> titles;
+    private List<Fragment> fragments;
 
     private static ImageLoader imageLoader;// 图片缓存器
     private List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
@@ -58,46 +66,30 @@ public class NewsFragment extends Fragment {
     private String[] datas = {"选项1", "选项2", "选项3", "选项4", "选项5"};
     private List<Map<String,Object>> mData;
 
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_news, container, false);
 
-        insert= (ImageButton) view.findViewById(R.id.insert);
-        insert.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        news_tab=view.findViewById(R.id.news_tab);
+        news_viewpager=view.findViewById(R.id.news_viewpager);
 
-            }
-        });
-        //定义一个ArrayList类型的动态list ，里面存放的是HashMap键值对形式
-        ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
-        for(int i=0;i<40;i++){
-            //定义一个临时的hashMap
-            HashMap<String,String> hashMap = new HashMap<String, String>();
-            //存入姓名键值对
-            hashMap.put("contacts_name","用户"+ i);
-            //存入ID
-            hashMap.put("contacts_content","Hello"+i);
-            //讲hashMap存入List
-            list.add(hashMap);
-        }
-        SimpleAdapter listAdpter = new SimpleAdapter(
-                getContext(),
-                list,
-                R.layout.contacts_listview,
-                new String[] {"contacts_name","contacts_content"},
-                new int[] {R.id.contacts_name,R.id.contacts_content}
-        );
-        /*这个方法是ListAcrivity里面继承过来的*/
-        ListView listView= (ListView) view.findViewById(R.id.listview);
-        listView.setAdapter(listAdpter);
+        fragments=new ArrayList<>();
+        Friend_strangerFragment friend_strangerFragment=new Friend_strangerFragment();
+        fragments.add(friend_strangerFragment);
+        FriendFragment friendFragment=new FriendFragment();
+        fragments.add(friendFragment);
+        titles=new ArrayList<>();
+        titles.add("最近聊天");
+        titles.add("好友");
 
-        ///发表下拉菜单
+        FriendAdapter friendAdapter=new FriendAdapter(getChildFragmentManager(),fragments,titles);
+        news_viewpager.setAdapter(friendAdapter);
+        news_tab.setupWithViewPager(news_viewpager);
+        news_viewpager.setCurrentItem(0);
+
+        ///下拉菜单
         insert= (ImageButton) view.findViewById(R.id.insert);
         insert.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,62 +127,31 @@ public class NewsFragment extends Fragment {
 
         return view;
     }
+    public class FriendAdapter extends FragmentPagerAdapter{
+        private List<Fragment> fragments;
+        private List<String> titles;
+        public FriendAdapter(FragmentManager manager, List<Fragment> fragments, List<String> titles) {
+            super(manager);
+            this.fragments = fragments;
+            this.titles = titles;
 
-    /*private List<Map<String,Object>>getData(){
-        List<Map<String,Object>> list=new ArrayList<Map<String, Object>>();
-        Map<String,Object> map=new HashMap<String,Object>();
-        map.put("deliver","发表");
-
-        list.add(map);
-
-        return list;
-    }
-    public final class ViewHolder{
-        public ImageView deliver_photo;
-        public TextView deliver_text;
-
-    }
-
-    public class LsMoreAdapter extends BaseAdapter{
-        private LayoutInflater mInflater;
-        public LsMoreAdapter(Context context){
-            this.mInflater=LayoutInflater.from(context);
         }
-
+        @Override
+        public Fragment getItem(int position) {
+            return fragments.get(position);
+        }
         @Override
         public int getCount() {
-            return mData.size();
+            return fragments.size();
         }
-
         @Override
-        public Object getItem(int position) {
-            return null;
+        public CharSequence getPageTitle(int position) {
+            return titles.get(position);
         }
 
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder=null;
-            if (convertView==null){
-                holder =new ViewHolder();
-                convertView=mInflater.inflate(R.layout.deliver_list,null);
-                holder.deliver_text= (TextView) convertView.findViewById(R.id.deliver_text);
+    }
 
 
-                convertView.setTag(holder);
-            }else{
-                holder= (ViewHolder) convertView.getTag();
-            }
-            holder.deliver_text.setText((String)mData.get(position).get("deliver_text"));
-
-
-            return convertView;
-        }
-    }*/
 
 
 
