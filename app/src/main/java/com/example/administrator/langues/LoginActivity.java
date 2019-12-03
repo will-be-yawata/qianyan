@@ -10,7 +10,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 
+import entry.User;
 import util.EMHelp;
+import util.core.DynamicOperation;
 
 public class LoginActivity extends AppCompatActivity {
     private Button login_button;
@@ -40,7 +42,6 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
             }
         });
-
     }
 
     public void initViews(){

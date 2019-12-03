@@ -9,6 +9,7 @@ public class Url {
     public static String REGISTER="register/register.html";
     public static String LOGIN="login/login.html";
     public static String FRIEND="friend/friend.html";
+    public static String GET_DYNAMIC="dynamic/getdynamic.html";
     public static String USER_IMG="http://192.168.43.8:88/qianyan/public/static/images/";
     public static String SETTING="user/setting.html";
     public static String CREATE_ROOM="room/create.html";
