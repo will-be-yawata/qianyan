@@ -13,6 +13,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import entry.Dynamic;
+import entry.Friend;
 import entry.User;
 import util.EMHelp;
 import util.core.DynamicOperation;
@@ -52,6 +53,13 @@ public class LoginActivity extends AppCompatActivity {
 //        (new DynamicOperation()).getDynamic(10, 0, res -> {
 //            for (int i = 0; i < res.size(); i++) {
 //                Log.i("mData",res.get(i).toString());
+//            }
+//        });
+        //以下还是测试代码，可删除
+//        User.getInstance().setPhone("15728283805");
+//        User.getInstance().getFriends(f -> {
+//            for (int i = 0; i < f.size(); i++) {
+//                Log.i("mData",f.get(i).toString());
 //            }
 //        });
     }
