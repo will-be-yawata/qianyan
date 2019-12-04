@@ -72,7 +72,16 @@ private EMHelp emHelp;
     private void register() {
             String userName=name.getText().toString();
             String userPwd=pwd.getText().toString();
-            emHelp.registered(userName,userPwd);
+            emHelp.registered(userName, userPwd, new EMHelp.RegisterCallback() {
+                @Override
+                public void isRegister(boolean isRegister) {
+                    if(isRegister){
+                        runOnUiThread(()->Toast.makeText(getApplicationContext(),"注册成功",Toast.LENGTH_LONG).show());
+                    }else{
+                        runOnUiThread(()->Toast.makeText(getApplicationContext(),"注册失败",Toast.LENGTH_LONG).show());
+                    }
+                }
+            });
 //            if(emHelp.registered(userName,"123",userPwd)){
 //                runOnUiThread(()->Toast.makeText(getApplicationContext(),"成功",Toast.LENGTH_LONG));
 //            }else{

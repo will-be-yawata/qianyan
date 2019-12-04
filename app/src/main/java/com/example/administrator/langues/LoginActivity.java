@@ -30,6 +30,7 @@ public class LoginActivity extends AppCompatActivity {
 
         emHelp=new EMHelp();
         emHelp.init(this);
+//        emHelp.login("15728283805","1");
         login_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -47,12 +48,12 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         // 下面是测试代码，可删除
-        User.getInstance().setPhone("15728283805");
-        (new DynamicOperation()).getDynamic(10, 0, res -> {
-            for (int i = 0; i < res.size(); i++) {
-                Log.i("mData",res.get(i).toString());
-            }
-        });
+//        User.getInstance().setPhone("15728283805");
+//        (new DynamicOperation()).getDynamic(10, 0, res -> {
+//            for (int i = 0; i < res.size(); i++) {
+//                Log.i("mData",res.get(i).toString());
+//            }
+//        });
     }
 
     public void initViews(){
@@ -65,6 +66,11 @@ public class LoginActivity extends AppCompatActivity {
 
     public void user_login(String phone,String pwd){
 
-        emHelp.login(phone,pwd);
+        emHelp.login(phone, pwd, new EMHelp.IsLoginCallback() {
+            @Override
+            public void isLogin(boolean isLogin, String message) {
+
+            }
+        });
     }
 }
