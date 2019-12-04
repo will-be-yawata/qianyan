@@ -17,7 +17,7 @@ import entry.User;
 import util.Url;
 
 public class DynamicOperation {
-    public void getDynamic(int limit,int offset){
+    public void getDynamic(int limit,int offset,DynamicGetCallback callback){
         RequestParams params=new RequestParams(Url.ROOT+Url.GET_DYNAMIC);
         params.addBodyParameter("phone", User.getInstance().getPhone());
         params.addBodyParameter("limit", ""+limit);
@@ -28,8 +28,10 @@ public class DynamicOperation {
             public void onSuccess(String s) {
                 ArrayList<Dynamic> res=JSON.parseObject(s,new TypeReference<ArrayList<Dynamic>>(){});
                 for (int i = 0; i < res.size(); i++) {
-                    Log.i("mData",res.get(i).toString());
+                    Log.i("mData","success:"+res.get(i).toString());
                 }
+                callback.getDynamicData(res);
+
             }
             @Override
             public void onError(Throwable throwable, boolean b) {
@@ -47,30 +49,29 @@ public class DynamicOperation {
             }
         });
     }
-
     /**
      * 只发文字
      * @param text
      */
-    public void publishDynamic(String text){
-        sendPublishDynamic(text,null);
+    public void publishDynamic(String text,DynamicPublishCallback callback){
+        sendPublishDynamic(text,null,callback);
     }
     /**
      * 只发图片
      * @param results
      */
-    public void publishDynamic(ArrayList<String> results){
-        sendPublishDynamic(null,results);
+    public void publishDynamic(ArrayList<String> results,DynamicPublishCallback callback){
+        sendPublishDynamic(null,results,callback);
     }
     /**
      * 即发文字又图片
      * @param text
      * @param results
      */
-    public void publishDynamic(String text,ArrayList<String> results){
-        sendPublishDynamic(text,results);
+    public void publishDynamic(String text,ArrayList<String> results,DynamicPublishCallback callback){
+        sendPublishDynamic(text,results,callback);
     }
-    public void sendPublishDynamic(String text,ArrayList<String> results){
+    public void sendPublishDynamic(String text,ArrayList<String> results,DynamicPublishCallback callback){
         RequestParams params=new RequestParams(Url.ROOT+Url.PUBLISH_DYNAMIC);
         if(text!=null && text.equals("")){
             params.addBodyParameter("text",text);
@@ -87,7 +88,7 @@ public class DynamicOperation {
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String s) {
-                Log.i("mData", s);
+                callback.publishDynamicData(s);
             }
             @Override
             public void onError(Throwable throwable, boolean b) {
@@ -104,5 +105,13 @@ public class DynamicOperation {
                 Log.i("mData","onFinished");
             }
         });
+    }
+    public interface DynamicGetCallback{
+        //TODO 返回好友发表的动态，按时间倒序
+        void getDynamicData(ArrayList<Dynamic> res);
+    }
+    public interface  DynamicPublishCallback{
+        //TODO 返回影响条数 1表示成功，0表示失败
+        void publishDynamicData(String s);
     }
 }

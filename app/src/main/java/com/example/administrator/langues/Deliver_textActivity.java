@@ -90,6 +90,8 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
         mScreenHeight= display.getHeight();
         mScreenWidth = display.getWidth();
 
+
+        //以下均为测试代码，可删除
         Button publish=findViewById(R.id.deliver_btn);
         AutoCompleteTextView text=findViewById(R.id.autoCompleteTextView2);
         publish.setOnClickListener(v->{
@@ -97,7 +99,11 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
                 Log.i("mData",results.get(i));
             }
             User.getInstance().setPhone("15728283804");
-            (new DynamicOperation()).publishDynamic(text.getText().toString(),results);
+            (new DynamicOperation()).publishDynamic(text.getText().toString(), results, s -> {
+                if(s.equals("1")){
+                    Toast.makeText(getApplicationContext(),"发布成功",Toast.LENGTH_LONG).show();
+                }
+            });
         });
 
 
