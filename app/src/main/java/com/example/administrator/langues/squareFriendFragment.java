@@ -3,7 +3,10 @@ package com.example.administrator.langues;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +22,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import entry.Dynamic;
+import entry.Friend;
+import entry.User;
+import util.core.DynamicOperation;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +35,29 @@ public class squareFriendFragment extends Fragment {
     ListView square_friend_listview;
     GridView gridView;
     List<Map<String,Object>> mData;
+    squareFindAdapter squareFindAdapter;
+    private static int aA=1;
+    Handler mHandler=new Handler(){
+    @Override
+    public void handleMessage(Message msg) {
+        switch (msg.what){
+            case 2:
+
+                break;
+            case 1:
+                squareFindAdapter=new squareFindAdapter(getContext());
+                square_friend_listview.setAdapter(squareFindAdapter);
+                square_friend_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                    }
+                });
+                squareFindAdapter.notify();
+                break;
+        }
+    }
+};
 
 
     @Override
@@ -38,30 +69,51 @@ public class squareFriendFragment extends Fragment {
         gridView=view.findViewById(R.id.square_gridview);
 
 
-        mData=getData();
-        squareFindAdapter squareFindAdapter=new squareFindAdapter(getContext());
-        square_friend_listview.setAdapter(squareFindAdapter);
-        square_friend_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        getData();
 
-            }
-        });
 
 
 
 
         return view;
     }
-    private List<Map<String,Object>> getData(){
-        List<Map<String,Object>> list=new ArrayList<Map<String, Object>>();
-        for(int i=0;i<10;i++) {
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("square_name", "渣渣辉");
-            map.put("square_introduce", "长亭外，古道边，芳草碧连天。晚风拂柳笛声残，夕阳山外山。天之涯，地之角，知交半零落。一壶浊酒尽余欢，今宵别梦寒。");
-            list.add(map);
-        }
-        return list;
+    private void getData(){
+
+        User.getInstance().updateFriends(new User.UpdateFriendsCallback() {
+            @Override
+            public void updateFriends(ArrayList<Friend> f) {
+
+
+                DynamicOperation dynamicOperation=new DynamicOperation();
+                dynamicOperation.getDynamic(0, 10, new DynamicOperation.DynamicGetCallback() {
+                    @Override
+                    public void getDynamicData(ArrayList<Dynamic> res) {
+                        List<Map<String,Object>> list=new ArrayList<Map<String, Object>>();
+                        Log.i("num",res.size()+"");
+                        Log.i("test","dddddd");
+                        for(Dynamic dynamic:res) {
+                            Map<String, Object> map = new HashMap<String, Object>();
+
+                            map.put("square_name", dynamic.getName());
+                            map.put("square_introduce", dynamic.getText());
+                            list.add(map);
+                        }
+                        mData.addAll(list);
+                        Message tmp=new Message();
+                        tmp.what=1;
+                        mHandler.sendMessage(tmp);
+                    }
+                });
+
+            }
+        });
+
+//        for(int i=0;i<2;i++) {
+//            Map<String, Object> map = new HashMap<String, Object>();
+//            map.put("square_name", "渣渣辉2");
+//            map.put("square_introduce", "长亭外，古道边，芳草碧连天。晚风拂柳笛声残，夕阳山外山。天之涯，地之角，知交半零落。一壶浊酒尽余欢，今宵别梦寒。");
+//            list.add(map);
+//        }
     }
 
 
@@ -77,7 +129,8 @@ public class squareFriendFragment extends Fragment {
         }
         @Override
         public int getCount() {
-            return mData.size();
+//            return mData.size();
+            return 1;
         }
 
         @Override
