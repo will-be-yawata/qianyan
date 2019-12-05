@@ -2,6 +2,7 @@ package com.example.administrator.langues.fragment;
 
 
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,9 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.administrator.langues.R;
+import com.example.administrator.langues.activity.Seek_loadingActivity;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -24,6 +27,7 @@ import java.util.TimerTask;
  */
 public class SeekFragment extends Fragment {
     private static int START_ANIMATION=0;
+    private Button seek_btn;
     ImageView image1,image2,image3,image4,image5,image6,image7,image8,image9,image10,image11;
     private Animation animation1 = null;
     private Animation animation2 = null;
@@ -79,6 +83,8 @@ public class SeekFragment extends Fragment {
             // Inflate the layout for this fragment
             View view=inflater.inflate(R.layout.fragment_seek, container, false);
 
+            seek_btn=view.findViewById(R.id.seek_btn);
+
             image1=view.findViewById(R.id.image1);
             image2=view.findViewById(R.id.image2);
             image3=view.findViewById(R.id.image3);
@@ -102,18 +108,16 @@ public class SeekFragment extends Fragment {
            animation9 = AnimationUtils.loadAnimation(getContext(), R.anim.anim_translate);
            animation10 = AnimationUtils.loadAnimation(getContext(), R.anim.anim_rotate);
            animation11 = AnimationUtils.loadAnimation(getContext(), R.anim.anim_translate_bounce);
-
-
-
-
-
-
-
-
             timer=new Timer();
-
             startTime();
 
+            seek_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i=new Intent(getContext(),Seek_loadingActivity.class);
+                    startActivity(i);
+                }
+            });
 
 
 
