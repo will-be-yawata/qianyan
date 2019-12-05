@@ -60,7 +60,7 @@ private EMHelp emHelp;
                 String userName=name.getText().toString();
                 String userPwd=pwd.getText().toString();
                 try {
-                    emHelp.registered(userName,userPwd);
+                    register();
                     startActivity(new Intent(RegisterActivity.this,LoginActivity.class));
                 }catch (Exception e){
                     Toast.makeText(getBaseContext(),"注册失败",Toast.LENGTH_SHORT).show();

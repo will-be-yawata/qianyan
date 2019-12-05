@@ -90,6 +90,7 @@ public class SeekFragment extends Fragment {
                 public void onClick(View view) {
                     if(EMClient.getInstance().getCurrentUser()==""){
                         startActivity(new Intent(getContext(),LoginActivity.class));
+                        getActivity().finish();
                     }
                     else{
                         Toast.makeText(getContext(),"开始匹配",Toast.LENGTH_SHORT).show();

@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String phone=usertext.getText().toString();
                 String pwdtextcon=pwdtext.getText().toString();
-                emHelp.login(phone,pwdtextcon);
+                user_login(phone,pwdtextcon);
 
             }
         });
@@ -93,7 +93,14 @@ public class LoginActivity extends AppCompatActivity {
         emHelp.login(phone, pwd, new EMHelp.IsLoginCallback() {
             @Override
             public void isLogin(boolean isLogin, String message) {
-
+                if(isLogin){
+                    startActivity(new Intent(getBaseContext(),MainActivity.class));
+//                    Toast.makeText(getBaseContext(),"登录成功",Toast.LENGTH_SHORT).show();
+                    runOnUiThread(()->Toast.makeText(getBaseContext(),"登录成功",Toast.LENGTH_SHORT).show());
+                    finish();
+                }else{
+                   runOnUiThread(()->Toast.makeText(getBaseContext(),"登录失败,请检查用户名或者密码",Toast.LENGTH_SHORT).show());
+                }
             }
         });
     }
