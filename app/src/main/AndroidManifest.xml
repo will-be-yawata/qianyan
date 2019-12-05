@@ -103,7 +103,8 @@
             android:name=".RegisterActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
+            android:windowSoftInputMode="adjustPan|stateHidden">
+        </activity>
         <activity
             android:name=".FeedbackActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -114,7 +115,8 @@
         </activity>
         <activity
             android:name="com.jay.ui.PhotoPickerActivity"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme">
+        </activity>
     </application>
 
 </manifest>

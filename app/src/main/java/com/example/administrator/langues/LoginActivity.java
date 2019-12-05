@@ -11,9 +11,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+
 import com.hyphenate.chat.EMClient;
 
+
+import java.util.ArrayList;
+
+import entry.Dynamic;
+import entry.Friend;
+import entry.User;
+
 import util.EMHelp;
+import util.core.DynamicOperation;
 
 public class LoginActivity extends AppCompatActivity {
     private Button login_button;
@@ -35,6 +44,8 @@ public class LoginActivity extends AppCompatActivity {
         emHelp=new EMHelp();
         emHelp.init(this);
 
+//        emHelp.login("15728283805","1");
+
         login_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,6 +63,20 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        // 下面是测试代码，可删除
+//        User.getInstance().setPhone("15728283805");
+//        (new DynamicOperation()).getDynamic(10, 0, res -> {
+//            for (int i = 0; i < res.size(); i++) {
+//                Log.i("mData",res.get(i).toString());
+//            }
+//        });
+        //以下还是测试代码，可删除
+//        User.getInstance().setPhone("15728283805");
+//        User.getInstance().getFriends(f -> {
+//            for (int i = 0; i < f.size(); i++) {
+//                Log.i("mData",f.get(i).toString());
+//            }
+//        });
     }
 
     public void initViews(){
@@ -60,6 +85,17 @@ public class LoginActivity extends AppCompatActivity {
         usertext=(EditText) findViewById(R.id.editText4);
         pwdtext=(EditText)findViewById(R.id.editText5);
         resign_text=(TextView)findViewById(R.id.textView33);
+    }
+
+
+    public void user_login(String phone,String pwd){
+
+        emHelp.login(phone, pwd, new EMHelp.IsLoginCallback() {
+            @Override
+            public void isLogin(boolean isLogin, String message) {
+
+            }
+        });
     }
 
 }

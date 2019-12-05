@@ -5,6 +5,7 @@ import android.util.Log;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 
+import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
@@ -72,9 +73,7 @@ public class User {
         this.img = img;
     }
     public boolean addFriend(Friend f){
-        if(friends.add(f))
-            return true;
-        return false;
+        return friends.add(f);
     }
     public boolean removeFriend(Friend f){
         String phone=f.getPhone();
@@ -86,24 +85,38 @@ public class User {
         }
         return false;
     }
-    public void updateFriends(){
-        ArrayList<Friend> friends;
+    public void updateFriends(UpdateFriendsCallback callback){
         RequestParams params=new RequestParams(Url.ROOT+Url.FRIEND);
         params.addBodyParameter("username",phone);
-        try {
-            friends=JSON.parseObject(x.http().postSync(params,String.class),new TypeReference<ArrayList<Friend>>(){});
-            System.out.println(friends.toString());
-            if(friends.size()!=0)
-                this.friends=friends;
-        } catch (Throwable throwable) {
-            Log.i("mData","出错了 in User.updateFriends()\t,"+throwable.getMessage());
-        }
+        x.http().post(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String s) {
+                ArrayList<Friend> fs=JSON.parseObject(s,new TypeReference<ArrayList<Friend>>(){});
+                if(fs.size()!=0)
+                    friends=fs;
+                callback.updateFriends(friends);
+            }
+
+            @Override
+            public void onError(Throwable throwable, boolean b) {
+            }
+
+            @Override
+            public void onCancelled(CancelledException e) {
+            }
+
+            @Override
+            public void onFinished() {
+            }
+        });
     }
-    public ArrayList<Friend> getFriends(){
+    public ArrayList<Friend> getFriends(UpdateFriendsCallback callback){
         if(friends==null)
-            updateFriends();
+            updateFriends(callback);
         return friends;
     }
     public void release(){Instance=null;}
-
+    public interface UpdateFriendsCallback{
+        void updateFriends(ArrayList<Friend> f);
+    }
 }

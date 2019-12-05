@@ -39,13 +39,9 @@ public class EMHelp {
         this.activity=activity;
     }
 
-    /**
-     * 检查完用户名和密码的合法性后再调用
-     * @param phone 唯一标识，用户编号，手机号码
-     * @param pwd 用户密码
-     * @return
-     */
-    public void registered(String phone,String pwd){
+
+    public void registered(String phone,String pwd,RegisterCallback callback){
+
         RequestParams params=new RequestParams(Url.ROOT+Url.REGISTER);
         params.addBodyParameter("phone",phone);
         params.addBodyParameter("pwd",pwd);
@@ -54,19 +50,22 @@ public class EMHelp {
             public void onSuccess(String s) {
                 HashMap res=JSON.parseObject(s,new TypeReference<HashMap<String,Object>>(){});
                 Log.i("mData",res.get("message").toString());
-                Log.i("mData",""+(boolean)res.get("success"));
-                activity.runOnUiThread(()->Toast.makeText(activity.getApplicationContext(),res.get("message").toString(),Toast.LENGTH_LONG).show());
-
+                if((boolean)res.get("success"))
+                    callback.isRegister(true);
+                else
+                    callback.isRegister(false);
             }
 
             @Override
             public void onError(Throwable throwable, boolean b) {
                 Log.i("mData","onError:"+throwable.getMessage());
+                callback.isRegister(false);
             }
 
             @Override
-            public void onCancelled(Callback.CancelledException e) {
+            public void onCancelled(CancelledException e) {
                 Log.i("mData","onCancelled:"+e.getMessage());
+                callback.isRegister(false);
             }
 
             @Override
@@ -75,44 +74,73 @@ public class EMHelp {
             }
         });
     }
+    public void login(String phone,String pwd,IsLoginCallback callback){
+        Log.i("mData","1");
+        Log.i("mData","phone:"+phone+",pwd:"+pwd);
+                EMClient.getInstance().login(phone, pwd, new EMCallBack() {
+                    @Override
+                    public void onSuccess() {
+//                        HashMap<String,String> result;
+//                        User user=User.getInstance();
+                        Log.i("mData","2");
+                        RequestParams params=new RequestParams(Url.ROOT+Url.LOGIN);
+                        params.addBodyParameter("phone",phone);
+                        params.addBodyParameter("pwd",pwd);
+                        Log.i("mData","3");
+                x.http().post(params, new Callback.CommonCallback<String>() {
+                    @Override
+                    public void onSuccess(String s) {
+                        HashMap<String,String> result;
+                        User user=User.getInstance();
+                        Log.i("mData","4");
+                        result=JSON.parseObject(s,new TypeReference<HashMap<String,String>>(){});
+                        user.setPhone(result.get("phone"));
+                        user.setName(result.get("name"));
+                        user.setPwd(result.get("pwd"));
+                        user.setImg(result.get("img"));
+                        user.setSex(result.get("sex"));
+                        callback.isLogin(true,"登录成功");
+                    }
 
+                    @Override
+                    public void onError(Throwable throwable, boolean b) {
+                        callback.isLogin(false,throwable.getMessage());
+                    }
 
-    public void login(String phone,String pwd){
-        EMClient.getInstance().login(phone, pwd, new EMCallBack() {
-            @Override
-            public void onSuccess() {
-                Map<String,String> result;
-                User user=User.getInstance();
-                RequestParams params=new RequestParams(Url.ROOT+Url.LOGIN);
-                params.addBodyParameter("phone",phone);
-                params.addBodyParameter("pwd",pwd);
-                try {
-                    activity.runOnUiThread(()->Toast.makeText(activity.getApplicationContext(),"start try",Toast.LENGTH_SHORT).show());
-                    result=JSON.parseObject(x.http().postSync(params,String.class),new TypeReference<HashMap<String,String>>(){});
-                    user.setPhone(result.get("phone"));
-                    user.setName(result.get("name"));
-                    user.setPwd(result.get("pwd"));
-                    user.setImg(result.get("img"));
-                    user.setSex(result.get("sex"));
-                    activity.runOnUiThread(()->Toast.makeText(activity.getApplicationContext(),"登录成功",Toast.LENGTH_SHORT).show());
-                    activity.startActivity(new Intent(activity.getApplicationContext(),MainActivity.class));
-                    activity.finish();
-                } catch (Throwable throwable) {
-                    user.release();
-                    Log.e("test","I am here");
-                    activity.runOnUiThread(()->Toast.makeText(activity.getApplicationContext(),throwable.getMessage()+"123",Toast.LENGTH_SHORT).show());
-                }
-            }
-            @Override
-            public void onError(int code, String error) {
-                activity.runOnUiThread(()->Toast.makeText(activity.getApplicationContext(),error,Toast.LENGTH_SHORT).show());
-                User.getInstance().release();
-                Log.e("test","on Error,I am here");
-            }
-            @Override
-            public void onProgress(int progress, String status) {
-            }
-        });
+                    @Override
+                    public void onCancelled(CancelledException e) {
+                        callback.isLogin(false,e.getMessage());
+                    }
+
+                    @Override
+                    public void onFinished() {
+                    }
+                });
+//                        try {
+//                            result=JSON.parseObject(x.http().postSync(params,String.class),new TypeReference<HashMap<String,String>>(){});
+//                            user.setPhone(result.get("phone"));
+//                            user.setName(result.get("name"));
+//                            user.setPwd(result.get("pwd"));
+//                            user.setImg(result.get("img"));
+//                            user.setSex(result.get("sex"));
+//                            activity.runOnUiThread(()->Toast.makeText(activity.getApplicationContext(),"登录成功",Toast.LENGTH_SHORT).show());
+////                    activity.startActivity(new Intent(activity.getApplicationContext(),jump));
+//                            activity.finish();
+//                        } catch (Throwable throwable) {
+//                            user.release();
+//                            Log.e("test","I am here");
+//                            activity.runOnUiThread(()->Toast.makeText(activity.getApplicationContext(),throwable.getMessage(),Toast.LENGTH_SHORT).show());
+//                        }
+                    }
+                    @Override
+                    public void onError(int code, String error) {
+                        callback.isLogin(false,error);
+                        User.getInstance().release();
+                    }
+                    @Override
+                    public void onProgress(int progress, String status) {
+                    }
+                });
     }
 
     /**
@@ -211,5 +239,11 @@ public class EMHelp {
 
             //跳转到通话页面
         }
+    }
+    public interface IsLoginCallback{
+        void isLogin(boolean isLogin,String message);
+    }
+    public interface RegisterCallback{
+        void isRegister(boolean isRegister);
     }
 }
