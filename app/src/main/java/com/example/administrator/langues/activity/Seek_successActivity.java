@@ -3,6 +3,7 @@ package com.example.administrator.langues.activity;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -58,6 +59,14 @@ public class Seek_successActivity extends AppCompatActivity {
         start();
         timer=new Timer();
         startTime();
+        timer.schedule(new TimerTask() {
+            public void run() {
+                Intent i=new Intent(getBaseContext(),Communicate_loadingActivity.class);
+                finish();
+                closeTime();
+                startActivity(i);
+            }
+        }, 4000);//4秒后跳转到Communicate_loadingActivity页面
 
 
 
@@ -86,12 +95,7 @@ public class Seek_successActivity extends AppCompatActivity {
         animSet2.play(objectAnimator6).with(objectAnimator7);
         animSet2.setDuration(3000l);
         animSet2.start();
-        (new Timer()).schedule(new TimerTask() {
-            @Override
-            public void run() {
 
-            }
-        },0,3000);
 
 
     }

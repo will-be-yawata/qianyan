@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,64 +79,65 @@ public class SeekFragment extends Fragment {
 
 
 
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            // Inflate the layout for this fragment
-            View view=inflater.inflate(R.layout.fragment_seek, container, false);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view=inflater.inflate(R.layout.fragment_seek, container, false);
 
-            seek_btn=view.findViewById(R.id.seek_btn);
+        seek_btn=view.findViewById(R.id.seek_btn);
 
-            image1=view.findViewById(R.id.image1);
-            image2=view.findViewById(R.id.image2);
-            image3=view.findViewById(R.id.image3);
-            image4=view.findViewById(R.id.image4);
-            image5=view.findViewById(R.id.image5);
-            image6=view.findViewById(R.id.image6);
-            image7=view.findViewById(R.id.image7);
-            image8=view.findViewById(R.id.image8);
-            image9=view.findViewById(R.id.image9);
-            image10=view.findViewById(R.id.image10);
-            image11=view.findViewById(R.id.image11);
+        image1=view.findViewById(R.id.image1);
+        image2=view.findViewById(R.id.image2);
+        image3=view.findViewById(R.id.image3);
+        image4=view.findViewById(R.id.image4);
+        image5=view.findViewById(R.id.image5);
+        image6=view.findViewById(R.id.image6);
+        image7=view.findViewById(R.id.image7);
+        image8=view.findViewById(R.id.image8);
+        image9=view.findViewById(R.id.image9);
+        image10=view.findViewById(R.id.image10);
+        image11=view.findViewById(R.id.image11);
 
-           animation1 = AnimationUtils.loadAnimation(getContext(), R.anim.anim_alpha);
-           animation2 = AnimationUtils.loadAnimation(getContext(), R.anim.anim_rotate);
-           animation3 = AnimationUtils.loadAnimation(getContext(), R.anim.anim_scale);
-           animation4 = AnimationUtils.loadAnimation(getContext(), R.anim.anim_translate);
-           animation5 = AnimationUtils.loadAnimation(getContext(), R.anim.anim_rotate_right);
-           animation6 = AnimationUtils.loadAnimation(getContext(), R.anim.anim_alpha);
-           animation7 = AnimationUtils.loadAnimation(getContext(), R.anim.anim_rotate);
-           animation8 = AnimationUtils.loadAnimation(getContext(), R.anim.anim_scale);
-           animation9 = AnimationUtils.loadAnimation(getContext(), R.anim.anim_translate);
-           animation10 = AnimationUtils.loadAnimation(getContext(), R.anim.anim_rotate);
-           animation11 = AnimationUtils.loadAnimation(getContext(), R.anim.anim_translate_bounce);
-            timer=new Timer();
-            startTime();
+        animation1 = AnimationUtils.loadAnimation(getContext(), R.anim.anim_alpha);
+        animation2 = AnimationUtils.loadAnimation(getContext(), R.anim.anim_rotate);
+        animation3 = AnimationUtils.loadAnimation(getContext(), R.anim.anim_scale);
+        animation4 = AnimationUtils.loadAnimation(getContext(), R.anim.anim_translate);
+        animation5 = AnimationUtils.loadAnimation(getContext(), R.anim.anim_rotate_right);
+        animation6 = AnimationUtils.loadAnimation(getContext(), R.anim.anim_alpha);
+        animation7 = AnimationUtils.loadAnimation(getContext(), R.anim.anim_rotate);
+        animation8 = AnimationUtils.loadAnimation(getContext(), R.anim.anim_scale);
+        animation9 = AnimationUtils.loadAnimation(getContext(), R.anim.anim_translate);
+        animation10 = AnimationUtils.loadAnimation(getContext(), R.anim.anim_rotate);
+        animation11 = AnimationUtils.loadAnimation(getContext(), R.anim.anim_translate_bounce);
+        timer=new Timer();
+        startTime();
 
-            seek_btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent i=new Intent(getContext(),Seek_loadingActivity.class);
-                    startActivity(i);
-                }
-            });
+        seek_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(getContext(),Seek_loadingActivity.class);//跳转到匹配中页面
+                startActivity(i);
+
+            }
+        });
 
 
 
-            return view;
-        }
-public void closeTime(){
-            timer.cancel();
+        return view;
+    }
+    public void closeTime(){
+        timer.cancel();
 
-}
-public  void startTime(){
-    timer.schedule(new TimerTask() {
-        @Override
-        public void run() {
-            Message m=new Message();
-            m.what=START_ANIMATION;
-            mHandler.sendMessage(m);
-        }
-    },0,4000);
-}
+    }
+    public  void startTime(){
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Message m=new Message();
+                m.what=START_ANIMATION;
+                mHandler.sendMessage(m);
+            }
+        },0,4000);
+    }
 }

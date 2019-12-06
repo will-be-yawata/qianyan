@@ -5,8 +5,10 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,8 +17,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.administrator.langues.R;
+//import com.example.administrator.langues.service.FloatingService;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -66,20 +70,22 @@ public class Seek_loadingActivity extends AppCompatActivity {
         animation();
         timer=new Timer();
         startTime();
+
+        //悬浮
+
+
+
+
         //匹配中动画
         objectAnimator1.setDuration(2000l);
         objectAnimator1.setRepeatCount(-1);
         objectAnimator1.start();
-
-
-
         //取消匹配
         cancel_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 closeTime();
                 finish();
-
             }
         });
 
@@ -91,6 +97,18 @@ public class Seek_loadingActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+
+        timer.schedule(new TimerTask() {
+            public void run() {//5秒后跳转到Seek_successActivity页面
+                Intent i=new Intent(getBaseContext(),Seek_successActivity.class);
+                finish();
+                closeTime();
+                startActivity(i);
+            }
+        }, 5000);// 这里百毫秒
+
+
     }
 
     private void animation() {
