@@ -42,12 +42,12 @@
             android:id="@+id/icon1"
             android:layout_width="76dp"
             android:layout_height="76dp"
-            android:layout_below="@+id/imageView9"
+            android:layout_below="@+id/seek_loading_user"
             android:layout_marginTop="-22dp"
             android:layout_marginEnd="46dp"
             android:layout_marginRight="46dp"
-            android:layout_toStartOf="@+id/imageView9"
-            android:layout_toLeftOf="@+id/imageView9"
+            android:layout_toStartOf="@+id/seek_loading_user"
+            android:layout_toLeftOf="@+id/seek_loading_user"
             app:srcCompat="@mipmap/icon1" />
 
         <ImageView
@@ -62,12 +62,12 @@
             android:id="@+id/icon2"
             android:layout_width="55dp"
             android:layout_height="55dp"
-            android:layout_below="@+id/imageView9"
+            android:layout_below="@+id/seek_loading_user"
             android:layout_marginStart="26dp"
             android:layout_marginLeft="26dp"
             android:layout_marginTop="-27dp"
-            android:layout_toEndOf="@+id/imageView9"
-            android:layout_toRightOf="@+id/imageView9"
+            android:layout_toEndOf="@+id/seek_loading_user"
+            android:layout_toRightOf="@+id/seek_loading_user"
             android:background="@android:color/transparent"
             android:scaleType="centerInside"
             app:srcCompat="@mipmap/icon2" />
@@ -76,7 +76,7 @@
             android:id="@+id/icon5"
             android:layout_width="62dp"
             android:layout_height="59dp"
-            android:layout_above="@+id/imageView9"
+            android:layout_above="@+id/seek_loading_user"
             android:layout_alignEnd="@+id/icon3"
             android:layout_alignRight="@+id/icon3"
             android:layout_marginEnd="68dp"
@@ -84,13 +84,29 @@
             android:layout_marginBottom="62dp"
             app:srcCompat="@mipmap/icon5" />
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/imageView9"
+            android:id="@+id/seek_loading_user"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_centerInParent="true"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:src="@mipmap/user"/>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/icon3"
+            >
+
+            <TextView
+                android:id="@+id/seek_loading_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="匹配中...." />
+
+        </RelativeLayout>
 
     </RelativeLayout>
 </LinearLayout>
