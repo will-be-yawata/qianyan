@@ -11,4 +11,6 @@ public class Url {
     public static String FRIEND="friend/friend.html";
     public static String GET_DYNAMIC="dynamic/getdynamic.html";
     public static String PUBLISH_DYNAMIC="dynamic/publishdynamic.html";
+    public static String PAIRING="pairing/pairing.html";
+    public static String GET_ENEMY="pairing/getenemy.html";
 }

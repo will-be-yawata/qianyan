@@ -22,6 +22,7 @@ public class User {
     private String name;
     private String pwd;
     private String sex;
+    private String dan;
     private String img;
     private ArrayList<Friend> friends=null;
 
@@ -72,6 +73,15 @@ public class User {
     public void setImg(String img) {
         this.img = img;
     }
+
+    public String getDan() {
+        return dan;
+    }
+
+    public void setDan(String dan) {
+        this.dan = dan;
+    }
+
     public boolean addFriend(Friend f){
         return friends.add(f);
     }
@@ -116,6 +126,19 @@ public class User {
         return friends;
     }
     public void release(){Instance=null;}
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "phone='" + phone + '\'' +
+                ", name='" + name + '\'' +
+                ", pwd='" + pwd + '\'' +
+                ", sex='" + sex + '\'' +
+                ", img='" + img + '\'' +
+                ", friends=" + friends +
+                '}';
+    }
+
     public interface UpdateFriendsCallback{
         void updateFriends(ArrayList<Friend> f);
     }

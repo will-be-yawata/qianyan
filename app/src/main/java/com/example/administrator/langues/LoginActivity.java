@@ -73,11 +73,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void user_login(String phone,String pwd){
-
-        emHelp.login(phone, pwd, new EMHelp.IsLoginCallback() {
-            @Override
-            public void isLogin(boolean isLogin, String message) {
-
+        emHelp.login(phone, pwd, (isLogin, message) -> {
+            if(isLogin){
+                Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }
