@@ -34,6 +34,8 @@ import util.core.DynamicOperation;
 public class squareFriendFragment extends Fragment {
     ListView square_friend_listview;
     GridView gridView;
+    private GridView_Img_Adapter gridView_img_adapter;
+    private ArrayList<String[]> datas;
     List<Map<String,Object>> mData=new ArrayList<>();
     squareFindAdapter squareFindAdapter;
     Handler mHandler=new Handler(){
@@ -66,6 +68,8 @@ public class squareFriendFragment extends Fragment {
         View view=inflater.inflate(R.layout.fragment_square_friend, container, false);
        square_friend_listview=view.findViewById(R.id.square_friend_listview);
         gridView=view.findViewById(R.id.square_gridview);
+        datas=new ArrayList<>();
+        gridView_img_adapter=new GridView_Img_Adapter(getContext());
         getData();
         return view;
     }
@@ -85,6 +89,7 @@ public class squareFriendFragment extends Fragment {
                             Map<String, Object> map = new HashMap<String, Object>();
                             map.put("square_name", dynamic.getName());
                             map.put("square_introduce", dynamic.getText());
+                            datas.add(dynamic.getImg());
                             list.add(map);
                         }
                         Message tmp=mHandler.obtainMessage();
@@ -147,14 +152,15 @@ public class squareFriendFragment extends Fragment {
                 meumList.add(map);
             }
 
+            gridView_img_adapter.setData(datas.get(position));
+            gridView_img_adapter.notifyDataSetChanged();
+//            SimpleAdapter squareFindItemAdapter = new SimpleAdapter(getContext(),
+//                    meumList, //数据源
+//                    R.layout.square_find_photo, //xml实现
+//                    new String[]{"square_photo"}, //对应map的Key
+//                    new int[]{R.id.square_photo});  //对应R的Id
 
-            SimpleAdapter squareFindItemAdapter = new SimpleAdapter(getContext(),
-                    meumList, //数据源
-                    R.layout.square_find_photo, //xml实现
-                    new String[]{"square_photo"}, //对应map的Key
-                    new int[]{R.id.square_photo});  //对应R的Id
-
-            holder.square_friend_photo.setAdapter(squareFindItemAdapter);
+            holder.square_friend_photo.setAdapter(gridView_img_adapter);
             holder.square_friend_name.setText((String)mData.get(position).get("square_name"));
             holder.square_friend_introduce.setText((String)mData.get(position).get("square_introduce"));
 
