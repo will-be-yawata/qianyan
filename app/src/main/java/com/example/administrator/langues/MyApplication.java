@@ -1,8 +1,14 @@
 package com.example.administrator.langues;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.hyphenate.chat.EMClient;
@@ -11,16 +17,21 @@ import com.hyphenate.chat.EMOptions;
 import java.util.Iterator;
 import java.util.List;
 
-import org.xutils.common.Callback;
-import org.xutils.http.RequestParams;
 import org.xutils.x;
 
+import entry.User;
+import util.EMHelp;
+
 public class MyApplication extends Application {
+    private boolean isBackground=true;
     @Override
     public void onCreate() {
         super.onCreate();
         initEM();
         x.Ext.init(this);
+
+        listenForForeground();
+        listenForScreenTurningOff();
     }
     private void initEM() {
         EMOptions options = new EMOptions();
@@ -67,5 +78,53 @@ public class MyApplication extends Application {
             }
         }
         return processName;
+    }
+    //应用切换至前台
+    private void listenForForeground(){
+        registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+            public void onActivityResumed(Activity activity) {
+                if (isBackground) {
+                    isBackground = false;
+                    notifyForeground();
+                }
+            }
+            public void onActivityCreated(Activity activity, Bundle bundle) {}
+            public void onActivityStarted(Activity activity) {}
+            public void onActivityPaused(Activity activity) {}
+            public void onActivityStopped(Activity activity) {}
+            public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {}
+            public void onActivityDestroyed(Activity activity) {}
+        });
+    }
+    //手机熄屏
+    private void listenForScreenTurningOff() {
+        IntentFilter screenStateFilter = new IntentFilter(Intent.ACTION_SCREEN_OFF);
+        registerReceiver(new BroadcastReceiver() {
+            public void onReceive(Context context, Intent intent) {
+                isBackground = true;
+                notifyBackground();
+            }
+        }, screenStateFilter);
+    }
+    //应用切换至后台
+    public void onTrimMemory(int level){
+        super.onTrimMemory(level);
+        if(level==TRIM_MEMORY_UI_HIDDEN){
+            isBackground=true;
+            notifyBackground();
+        }
+    }
+    private void notifyForeground() {
+        if(EMClient.getInstance().isConnected())
+            if (EMClient.getInstance().isLoggedInBefore())
+                if(EMClient.getInstance().getCurrentUser()!=null && !EMClient.getInstance().getCurrentUser().equals(""))
+                    if (User.getInstance().getPhone()==null || User.getInstance().getPhone().equals(""))
+                        new EMHelp().autologin(EMClient.getInstance().getCurrentUser());
+    }
+    private void notifyBackground() {
+        // This is where you can notify listeners, handle session tracking, etc
+    }
+    public boolean isBackground() {
+        return isBackground;
     }
 }

@@ -119,6 +119,25 @@ public class EMHelp {
                     }
                 });
     }
+    public void autologin(String phone){
+        RequestParams params=new RequestParams(Url.ROOT+Url.AUTOLOGIN);
+        params.addBodyParameter("phone",phone);
+        x.http().post(params, new Callback.CommonCallback<String>() {
+            public void onSuccess(String s) {
+                HashMap<String,String> result;
+                result=JSON.parseObject(s,new TypeReference<HashMap<String,String>>(){});
+                User.getInstance().setPhone(result.get("phone"));
+                User.getInstance().setName(result.get("name"));
+                User.getInstance().setPwd(result.get("pwd"));
+                User.getInstance().setImg(result.get("img"));
+                User.getInstance().setSex(result.get("sex"));
+                User.getInstance().setDan(result.get("dan"));
+            }
+            public void onError(Throwable throwable, boolean b) {}
+            public void onCancelled(CancelledException e) {}
+            public void onFinished() {}
+        });
+    }
     public void join(String roomId){
         Log.i("mData",roomId);
         EMClient.getInstance().chatroomManager().joinChatRoom(roomId, new EMValueCallBack<EMChatRoom>() {
