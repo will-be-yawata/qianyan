@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         TabFragment tabFragment=new TabFragment();
         fragments.add(tabFragment);
 
+
         /*TrendsFragment trendsFragment=new TrendsFragment();
         fragments.add(trendsFragment);
         FindFragment findFragment=new FindFragment();

@@ -1,5 +1,6 @@
 package com.example.administrator.langues;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -57,8 +58,16 @@ private EMHelp emHelp;
 
                 Log.i("mData",name.getText().toString());
                 Log.i("mData",pwd.getText().toString());
+                String userName=name.getText().toString();
+                String userPwd=pwd.getText().toString();
+                try {
+                    register();
+                    startActivity(new Intent(RegisterActivity.this,LoginActivity.class));
+                }catch (Exception e){
+                    Toast.makeText(getBaseContext(),"注册失败",Toast.LENGTH_SHORT).show();
+                }
 
-                register();
+
 
             }
         });
@@ -73,6 +82,7 @@ private EMHelp emHelp;
     private void register() {
             String userName=name.getText().toString();
             String userPwd=pwd.getText().toString();
+
             emHelp.registered(userName, userPwd, new EMHelp.RegisterCallback() {
                 @Override
                 public void isRegister(boolean isRegister) {
@@ -88,6 +98,7 @@ private EMHelp emHelp;
 //            }else{
 //                runOnUiThread(()->Toast.makeText(getApplicationContext(),"失败",Toast.LENGTH_LONG));
 //            }
+
 //            emHelp.registered()
 //            RequestParams params=new RequestParams(ROOT+REGISTER);
 //            params.setMultipart(false);

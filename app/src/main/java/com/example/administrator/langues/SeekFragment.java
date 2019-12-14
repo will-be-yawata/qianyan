@@ -13,10 +13,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+
+// import android.widget.AdapterView;
+// import android.widget.ArrayAdapter;
+
 import android.widget.Button;
 import android.widget.ImageView;
 
+
 import java.util.HashMap;
+
+// import com.hyphenate.chat.EMClient;
+
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -29,6 +38,7 @@ import util.core.PairingOperation;
  * A simple {@link Fragment} subclass.
  */
 public class SeekFragment extends Fragment {
+    private Button seekbtn;
     private static int START_ANIMATION=0;
     ImageView image1,image2,image3,image4,image5,image6,image7,image8,image9,image10,image11;
     private Animation animation1 = null;
@@ -77,14 +87,33 @@ public class SeekFragment extends Fragment {
         }
     };
 
+        public void initViews(View view){
+            seekbtn=view.findViewById(R.id.button2);
+        }
+        public void initListener(){
+            seekbtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(EMClient.getInstance().getCurrentUser()==""){
+                        startActivity(new Intent(getContext(),LoginActivity.class));
+                        getActivity().finish();
+                    }
+                    else{
+                        Toast.makeText(getContext(),"开始匹配",Toast.LENGTH_SHORT).show();
+                        Log.i("test",EMClient.getInstance().getCurrentUser());
+                    }
 
+                }
+            });
+        }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             // Inflate the layout for this fragment
             View view=inflater.inflate(R.layout.fragment_seek, container, false);
-
+            initViews(view);
+            initListener();
             image1=view.findViewById(R.id.image1);
             image2=view.findViewById(R.id.image2);
             image3=view.findViewById(R.id.image3);

@@ -109,6 +109,8 @@ public class User {
 
             @Override
             public void onError(Throwable throwable, boolean b) {
+                Log.i("zjq",throwable.getMessage());
+                callback.updateFriends(null);
             }
 
             @Override

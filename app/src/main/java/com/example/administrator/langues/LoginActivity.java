@@ -8,6 +8,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+
+
+import com.hyphenate.chat.EMClient;
 
 
 import java.util.ArrayList;
@@ -15,6 +20,7 @@ import java.util.ArrayList;
 import entry.Dynamic;
 import entry.Friend;
 import entry.User;
+
 import util.EMHelp;
 import util.core.DynamicOperation;
 
@@ -28,16 +34,25 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initViews();
+        if(EMClient.getInstance().getCurrentUser()==""){
+            Toast.makeText(getBaseContext(),"请先登录",Toast.LENGTH_SHORT).show();
+        }else{
+            EMClient.getInstance().logout(true);
+        }
+//        Log.i("test",EMClient.getInstance().getCurrentUser()+"|"+EMClient.getInstance().getCurrentUser());
 
         emHelp=new EMHelp();
         emHelp.init(this);
+
 //        emHelp.login("15728283805","1");
+
         login_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String phone=usertext.getText().toString();
                 String pwdtextcon=pwdtext.getText().toString();
                 user_login(phone,pwdtextcon);
+
             }
         });
         resign_text.setOnClickListener(new View.OnClickListener() {
@@ -72,13 +87,30 @@ public class LoginActivity extends AppCompatActivity {
         resign_text=(TextView)findViewById(R.id.textView33);
     }
 
+
     public void user_login(String phone,String pwd){
+
         emHelp.login(phone, pwd, (isLogin, message) -> {
             if(isLogin){
                 Intent intent=new Intent(LoginActivity.this,MainActivity.class);
                 startActivity(intent);
                 finish();
+
+
+//         emHelp.login(phone, pwd, new EMHelp.IsLoginCallback() {
+//             @Override
+//             public void isLogin(boolean isLogin, String message) {
+//                 if(isLogin){
+//                     startActivity(new Intent(getBaseContext(),MainActivity.class));
+// //                    Toast.makeText(getBaseContext(),"登录成功",Toast.LENGTH_SHORT).show();
+//                     runOnUiThread(()->Toast.makeText(getBaseContext(),"登录成功",Toast.LENGTH_SHORT).show());
+//                     finish();
+//                 }else{
+//                    runOnUiThread(()->Toast.makeText(getBaseContext(),"登录失败,请检查用户名或者密码",Toast.LENGTH_SHORT).show());
+//                 }
+
             }
         });
     }
+
 }
