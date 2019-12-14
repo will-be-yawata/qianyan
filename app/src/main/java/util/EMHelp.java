@@ -245,13 +245,13 @@ public class EMHelp {
                     case CONNECTED: // 双方已经建立连接
                         Log.i("mData","双方已经建立连接");
                         break;
-
                     case ACCEPTED: // 电话接通成功
                         Log.i("mData","电话接通成功");
                         callback.accepted();
                         break;
                     case DISCONNECTED: // 电话断了
                         Log.i("mData","电话断了");
+                        callback.disconnected();
                         break;
                     case NETWORK_UNSTABLE: //网络不稳定
                         if(error == CallError.ERROR_NO_DATA){
@@ -294,10 +294,10 @@ public class EMHelp {
     }
     public interface StateListenerCallback{
         void accepted();
+        void disconnected();
     }
     public interface AutoLoginCallback{
         void onSuccess();
         void onError();
-        void onFinished();
     }
 }
