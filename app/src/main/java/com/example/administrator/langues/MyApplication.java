@@ -3,6 +3,7 @@ package com.example.administrator.langues;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
@@ -85,7 +87,7 @@ public class MyApplication extends Application {
             public void onActivityResumed(Activity activity) {
                 if (isBackground) {
                     isBackground = false;
-                    notifyForeground();
+                    notifyForeground(activity);
                 }
             }
             public void onActivityCreated(Activity activity, Bundle bundle) {}
@@ -114,12 +116,41 @@ public class MyApplication extends Application {
             notifyBackground();
         }
     }
-    private void notifyForeground() {
+    private void notifyForeground(Activity activity) {
+        Log.i("mData","调用notifyForeground()");
+        Log.i("mData","isConnected():"+EMClient.getInstance().isLoggedInBefore());
+        Log.i("mData","isLoggedInBefore():"+EMClient.getInstance().isLoggedInBefore());
+        Log.i("mData","getCurrentUser():"+EMClient.getInstance().getCurrentUser());
+        Log.i("mData","getPhone():"+User.getInstance().getPhone());
         if(EMClient.getInstance().isConnected())
             if (EMClient.getInstance().isLoggedInBefore())
                 if(EMClient.getInstance().getCurrentUser()!=null && !EMClient.getInstance().getCurrentUser().equals(""))
-                    if (User.getInstance().getPhone()==null || User.getInstance().getPhone().equals(""))
-                        new EMHelp().autologin(EMClient.getInstance().getCurrentUser());
+                    if (User.getInstance().getPhone()==null || User.getInstance().getPhone().equals("")) {
+                        ProgressDialog progressDialog = new ProgressDialog(activity);
+                        progressDialog.setTitle("自动登录");
+                        progressDialog.setMessage("正在获得用户信息...");
+                        progressDialog.setIndeterminate(true);
+                        progressDialog.setCancelable(false);
+                        progressDialog.show();
+                        new EMHelp().autologin(EMClient.getInstance().getCurrentUser(), new EMHelp.AutoLoginCallback() {
+                            @Override
+                            public void onSuccess() {
+                                Intent intent=new Intent(activity.getApplicationContext(),MainActivity.class);
+                                activity.startActivity(intent);
+                                Log.i("mData",User.getInstance().getPhone());
+                            }
+
+                            @Override
+                            public void onError() {
+                                Toast.makeText(activity,"自动登录失败",Toast.LENGTH_LONG).show();
+                                Intent intent=new Intent(activity.getApplicationContext(),LoginActivity.class);
+                                activity.startActivity(intent);
+                            }
+                            public void onFinished(){
+                                progressDialog.dismiss();
+                            }
+                        });
+                    }
     }
     private void notifyBackground() {
         // This is where you can notify listeners, handle session tracking, etc

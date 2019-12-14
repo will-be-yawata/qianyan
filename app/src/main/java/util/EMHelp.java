@@ -1,12 +1,14 @@
 package util;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -119,11 +121,12 @@ public class EMHelp {
                     }
                 });
     }
-    public void autologin(String phone){
+    public void autologin(String phone,AutoLoginCallback callback){
         RequestParams params=new RequestParams(Url.ROOT+Url.AUTOLOGIN);
         params.addBodyParameter("phone",phone);
         x.http().post(params, new Callback.CommonCallback<String>() {
             public void onSuccess(String s) {
+                Log.i("mData","success:"+s);
                 HashMap<String,String> result;
                 result=JSON.parseObject(s,new TypeReference<HashMap<String,String>>(){});
                 User.getInstance().setPhone(result.get("phone"));
@@ -132,8 +135,15 @@ public class EMHelp {
                 User.getInstance().setImg(result.get("img"));
                 User.getInstance().setSex(result.get("sex"));
                 User.getInstance().setDan(result.get("dan"));
+                callback.onSuccess();
             }
-            public void onError(Throwable throwable, boolean b) {}
+            public void onError(Throwable throwable, boolean b) {
+                Log.i("mData","onError");
+                callback.onError();
+                for (int i = 0; i < throwable.getStackTrace().length; i++) {
+                    Log.i("mData","onError:"+throwable.getStackTrace()[i]);
+                }
+            }
             public void onCancelled(CancelledException e) {}
             public void onFinished() {}
         });
@@ -284,5 +294,10 @@ public class EMHelp {
     }
     public interface StateListenerCallback{
         void accepted();
+    }
+    public interface AutoLoginCallback{
+        void onSuccess();
+        void onError();
+        void onFinished();
     }
 }
