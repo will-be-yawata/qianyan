@@ -26,6 +26,7 @@ public class DynamicOperation {
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String s) {
+                Log.i("mData","dynamic:"+s);
                 ArrayList<Dynamic> res=JSON.parseObject(s,new TypeReference<ArrayList<Dynamic>>(){});
                 for (int i = 0; i < res.size(); i++) {
                     Log.i("mData","success:"+res.get(i).toString());

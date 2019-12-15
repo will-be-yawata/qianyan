@@ -3,7 +3,10 @@ package com.example.administrator.langues;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +22,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import entry.Dynamic;
+import entry.Friend;
+import entry.User;
+import util.core.DynamicOperation;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,7 +34,31 @@ import java.util.Map;
 public class squareFriendFragment extends Fragment {
     ListView square_friend_listview;
     GridView gridView;
-    List<Map<String,Object>> mData;
+    private GridView_Img_Adapter gridView_img_adapter;
+    private ArrayList<String[]> datas;
+    List<Map<String,Object>> mData=new ArrayList<>();
+    squareFindAdapter squareFindAdapter;
+    Handler mHandler=new Handler(){
+    @Override
+    public void handleMessage(Message msg) {
+        switch (msg.what){
+            case 2:
+                break;
+            case 1:
+                squareFindAdapter=new squareFindAdapter(getContext());
+                square_friend_listview.setAdapter(squareFindAdapter);
+                square_friend_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                    }
+                });
+                mData.addAll((List<Map<String,Object>>)msg.obj);
+                squareFindAdapter.notifyDataSetChanged();
+                break;
+        }
+    }
+};
 
 
     @Override
@@ -36,32 +68,39 @@ public class squareFriendFragment extends Fragment {
         View view=inflater.inflate(R.layout.fragment_square_friend, container, false);
        square_friend_listview=view.findViewById(R.id.square_friend_listview);
         gridView=view.findViewById(R.id.square_gridview);
-
-
-        mData=getData();
-        squareFindAdapter squareFindAdapter=new squareFindAdapter(getContext());
-        square_friend_listview.setAdapter(squareFindAdapter);
-        square_friend_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        datas=new ArrayList<>();
+        gridView_img_adapter=new GridView_Img_Adapter(getContext());
+        getData();
+        return view;
+    }
+    private void getData(){
+        User.getInstance().updateFriends(new User.UpdateFriendsCallback() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void updateFriends(ArrayList<Friend> f) {
+                if(f==null){
+                    Log.i("cwk","完蛋");
+                }
+                DynamicOperation dynamicOperation=new DynamicOperation();
+                dynamicOperation.getDynamic(0, 10, new DynamicOperation.DynamicGetCallback() {
+                    @Override
+                    public void getDynamicData(ArrayList<Dynamic> res) {
+                        List<Map<String,Object>> list=new ArrayList<Map<String, Object>>();
+                        for(Dynamic dynamic:res) {
+                            Map<String, Object> map = new HashMap<String, Object>();
+                            map.put("square_name", dynamic.getName());
+                            map.put("square_introduce", dynamic.getText());
+                            datas.add(dynamic.getImg());
+                            list.add(map);
+                        }
+                        Message tmp=mHandler.obtainMessage();
+                        tmp.what=1;
+                        tmp.obj=list;
+                        mHandler.sendMessage(tmp);
+                    }
+                });
 
             }
         });
-
-
-
-
-        return view;
-    }
-    private List<Map<String,Object>> getData(){
-        List<Map<String,Object>> list=new ArrayList<Map<String, Object>>();
-        for(int i=0;i<10;i++) {
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("square_name", "渣渣辉");
-            map.put("square_introduce", "长亭外，古道边，芳草碧连天。晚风拂柳笛声残，夕阳山外山。天之涯，地之角，知交半零落。一壶浊酒尽余欢，今宵别梦寒。");
-            list.add(map);
-        }
-        return list;
     }
 
 
@@ -77,7 +116,8 @@ public class squareFriendFragment extends Fragment {
         }
         @Override
         public int getCount() {
-            return mData.size();
+//            return mData.size();
+            return mData==null?0:mData.size();
         }
 
         @Override
@@ -92,6 +132,7 @@ public class squareFriendFragment extends Fragment {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
+            Log.i("cwk","准备加载第"+position+"条动态");
             ViewHolder holder=null;
             if (convertView==null){
                 holder =new ViewHolder();
@@ -112,14 +153,15 @@ public class squareFriendFragment extends Fragment {
                 meumList.add(map);
             }
 
+            gridView_img_adapter.setData(datas.get(position));
+            gridView_img_adapter.notifyDataSetChanged();
+//            SimpleAdapter squareFindItemAdapter = new SimpleAdapter(getContext(),
+//                    meumList, //数据源
+//                    R.layout.square_find_photo, //xml实现
+//                    new String[]{"square_photo"}, //对应map的Key
+//                    new int[]{R.id.square_photo});  //对应R的Id
 
-            SimpleAdapter squareFindItemAdapter = new SimpleAdapter(getContext(),
-                    meumList, //数据源
-                    R.layout.square_find_photo, //xml实现
-                    new String[]{"square_photo"}, //对应map的Key
-                    new int[]{R.id.square_photo});  //对应R的Id
-
-            holder.square_friend_photo.setAdapter(squareFindItemAdapter);
+            holder.square_friend_photo.setAdapter(gridView_img_adapter);
             holder.square_friend_name.setText((String)mData.get(position).get("square_name"));
             holder.square_friend_introduce.setText((String)mData.get(position).get("square_introduce"));
 

@@ -51,6 +51,7 @@ private EMHelp emHelp;
         initView();
         emHelp=new EMHelp();
         emHelp.init(this);
+        emHelp.answerCall();
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
