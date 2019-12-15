@@ -63,20 +63,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        // 下面是测试代码，可删除
-//        User.getInstance().setPhone("15728283805");
-//        (new DynamicOperation()).getDynamic(10, 0, res -> {
-//            for (int i = 0; i < res.size(); i++) {
-//                Log.i("mData",res.get(i).toString());
-//            }
-//        });
-        //以下还是测试代码，可删除
-//        User.getInstance().setPhone("15728283805");
-//        User.getInstance().getFriends(f -> {
-//            for (int i = 0; i < f.size(); i++) {
-//                Log.i("mData",f.get(i).toString());
-//            }
-//        });
     }
 
     public void initViews(){
@@ -90,27 +76,18 @@ public class LoginActivity extends AppCompatActivity {
 
     public void user_login(String phone,String pwd){
 
-        emHelp.login(phone, pwd, (isLogin, message) -> {
-            if(isLogin){
-                Intent intent=new Intent(LoginActivity.this,MainActivity.class);
-                startActivity(intent);
-                finish();
+//            emHelp.login(phone, pwd, (isLogin, message) -> {
+//                if(isLogin){
+//                Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+//                startActivity(intent);
+//                this.finish();
+//                }
+//                else{
+//                    Toast.makeText(getBaseContext(),"登录失败,请检查用户名和密码",Toast.LENGTH_SHORT).show();
+//                }
+//            });
 
 
-//         emHelp.login(phone, pwd, new EMHelp.IsLoginCallback() {
-//             @Override
-//             public void isLogin(boolean isLogin, String message) {
-//                 if(isLogin){
-//                     startActivity(new Intent(getBaseContext(),MainActivity.class));
-// //                    Toast.makeText(getBaseContext(),"登录成功",Toast.LENGTH_SHORT).show();
-//                     runOnUiThread(()->Toast.makeText(getBaseContext(),"登录成功",Toast.LENGTH_SHORT).show());
-//                     finish();
-//                 }else{
-//                    runOnUiThread(()->Toast.makeText(getBaseContext(),"登录失败,请检查用户名或者密码",Toast.LENGTH_SHORT).show());
-//                 }
-
-            }
-        });
     }
 
 }

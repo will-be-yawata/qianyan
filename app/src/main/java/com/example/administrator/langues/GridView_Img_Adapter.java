@@ -1,6 +1,7 @@
 package com.example.administrator.langues;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +45,8 @@ public class GridView_Img_Adapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
+
+        Log.i("cwk","这一条动态一共要加载"+datas.length+"张图片,当前是第"+i+"张图片");
         GridView_Img_Adapter.ViewHolder holder=null;
         if (view==null){
             holder =new GridView_Img_Adapter.ViewHolder();
@@ -61,6 +64,7 @@ public class GridView_Img_Adapter extends BaseAdapter {
 //        .setIgnoreGif()
         .build();
         x.image().bind(this.imageView,Url.UPLOAD+datas[i],imageOptions);
+        Log.i("cwk","这一条动态的第"+datas.length+"张图片加载完成,该图片的Url为"+Url.UPLOAD+datas[i]);
         return view;
     }
 }

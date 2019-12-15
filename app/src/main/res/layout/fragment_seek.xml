@@ -149,7 +149,7 @@
         android:src="@mipmap/photo2" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/seek_btn"
         android:layout_width="151dp"
         android:layout_height="45dp"
         android:layout_alignParentBottom="true"

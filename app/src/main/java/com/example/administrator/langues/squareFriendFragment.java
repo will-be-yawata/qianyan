@@ -74,6 +74,7 @@ public class squareFriendFragment extends Fragment {
         return view;
     }
     private void getData(){
+        User.getInstance().setPhone("15919698189");
         User.getInstance().updateFriends(new User.UpdateFriendsCallback() {
             @Override
             public void updateFriends(ArrayList<Friend> f) {
@@ -132,6 +133,7 @@ public class squareFriendFragment extends Fragment {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
+            Log.i("cwk","准备加载第"+position+"条动态");
             ViewHolder holder=null;
             if (convertView==null){
                 holder =new ViewHolder();

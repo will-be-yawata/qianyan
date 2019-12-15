@@ -19,7 +19,10 @@ import android.view.animation.AnimationUtils;
 
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+
+import com.hyphenate.chat.EMClient;
 
 import java.util.HashMap;
 
@@ -88,7 +91,7 @@ public class SeekFragment extends Fragment {
     };
 
         public void initViews(View view){
-            seekbtn=view.findViewById(R.id.button2);
+            seekbtn=view.findViewById(R.id.seek_btn);
         }
         public void initListener(){
             seekbtn.setOnClickListener(new View.OnClickListener() {
@@ -100,6 +103,7 @@ public class SeekFragment extends Fragment {
                     }
                     else{
                         Toast.makeText(getContext(),"开始匹配",Toast.LENGTH_SHORT).show();
+                        Log.i("cwk","开始匹配,当前的用户为"+EMClient.getInstance());
                         Log.i("test",EMClient.getInstance().getCurrentUser());
                     }
 
@@ -151,39 +155,43 @@ public class SeekFragment extends Fragment {
 
 
             //测试用
-            Button pairing=view.findViewById(R.id.button2);
-            pairing.setOnClickListener(view1 -> {
-                (new PairingOperation()).pairing(new PairingOperation.PairingCallback() {
-                    @Override
-                    public void onSuccess(int status, HashMap<String, String> data) {
-                        EMHelp emHelp=new EMHelp();
-                        emHelp.init(SeekFragment.this.getActivity());
-                        if(status==PairingOperation.WAIT){
-                            emHelp.receiveListener(getContext(),RegisterActivity.class);
-                        }else if(status==PairingOperation.PAIRING){
-                            emHelp.voiceCall(data.get("owner"));
-                            //跳转页面并渲染
-                            Log.i("mData","头像:"+data.get("img"));
-                            Log.i("mData","房间id:"+data.get("id"));
-                            Log.i("mData","段位:"+data.get("name"));
-
-                            emHelp.callStateListener(new EMHelp.StateListenerCallback() {
-                                @Override
-                                public void accepted() {
-                                    Intent intent=new Intent(SeekFragment.this.getActivity(),RegisterActivity.class);
-                                    startActivity(intent);
-                                }
-                            });
-                        }
-                    }
-                    @Override
-                    public void onCancelled() {
-                    }
-                    @Override
-                    public void onError(String msg) {
-                    }
-                });
-            });
+//            Button pairing=view.findViewById(R.id.seek_btn);
+//            pairing.setOnClickListener(view1 -> {
+//                (new PairingOperation()).pairing(new PairingOperation.PairingCallback() {
+//                    @Override
+//                    public void onSuccess(int status, HashMap<String, String> data) {
+//                        EMHelp emHelp=new EMHelp();
+//                        emHelp.init(SeekFragment.this.getActivity());
+//                        if(status==PairingOperation.WAIT){
+//                            emHelp.receiveListener(getContext(),RegisterActivity.class);
+//                        }else if(status==PairingOperation.PAIRING){
+//                            emHelp.voiceCall(data.get("owner"));
+//                            //跳转页面并渲染
+//                            Log.i("mData","头像:"+data.get("img"));
+//                            Log.i("mData","房间id:"+data.get("id"));
+//                            Log.i("mData","段位:"+data.get("name"));
+//
+//                            emHelp.callStateListener(new EMHelp.StateListenerCallback() {
+//                                @Override
+//                                public void accepted() {
+//                                    Intent intent=new Intent(SeekFragment.this.getActivity(),RegisterActivity.class);
+//                                    startActivity(intent);
+//                                }
+//                                @Override
+//                                public void disconnected(){
+//
+//                                }
+//                            });
+//                        }
+//                    }
+//                    @Override
+//                    public void onCancelled() {
+//                    }
+//                    @Override
+//                    public void onError(String msg) {
+//                    }
+//                });
+//            });
             return view;
         }
 public void closeTime(){
