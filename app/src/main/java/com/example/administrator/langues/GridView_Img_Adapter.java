@@ -17,12 +17,14 @@ import util.Url;
 
 public class GridView_Img_Adapter extends BaseAdapter {
     private String [] datas;
+    private Context context;
     private LayoutInflater inflater;
     private ImageView imageView;
     public final class ViewHolder{
         public ImageView imageView_holder;
     }
     public GridView_Img_Adapter(Context context){
+        this.context=context;
         inflater=LayoutInflater.from(context);
     }
     public void setData(String[] datas){
@@ -49,21 +51,22 @@ public class GridView_Img_Adapter extends BaseAdapter {
         Log.i("cwk","这一条动态一共要加载"+datas.length+"张图片,当前是第"+i+"张图片");
         GridView_Img_Adapter.ViewHolder holder=null;
         if (view==null){
-            holder =new GridView_Img_Adapter.ViewHolder();
             view=inflater.inflate(R.layout.square_find_photo,null);
-            this.imageView=view.findViewById(R.id.square_photo);
+            holder =new GridView_Img_Adapter.ViewHolder();
+            holder.imageView_holder=view.findViewById(R.id.square_photo);
+            ImageOptions imageOptions=new ImageOptions.Builder()
+                    //.setLoadingDrawable()
+                    //        .setFailureDrawable()
+                    .setUseMemCache(true)
+                    //                .setCircular()
+                    //        .setIgnoreGif()
+                    .build();
+            x.image().bind(holder.imageView_holder,Url.UPLOAD+datas[i],imageOptions);
             view.setTag(holder);
         }else{
             holder= (GridView_Img_Adapter.ViewHolder) view.getTag();
         }
-        ImageOptions imageOptions=new ImageOptions.Builder()
-                //.setLoadingDrawable()
-//        .setFailureDrawable()
-        .setUseMemCache(true)
-//                .setCircular()
-//        .setIgnoreGif()
-        .build();
-        x.image().bind(this.imageView,Url.UPLOAD+datas[i],imageOptions);
+
         Log.i("cwk","这一条动态的第"+datas.length+"张图片加载完成,该图片的Url为"+Url.UPLOAD+datas[i]);
         return view;
     }
