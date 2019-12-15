@@ -74,7 +74,6 @@ public class squareFriendFragment extends Fragment {
         return view;
     }
     private void getData(){
-        User.getInstance().setPhone("15919698189");
         User.getInstance().updateFriends(new User.UpdateFriendsCallback() {
             @Override
             public void updateFriends(ArrayList<Friend> f) {
