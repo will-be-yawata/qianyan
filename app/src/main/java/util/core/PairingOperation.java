@@ -56,7 +56,6 @@ public class PairingOperation {
         RequestParams params=new RequestParams(Url.ROOT+Url.PAIRING);
         params.addBodyParameter("phone",User.getInstance().getPhone());
         Callback.Cancelable cancelable=x.http().post(params, new Callback.CommonCallback<String>() {
-            @Override
             public void onSuccess(String s) {
                 HashMap<String,String> result;
                 result=JSON.parseObject(s,new TypeReference<HashMap<String,String>>(){});
@@ -72,11 +71,23 @@ public class PairingOperation {
                         Log.i("mData",res.get("owner"));
                         Log.i("mData",res.get("img"));
                         callback.onSuccess(PAIRING,res);
+
+                        RequestParams params=new RequestParams(Url.ROOT+Url.DELETE_ROOM);
+                        params.addBodyParameter("id",res.get("id"));
+                        x.http().post(params, new CommonCallback<String>() {
+                            public void onSuccess(String s) {
+                                if(s!=null && s.equals("true")) Log.i("mData","聊天室删除成功");
+                            }
+                            public void onError(Throwable throwable, boolean b) {}
+                            public void onCancelled(CancelledException e) {}
+                            public void onFinished() {}
+                        });
                     }else if(type!=null && type.equals("create")){
                         Log.i("mData",result.get("data"));
                         HashMap<String,String> res=new HashMap<>();
                         res.put("id",result.get("data"));
                         callback.onSuccess(WAIT,res);
+
                     }else{
                         callback.onError("网络不行或服务器出错");
                     }
@@ -84,18 +95,12 @@ public class PairingOperation {
                     callback.onError("网络不行或服务器出错");
                 }
             }
-
-            @Override
             public void onError(Throwable throwable, boolean b) {
                 callback.onError(throwable.getMessage());
             }
-
-            @Override
             public void onCancelled(CancelledException e) {
                 callback.onCancelled();
             }
-
-            @Override
             public void onFinished() {
             }
         });
@@ -110,14 +115,15 @@ public class PairingOperation {
         void onSuccess(HashMap<String,String> data);
         void onError(String msg);
     }
-    class CancelPairing{
+    public class CancelPairing{
         Callback.Cancelable request;
         public CancelPairing(Callback.Cancelable request){
             this.request=request;
         }
-        void cancel(Callback.Cancelable request){
-            if(!request.isCancelled())
-                request.cancel();
+        public void cancel(){
+            if(request!=null)
+                if(!request.isCancelled())
+                    request.cancel();
         }
     }
 }

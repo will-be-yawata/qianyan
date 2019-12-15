@@ -21,8 +21,11 @@ import java.util.List;
 
 import org.xutils.x;
 
+import entry.Friend;
 import entry.User;
 import util.EMHelp;
+import util.core.FriendOperation;
+import util.core.FriendStatus;
 
 public class MyApplication extends Application {
     private boolean isBackground=true;
@@ -133,18 +136,18 @@ public class MyApplication extends Application {
                         progressDialog.setCancelable(false);
                         progressDialog.show();
                         new EMHelp().autologin(EMClient.getInstance().getCurrentUser(), new EMHelp.AutoLoginCallback() {
-                            @Override
                             public void onSuccess() {
+                                FriendOperation.getInstance().friendListener();
                                 Intent intent=new Intent(activity.getApplicationContext(),MainActivity.class);
                                 activity.startActivity(intent);
+                                activity.finish();
                                 Log.i("mData",User.getInstance().getPhone());
                             }
-
-                            @Override
                             public void onError() {
                                 Toast.makeText(activity,"自动登录失败",Toast.LENGTH_LONG).show();
                                 Intent intent=new Intent(activity.getApplicationContext(),LoginActivity.class);
                                 activity.startActivity(intent);
+                                activity.finish();
                             }
                             public void onFinished(){
                                 progressDialog.dismiss();
@@ -152,9 +155,7 @@ public class MyApplication extends Application {
                         });
                     }
     }
-    private void notifyBackground() {
-        // This is where you can notify listeners, handle session tracking, etc
-    }
+    private void notifyBackground() {}
     public boolean isBackground() {
         return isBackground;
     }

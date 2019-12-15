@@ -2,6 +2,8 @@ package com.example.administrator.langues;
 
 
 import android.animation.ObjectAnimator;
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,13 +16,20 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.hyphenate.chat.EMClient;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import entry.User;
 import util.EMHelp;
+import util.core.FriendOperation;
+import util.core.FriendStatus;
 import util.core.PairingOperation;
 
 
@@ -30,6 +39,7 @@ import util.core.PairingOperation;
  */
 public class SeekFragment extends Fragment {
     private static int START_ANIMATION=0;
+    PairingOperation.CancelPairing cancelPairing=null;
     ImageView image1,image2,image3,image4,image5,image6,image7,image8,image9,image10,image11;
     private Animation animation1 = null;
     private Animation animation2 = null;
@@ -122,44 +132,91 @@ public class SeekFragment extends Fragment {
 
 
             //测试用
+//--------------------------------------------------------------------------------------------------
             Button pairing=view.findViewById(R.id.button2);
-            pairing.setOnClickListener(view1 -> {
-                (new PairingOperation()).pairing(new PairingOperation.PairingCallback() {
-                    @Override
-                    public void onSuccess(int status, HashMap<String, String> data) {
-                        EMHelp emHelp=new EMHelp();
-                        emHelp.init(SeekFragment.this.getActivity());
-                        if(status==PairingOperation.WAIT){
-                            emHelp.receiveListener(getContext(),RegisterActivity.class);
-                        }else if(status==PairingOperation.PAIRING){
-                            emHelp.voiceCall(data.get("owner"));
-                            //跳转页面并渲染
-                            Log.i("mData","头像:"+data.get("img"));
-                            Log.i("mData","房间id:"+data.get("id"));
-                            Log.i("mData","段位:"+data.get("name"));
+            pairing.setOnClickListener(view1 -> cancelPairing=
+            (new PairingOperation()).pairing(new PairingOperation.PairingCallback() {
+                public void onSuccess(int status, HashMap<String, String> data) {
+                    EMHelp emHelp=new EMHelp();
+                    emHelp.init(SeekFragment.this.getActivity());
+                    if(status==PairingOperation.WAIT){
+                        emHelp.receiveListener(getContext(),RegisterActivity.class);
+                        emHelp.callStateListener(new EMHelp.StateListenerCallback() {
+                            public void accepted() {
+                                Intent intent=new Intent(SeekFragment.this.getActivity(),RegisterActivity.class);
+                                startActivity(intent);
+                            }
+                            public void disconnected() {}
+                        });
+                    }else if(status==PairingOperation.PAIRING){
+                        emHelp.voiceCall(data.get("owner"));
+                        //跳转页面并渲染
+                        Log.i("mData","头像:"+data.get("img"));
+                        Log.i("mData","房间id:"+data.get("id"));
+                        Log.i("mData","段位:"+data.get("name"));
 
-                            emHelp.callStateListener(new EMHelp.StateListenerCallback() {
-                                @Override
-                                public void accepted() {
-                                    Intent intent=new Intent(SeekFragment.this.getActivity(),RegisterActivity.class);
-                                    startActivity(intent);
-                                }
-                            });
-                        }
+                        emHelp.callStateListener(new EMHelp.StateListenerCallback() {
+                            public void accepted() {
+                                Intent intent=new Intent(SeekFragment.this.getActivity(),RegisterActivity.class);
+                                startActivity(intent);
+                            }
+                            public void disconnected() {}
+                        });
                     }
-                    @Override
-                    public void onCancelled() {
+                }
+                public void onCancelled() {}
+                public void onError(String msg) {}
+            }));
+            //cancelPairing.cancel();取消匹配
+            Button accept=view.findViewById(R.id.accept);
+            Button declined=view.findViewById(R.id.declined);
+            Button add=view.findViewById(R.id.add);
+            Button delete=view.findViewById(R.id.delete);
+            Button showAll=view.findViewById(R.id.showall);
+            EditText add_user=view.findViewById(R.id.add_username);
+            EditText delete_user=view.findViewById(R.id.delete_username);
+            add.setOnClickListener(view12 -> {
+                FriendOperation.getInstance().addContact(add_user.getText().toString(),"加个好友呗");
+            });
+            delete.setOnClickListener(view13->{
+                ProgressDialog progressDialog = new ProgressDialog(this.getContext());
+                progressDialog.setTitle("删除好友");
+                progressDialog.setMessage("正在删除好友...");
+                progressDialog.setIndeterminate(true);
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+                FriendOperation.getInstance().deleteFriend(delete_user.getText().toString(), new FriendOperation.AddOrDeleteFriendCallback() {
+                    public void onSuccess() {
+                        Log.i("mData", "删除成功");
+                        progressDialog.dismiss();
                     }
-                    @Override
                     public void onError(String msg) {
+                        Log.i("mData", msg);
+                        progressDialog.dismiss();
                     }
                 });
             });
+            accept.setOnClickListener(view14 -> {
+                ArrayList<String> fs=FriendStatus.getInstance().getInvitedFriends();
+                if(fs!=null && fs.size()>0)
+                    FriendOperation.getInstance().acceptFriend(fs.get(0));
+            });
+            declined.setOnClickListener(view15->{
+                ArrayList<String> fs=FriendStatus.getInstance().getInvitedFriends();
+                if(fs!=null && fs.size()>0)
+                    FriendOperation.getInstance().declineFriend(fs.get(0));
+            });
+            showAll.setOnClickListener(view1 -> {
+                ArrayList<String> fs=FriendStatus.getInstance().getInvitedFriends();
+                for (int i = 0; i < fs.size(); i++) {
+                    Log.i("mData","fs:"+fs.get(i));
+                }
+            });
+//--------------------------------------------------------------------------------------------------
             return view;
         }
 public void closeTime(){
             timer.cancel();
-
 }
 public  void startTime(){
     timer.schedule(new TimerTask() {

@@ -31,6 +31,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import entry.User;
+import util.core.FriendOperation;
+import util.core.FriendStatus;
 
 
 public class EMHelp {
@@ -94,6 +96,8 @@ public class EMHelp {
                                 User.getInstance().setSex(result.get("sex"));
                                 User.getInstance().setDan(result.get("dan"));
                                 callback.isLogin(true,"登录成功");
+                                FriendOperation.getInstance().friendListener();
+                                FriendStatus.getInstance().getFriendStatus();
                             }
 
                             @Override
@@ -136,6 +140,8 @@ public class EMHelp {
                 User.getInstance().setSex(result.get("sex"));
                 User.getInstance().setDan(result.get("dan"));
                 callback.onSuccess();
+                FriendOperation.getInstance().friendListener();
+                FriendStatus.getInstance().getFriendStatus();
             }
             public void onError(Throwable throwable, boolean b) {
                 Log.i("mData","onError");
