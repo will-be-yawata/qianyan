@@ -168,50 +168,6 @@ public class SeekFragment extends Fragment {
                 public void onError(String msg) {}
             }));
             //cancelPairing.cancel();取消匹配
-            Button accept=view.findViewById(R.id.accept);
-            Button declined=view.findViewById(R.id.declined);
-            Button add=view.findViewById(R.id.add);
-            Button delete=view.findViewById(R.id.delete);
-            Button showAll=view.findViewById(R.id.showall);
-            EditText add_user=view.findViewById(R.id.add_username);
-            EditText delete_user=view.findViewById(R.id.delete_username);
-            add.setOnClickListener(view12 -> {
-                FriendOperation.getInstance().addContact(add_user.getText().toString(),"加个好友呗");
-            });
-            delete.setOnClickListener(view13->{
-                ProgressDialog progressDialog = new ProgressDialog(this.getContext());
-                progressDialog.setTitle("删除好友");
-                progressDialog.setMessage("正在删除好友...");
-                progressDialog.setIndeterminate(true);
-                progressDialog.setCancelable(false);
-                progressDialog.show();
-                FriendOperation.getInstance().deleteFriend(delete_user.getText().toString(), new FriendOperation.AddOrDeleteFriendCallback() {
-                    public void onSuccess() {
-                        Log.i("mData", "删除成功");
-                        progressDialog.dismiss();
-                    }
-                    public void onError(String msg) {
-                        Log.i("mData", msg);
-                        progressDialog.dismiss();
-                    }
-                });
-            });
-            accept.setOnClickListener(view14 -> {
-                ArrayList<String> fs=FriendStatus.getInstance().getInvitedFriends();
-                if(fs!=null && fs.size()>0)
-                    FriendOperation.getInstance().acceptFriend(fs.get(0));
-            });
-            declined.setOnClickListener(view15->{
-                ArrayList<String> fs=FriendStatus.getInstance().getInvitedFriends();
-                if(fs!=null && fs.size()>0)
-                    FriendOperation.getInstance().declineFriend(fs.get(0));
-            });
-            showAll.setOnClickListener(view1 -> {
-                ArrayList<String> fs=FriendStatus.getInstance().getInvitedFriends();
-                for (int i = 0; i < fs.size(); i++) {
-                    Log.i("mData","fs:"+fs.get(i));
-                }
-            });
 //--------------------------------------------------------------------------------------------------
             return view;
         }

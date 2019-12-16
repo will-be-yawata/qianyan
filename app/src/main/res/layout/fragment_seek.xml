@@ -147,10 +147,6 @@
         android:layout_marginLeft="34dp"
         android:layout_marginBottom="33dp"
         android:src="@mipmap/photo2" />
-<LinearLayout
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
     <Button
         android:id="@+id/button2"
         android:layout_width="151dp"
@@ -159,41 +155,4 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="69dp"
         android:background="@mipmap/photo1" />
-
-    <Button
-        android:id="@+id/accept"
-        android:text="同意"
-        android:layout_width="151dp"
-        android:layout_height="45dp" />
-    <Button
-        android:id="@+id/declined"
-        android:text="拒绝"
-        android:layout_width="151dp"
-        android:layout_height="45dp" />
-    <EditText
-        android:id="@+id/add_username"
-        android:text="添加用户名"
-        android:layout_width="200dp"
-        android:layout_height="45dp" />
-    <Button
-        android:id="@+id/add"
-        android:text="添加"
-        android:layout_width="151dp"
-        android:layout_height="45dp" />
-    <EditText
-        android:id="@+id/delete_username"
-        android:text="删除用户"
-        android:layout_width="200dp"
-        android:layout_height="45dp" />
-    <Button
-        android:id="@+id/delete"
-        android:text="删除"
-        android:layout_width="151dp"
-        android:layout_height="45dp" />
-    <Button
-        android:id="@+id/showall"
-        android:text="显示"
-        android:layout_width="151dp"
-        android:layout_height="45dp" />
-</LinearLayout>
 </RelativeLayout>

@@ -35,12 +35,6 @@ public class FriendOperation {
         //好友请求被同意
         public void onFriendRequestAccepted(String username) {
             Log.i("mData","好友请求被同意:"+username);
-            addFriend(username, new AddOrDeleteFriendCallback() {
-                public void onSuccess() {
-                    User.getInstance().updateFriends(f->{});
-                }
-                public void onError(String msg) {}
-            });
         }
         //好友请求被拒绝
         public void onFriendRequestDeclined(String username) {
