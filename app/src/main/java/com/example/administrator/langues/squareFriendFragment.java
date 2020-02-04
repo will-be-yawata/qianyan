@@ -146,12 +146,13 @@ public class squareFriendFragment extends Fragment {
                 holder= (ViewHolder) convertView.getTag();
             }
 
-            ArrayList<HashMap<String, Object>> meumList = new ArrayList<HashMap<String, Object>>();
-            for(int i = 1;i <6;i++) {
-                HashMap<String, Object> map = new HashMap<String, Object>();
-                map.put("square_photo", R.mipmap.view);
-                meumList.add(map);
-            }
+//            ArrayList<HashMap<String, Object>> meumList = new ArrayList<HashMap<String, Object>>();
+//            for(int i = 1;i <6;i++) {
+//                HashMap<String, Object> map = new HashMap<String, Object>();
+//                map.put("square_photo", R.mipmap.view);
+//                meumList.add(map);
+//            }
+            gridView_img_adapter=new GridView_Img_Adapter(getContext());
 
             gridView_img_adapter.setData(datas.get(position));
             gridView_img_adapter.notifyDataSetChanged();

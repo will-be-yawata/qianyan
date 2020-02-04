@@ -67,6 +67,7 @@ public class GridView_Img_Adapter extends BaseAdapter {
             holder= (GridView_Img_Adapter.ViewHolder) view.getTag();
         }
 
+
         Log.i("cwk","这一条动态的第"+datas.length+"张图片加载完成,该图片的Url为"+Url.UPLOAD+datas[i]);
         return view;
     }
