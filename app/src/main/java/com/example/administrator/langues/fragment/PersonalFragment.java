@@ -20,6 +20,7 @@ import com.example.administrator.langues.activity.My_ConcernActivity;
 import com.example.administrator.langues.activity.My_DeliverActivity;
 import com.example.administrator.langues.activity.SettingActivity;
 import com.example.administrator.langues.activity.Sign_In_Activity;
+import com.example.administrator.langues.activity.User_DataActivity;
 
 
 /**
@@ -34,6 +35,7 @@ public class PersonalFragment extends Fragment {
     ImageButton report;//签到按钮
     TextView reportText;//文字“签到”
     ImageButton dope;//消息按钮
+    ImageButton user_data;//资料按钮
     RelativeLayout account;//我的账户
     RelativeLayout sign_in;//我的签到
     RelativeLayout conver;//兑换中心
@@ -49,7 +51,15 @@ public class PersonalFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_personal, container, false);
-
+        //个人资料
+        user_data=view.findViewById(R.id.Per_user_pho);
+        user_data.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getActivity(),User_DataActivity.class);
+                startActivity(intent);
+                            }
+        });
         //签到
         report= (ImageButton) view.findViewById(R.id.report);
         reportText= (TextView) view.findViewById(R.id.reportText);
@@ -111,8 +121,8 @@ public class PersonalFragment extends Fragment {
         conver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getActivity(),Deliver_detail_Activity.class);
-                startActivity(intent);
+               /* Intent intent=new Intent(getActivity(),Deliver_detail_Activity.class);//发布详情
+                startActivity(intent);*/
             }
         });
         //我的发布

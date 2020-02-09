@@ -115,7 +115,8 @@
         <activity android:name=".activity.Friends_chatActivity" />
         <activity android:name=".activity.Seek_loadingActivity" />
         <activity android:name=".activity.Seek_successActivity" />
-        <activity android:name=".activity.Communicate_loadingActivity"></activity>
+        <activity android:name=".activity.Communicate_loadingActivity" />
+        <activity android:name=".activity.User_DataActivity"></activity>
     </application>
 
 </manifest>
