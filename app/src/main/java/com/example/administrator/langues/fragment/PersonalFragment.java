@@ -14,13 +14,12 @@ import android.widget.TextView;
 
 import com.example.administrator.langues.R;
 import com.example.administrator.langues.activity.AccountActivity;
-import com.example.administrator.langues.activity.Deliver_detail_Activity;
 import com.example.administrator.langues.activity.FeedbackActivity;
 import com.example.administrator.langues.activity.My_ConcernActivity;
 import com.example.administrator.langues.activity.My_DeliverActivity;
 import com.example.administrator.langues.activity.SettingActivity;
 import com.example.administrator.langues.activity.Sign_In_Activity;
-import com.example.administrator.langues.activity.User_DataActivity;
+import com.example.administrator.langues.activity.User_data.User_DataActivity;
 
 
 /**

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.User_DataActivity">
+    tools:context=".activity.User_data.User_DataActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -32,18 +32,10 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="3dp"
             android:paddingTop="4dp"
-            android:text="我的信息"
+            android:text="信息"
             android:textSize="20dp" />
 
-        <Button
-            android:layout_width="55dp"
-            android:layout_height="31dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:background="@android:color/transparent"
-            android:paddingTop="5dp"
-            android:scaleType="centerInside"
-            android:text="编辑" />
+
 
 
     </RelativeLayout>
@@ -72,6 +64,45 @@
     android:layout_height="2dp"
     android:layout_marginTop="3dp"
     android:background="#e1e1e1" />
+    <!--账号-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/user_data_idt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="26dp"
+                android:layout_marginLeft="26dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:text="账号"
+                android:textSize="16dp" />
+            <TextView
+                android:id="@+id/user_data_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="123456789"
+                android:textColor="@color/colorfont"
+                android:textSize="16dp" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="3dp"
+        android:background="#e1e1e1" />
     <!--昵称-->
         <LinearLayout
             android:layout_width="match_parent"
@@ -79,7 +110,9 @@
             android:orientation="horizontal">
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@drawable/click_color"
+                android:clickable="true">
                 <TextView
                     android:id="@+id/user_data_nt"
                     android:layout_width="wrap_content"
@@ -102,6 +135,18 @@
                     android:textColor="@color/colorfont"
                     android:textSize="16dp" />
 
+                <ImageButton
+                    android:id="@+id/imageButton2"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="0dp"
+                    android:background="@android:color/transparent"
+                    android:scaleType="centerInside"
+                    app:srcCompat="@mipmap/angle_brackets" />
+
+
             </RelativeLayout>
 
         </LinearLayout>
@@ -118,7 +163,9 @@
         android:orientation="horizontal">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@drawable/click_color"
+            android:clickable="true">
             <TextView
                 android:id="@+id/user_data_at"
                 android:layout_width="wrap_content"
@@ -141,6 +188,17 @@
                 android:textColor="@color/colorfont"
                 android:textSize="16dp" />
 
+            <ImageButton
+                android:id="@+id/imageButton3"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="0dp"
+                android:background="@android:color/transparent"
+                android:scaleType="centerInside"
+                app:srcCompat="@mipmap/angle_brackets" />
+
         </RelativeLayout>
 
     </LinearLayout>
@@ -157,7 +215,9 @@
         android:orientation="horizontal">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@drawable/click_color"
+            android:clickable="true">
             <TextView
                 android:id="@+id/user_data_gt"
                 android:layout_width="wrap_content"
@@ -179,6 +239,15 @@
                 android:text="1"
                 android:textColor="@color/colorfont"
                 android:textSize="16dp" />
+            <ImageButton
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="0dp"
+                android:background="@android:color/transparent"
+                android:scaleType="centerInside"
+                app:srcCompat="@mipmap/angle_brackets" />
 
         </RelativeLayout>
 
@@ -196,7 +265,9 @@
         android:orientation="horizontal">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@drawable/click_color"
+            android:clickable="true">
             <TextView
                 android:id="@+id/user_data_it"
                 android:layout_width="wrap_content"
@@ -218,6 +289,15 @@
                 android:text="0"
                 android:textColor="@color/colorfont"
                 android:textSize="16dp" />
+            <ImageButton
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="0dp"
+                android:background="@android:color/transparent"
+                android:scaleType="centerInside"
+                app:srcCompat="@mipmap/angle_brackets" />
 
         </RelativeLayout>
 
@@ -303,8 +383,11 @@
             android:orientation="horizontal">
 
             <RelativeLayout
+                android:id="@+id/sex_dialog"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@drawable/click_color"
+                android:clickable="true">
 
                 <TextView
                     android:id="@+id/user_data_sext"
@@ -328,6 +411,15 @@
                     android:text="男"
                     android:textColor="@color/colorfont"
                     android:textSize="16dp" />
+                <ImageButton
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="0dp"
+                    android:background="@android:color/transparent"
+                    android:scaleType="centerInside"
+                    app:srcCompat="@mipmap/angle_brackets" />
 
             </RelativeLayout>
 
@@ -345,7 +437,9 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@drawable/click_color"
+                android:clickable="true">
 
                 <TextView
                     android:id="@+id/user_data_bt"
@@ -369,6 +463,15 @@
                     android:text="1998-03-04"
                     android:textColor="@color/colorfont"
                     android:textSize="16dp" />
+                <ImageButton
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="0dp"
+                    android:background="@android:color/transparent"
+                    android:scaleType="centerInside"
+                    app:srcCompat="@mipmap/angle_brackets" />
 
             </RelativeLayout>
 
@@ -387,7 +490,9 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@drawable/click_color"
+                android:clickable="true">
 
                 <TextView
                     android:id="@+id/user_data_addrt"
@@ -412,6 +517,15 @@
                     android:text="广东"
                     android:textColor="@color/colorfont"
                     android:textSize="16dp"/>
+                <ImageButton
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="0dp"
+                    android:background="@android:color/transparent"
+                    android:scaleType="centerInside"
+                    app:srcCompat="@mipmap/angle_brackets" />
 
             </RelativeLayout>
 
@@ -429,7 +543,9 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@drawable/click_color"
+                android:clickable="true">
 
                 <TextView
                     android:id="@+id/user_data_st"
@@ -454,6 +570,15 @@
                     android:text="单身"
                     android:textColor="@color/colorfont"
                     android:textSize="16dp"/>
+                <ImageButton
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="0dp"
+                    android:background="@android:color/transparent"
+                    android:scaleType="centerInside"
+                    app:srcCompat="@mipmap/angle_brackets" />
 
             </RelativeLayout>
 
