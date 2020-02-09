@@ -1,13 +1,20 @@
 package com.example.administrator.langues;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -30,6 +37,8 @@ import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.jay.ui.PhotoPickerActivity;
+import com.zyq.easypermission.EasyPermission;
+import com.zyq.easypermission.EasyPermissionResult;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,10 +49,12 @@ import util.core.DynamicOperation;
 
 public class Deliver_textActivity extends AppCompatActivity implements View.OnClickListener {
 
+    public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
     private FloatingActionButton btn2;
     private ImageButton deliver_return;
     private boolean isMultiSelect;
-    private int defaultMaxCount = 5;
+    private int defaultMaxCount = 9;
+    private int current_select_count;
     private ArrayList<String> results;
     /**显示图片的GridView*/
     private GridView gridview;
@@ -66,6 +77,7 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
         hidBar();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        current_select_count=0;
         //返回按钮
         deliver_return=findViewById(R.id.deliver_return);
         deliver_return.setOnClickListener(new View.OnClickListener() {
@@ -91,20 +103,6 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
         mScreenWidth = display.getWidth();
 
 
-        //以下均为测试代码，可删除
-        Button publish=findViewById(R.id.deliver_btn);
-        AutoCompleteTextView text=findViewById(R.id.autoCompleteTextView2);
-        publish.setOnClickListener(v->{
-            for (int i = 0; i < results.size(); i++) {
-                Log.i("mData",results.get(i));
-            }
-            User.getInstance().setPhone("15728283804");
-            (new DynamicOperation()).publishDynamic(text.getText().toString(), results, s -> {
-                if(s.equals("1")){
-                    Toast.makeText(getApplicationContext(),"发布成功",Toast.LENGTH_LONG).show();
-                }
-            });
-        });
 
 
     }
@@ -114,6 +112,7 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
         }
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
+
 
 
 
@@ -181,14 +180,35 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
         switch (v.getId()) {
 
             case R.id.btn2://多选
+//                EasyPermission.build().requestPermission(Deliver_textActivity.this, Manifest.permission.CALL_PHONE);
+                EasyPermission.build()
+                        .mRequestCode(2)
+                        .mContext(Deliver_textActivity.this)
+                        .mPerms(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        .mPerms(Manifest.permission.READ_EXTERNAL_STORAGE)
+                        .mResult(new EasyPermissionResult() {
+                            @Override
+                            public void onPermissionsAccess(int requestCode) {
+                                super.onPermissionsAccess(requestCode);
+                                Log.i("testex","获取成功");
+                            }
+
+                            @Override
+                            public void onPermissionsDismiss(int requestCode, @NonNull List<String> permissions) {
+                                super.onPermissionsDismiss(requestCode, permissions);
+                                Log.i("testex","f");
+                            }
+                        }).requestPermission();
+
                 isMultiSelect = true;
                 Bundle bundle = new Bundle();
                 bundle.putBoolean(PhotoPickerActivity.IS_MULTI_SELECT, true);
-
-
+//
+//
                 defaultMaxCount = 9;
-
+//
                 bundle.putInt(PhotoPickerActivity.MAX_SELECT_SIZE, defaultMaxCount);
+                bundle.putInt("current_select_count",current_select_count);
                 intent.putExtras(bundle);
                 break;
         }
@@ -196,36 +216,49 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
     }
 
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+
+        try {
         if (requestCode == 1001 && resultCode == RESULT_OK) {
             if (isMultiSelect) {
                 //多选
                 results = data.getStringArrayListExtra(PhotoPickerActivity.SELECT_RESULTS_ARRAY);
+                current_select_count+=results.size();
 
-                for(int i=0;i<results.size();i++){
+                for (int i = 0; i < results.size(); i++) {
                     scanpath = results.get(i);
-                    Bitmap bitmap = BitmapFactory.decodeFile(scanpath);
-                    //Log.i("bitmap","bitmap="+results.get(i));
-                    if(bitmap!=null) {
-                        listpath.add(bitmap);
-                       // Log.i("listpath","listpath="+listpath);
+                    try {
+                        Bitmap bitmap = BitmapFactory.decodeFile(scanpath);
+                        Log.i("result_of_picker", "bitmap=" + results.get(i));
+                        if (bitmap != null) {
+                            listpath.add(bitmap);
+                            Log.i("result_of_picker", "listpath=" + listpath);
+                        }
+                    }catch (OutOfMemoryError err){
+                        BitmapFactory.Options opts = new BitmapFactory.Options();
+                        opts.inSampleSize = 4;
+                        Bitmap bmp = BitmapFactory.decodeFile(scanpath, opts);
+                        if (bmp != null) {
+                            listpath.add(bmp);
+                            Log.i("result_of_picker", "listpath=" + listpath);
+                        }
                     }
+
                 }
                 adapter = new Photodaapter(listpath, this);
                 gridview.setAdapter(adapter);
                 gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
-                    public void onItemClick(AdapterView<?> parent, View v, int position, long id)
-                    {
-                        if( listpath.size() >= 9) { //第一张为默认图片
+                    public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                        if (listpath.size() >= 10) { //第一张为默认图片
                             Toast.makeText(Deliver_textActivity.this, "图片数9张已满", Toast.LENGTH_SHORT).show();
 
 
-                        }
-
-                        else {
+                        } else {
                             dialog(position);
                             //Toast.makeText(MainActivity.this, "点击第"+(position + 1)+" 号图片",
                             //      Toast.LENGTH_SHORT).show();
@@ -234,18 +267,20 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
                 });
 
 
-
-
                 if (results == null) {
                     return;
                 }
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < results.size(); i++) {
-                    sb.append(i+1).append('：').append(results.get(i)).append("\n");
+                    sb.append(i + 1).append('：').append(results.get(i)).append("\n");
                 }
 
 
             }
+        }
+    }
+        catch(Exception e){
+            e.printStackTrace();
         }
     }
     public void dialog(final int position) {
@@ -257,6 +292,7 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 listpath.remove(position);
+                current_select_count--;
                 adapter.notifyDataSetChanged();
 
             }
@@ -269,6 +305,9 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
         });
         builder.create().show();
     }
+
+
+
 
 
 }
