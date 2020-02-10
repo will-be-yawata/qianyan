@@ -437,6 +437,7 @@
             android:orientation="horizontal">
 
             <RelativeLayout
+                android:id="@+id/date_dialog"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/click_color"
@@ -543,6 +544,7 @@
             android:orientation="horizontal">
 
             <RelativeLayout
+                android:id="@+id/status_dialog"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/click_color"
