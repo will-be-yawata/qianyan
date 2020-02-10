@@ -12,12 +12,12 @@ import android.widget.RelativeLayout;
 
 import com.example.administrator.langues.R;
 
-public abstract class User_Dialog extends Dialog  implements View.OnClickListener{
+public abstract class Sex_Dialog extends Dialog  implements View.OnClickListener{
 
     private Activity activity;
     private RelativeLayout btnPickBySelect, btnPickByTake;
 
-    public User_Dialog(Activity activity) {
+    public Sex_Dialog(Activity activity) {
         super(activity, R.style.ActionSheetDialogStyle);
         this.activity = activity;
     }

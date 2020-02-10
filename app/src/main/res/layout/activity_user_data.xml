@@ -109,6 +109,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <RelativeLayout
+                android:id="@+id/name_dialog"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/click_color"
