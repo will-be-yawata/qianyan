@@ -13,7 +13,9 @@ import java.util.HashMap;
 
 import entry.User;
 import util.Url;
-
+/*
+测试
+ */
 public class PairingOperation {
     public static int WAIT=0;
     public static int PAIRING=1;
