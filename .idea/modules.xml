@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-<<<<<<< HEAD
-      <module fileurl="file://$PROJECT_DIR$/photopicker/photopicker.iml" filepath="$PROJECT_DIR$/photopicker/photopicker.iml" />
-=======
-      <module fileurl="file://$PROJECT_DIR$/photopicker/PhotoPicker.iml" filepath="$PROJECT_DIR$/photopicker/PhotoPicker.iml" />
->>>>>>> 3a687b606a192f83265f0f37ad31d587ddff5ef4
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/photopicker/photopicker.iml" filepath="$PROJECT_DIR$/photopicker/photopicker.iml" />
       <module fileurl="file://$PROJECT_DIR$/qianyan.iml" filepath="$PROJECT_DIR$/qianyan.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/qianyan-app.iml" filepath="$PROJECT_DIR$/app/qianyan-app.iml" />
     </modules>

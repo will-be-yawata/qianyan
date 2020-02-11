@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.administrator.langues.activity.LoginActivity;
+import com.example.administrator.langues.activity.MainActivity;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
 
@@ -21,11 +23,9 @@ import java.util.List;
 
 import org.xutils.x;
 
-import entry.Friend;
 import entry.User;
 import util.EMHelp;
 import util.core.FriendOperation;
-import util.core.FriendStatus;
 
 public class MyApplication extends Application {
     private boolean isBackground=true;

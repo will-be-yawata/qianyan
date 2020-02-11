@@ -6,24 +6,16 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.ImageView;
 
 import com.example.administrator.langues.R;
 import com.example.administrator.langues.fragment.TabFragment;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private FragmentManager fm;
     private List<Fragment> fragments;
-    Button change;
-    ImageView imageView;
-    private List<HashMap<String,Object>> list=new ArrayList<HashMap<String,Object>>();
-    private List<HashMap<String,Object>> mData=new ArrayList<HashMap<String,Object>>();
-    String name;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);*/
 
-        fragments=new ArrayList<Fragment>();
+        fragments= new ArrayList<>();
         fm=super.getSupportFragmentManager();
         initFragments();
     }
@@ -45,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
         fragments.add(findFragment);
         PersonalFragment personalFragment=new PersonalFragment();
         fragments.add(personalFragment);*/
-
         setFragments(0);
     }
     private void setFragments(int position){
@@ -64,12 +55,8 @@ public class MainActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
+        if (id == R.id.action_settings) { return true; }
         return super.onOptionsItemSelected(item);
     }
 }

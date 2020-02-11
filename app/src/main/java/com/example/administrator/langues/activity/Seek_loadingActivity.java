@@ -1,26 +1,18 @@
 package com.example.administrator.langues.activity;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.administrator.langues.R;
-//import com.example.administrator.langues.service.FloatingService;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -61,7 +53,6 @@ public class Seek_loadingActivity extends AppCompatActivity {
             }
         }
     };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,32 +64,20 @@ public class Seek_loadingActivity extends AppCompatActivity {
 
         //悬浮
 
-
-
-
         //匹配中动画
         objectAnimator1.setDuration(2000l);
         objectAnimator1.setRepeatCount(-1);
         objectAnimator1.start();
         //取消匹配
-        cancel_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                closeTime();
-                finish();
-            }
+        cancel_btn.setOnClickListener(view -> {
+            closeTime();
+            finish();
         });
-
-        image_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i=new Intent(getBaseContext(),Seek_successActivity.class);
-                closeTime();
-                startActivity(i);
-            }
+        image_btn.setOnClickListener(view -> {
+            Intent i=new Intent(getBaseContext(),Seek_successActivity.class);
+            closeTime();
+            startActivity(i);
         });
-
-
         timer.schedule(new TimerTask() {
             public void run() {//5秒后跳转到Seek_successActivity页面
                 Intent i=new Intent(getBaseContext(),Seek_successActivity.class);
@@ -107,10 +86,7 @@ public class Seek_loadingActivity extends AppCompatActivity {
                 startActivity(i);
             }
         }, 5000);// 这里百毫秒
-
-
     }
-
     private void animation() {
         animation1 = AnimationUtils.loadAnimation(getBaseContext(), R.anim.anim_rotate_seek);
         animation2 = AnimationUtils.loadAnimation(getBaseContext(), R.anim.anim_translate_seek);
@@ -119,9 +95,7 @@ public class Seek_loadingActivity extends AppCompatActivity {
         animation5 = AnimationUtils.loadAnimation(getBaseContext(), R.anim.anim_translate1_seek);
         objectAnimator1=ObjectAnimator.ofFloat(seek_loading_text,"translationX",20f,40f,20f);
     }
-
     private void init() {
-
         icon3=findViewById(R.id.icon3);
         icon1=findViewById(R.id.icon1);
         icon2=findViewById(R.id.icon2);
@@ -130,7 +104,6 @@ public class Seek_loadingActivity extends AppCompatActivity {
         seek_loading_text=findViewById(R.id.seek_loading_text);
         cancel_btn=findViewById(R.id.cancel_btn);
         image_btn=findViewById(R.id.seek_loading_user);
-
     }
     public  void startTime(){
         timer.schedule(new TimerTask() {
@@ -142,9 +115,6 @@ public class Seek_loadingActivity extends AppCompatActivity {
             }
         },0,4000);
     }
-    public void closeTime(){
-        timer.cancel();
-
-    }
+    public void closeTime(){ timer.cancel(); }
 }
 

@@ -21,23 +21,15 @@ public class AdapterWeek extends BaseAdapter {
     public AdapterWeek(Context context) {
         this.context = context;
     }
-
-    @Override
     public int getCount() {
         return week.length;
     }
-
-    @Override
     public Object getItem(int i) {
         return week[i];
     }
-
-    @Override
     public long getItemId(int i) {
         return i;
     }
-
-    @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder viewHolder;
         if(view==null){
@@ -47,11 +39,10 @@ public class AdapterWeek extends BaseAdapter {
         }else{
             viewHolder = (ViewHolder) view.getTag();
         }
-        viewHolder.tv = (TextView) view.findViewById(R.id.tvWeek);
+        viewHolder.tv = view.findViewById(R.id.tvWeek);
         viewHolder.tv.setText(week[i]);
         return view;
     }
-
     class ViewHolder{
         TextView tv;
     }

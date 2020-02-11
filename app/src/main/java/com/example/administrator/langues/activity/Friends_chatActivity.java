@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import com.example.administrator.langues.R;
 
 public class Friends_chatActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

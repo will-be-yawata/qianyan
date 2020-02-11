@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -15,8 +13,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.administrator.langues.R;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,35 +29,30 @@ public class Deliver_detail_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deliver_detail_);
 
-         comment_listview = (ListView)findViewById(R.id.comment_listview);
+         comment_listview = findViewById(R.id.comment_listview);
          mData=getData();
          CommentAdapter adapter=new CommentAdapter(this);
          comment_listview.setAdapter(adapter);
 
          //返回
-        detail_return= (ImageButton) findViewById(R.id.detail_return);
-        detail_return.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        detail_return= findViewById(R.id.detail_return);
+        detail_return.setOnClickListener(v -> finish());
     }
     private List<Map<String,Object>>getData(){
-        List<Map<String,Object>> list=new ArrayList<Map<String, Object>>();
-        Map<String,Object> map=new HashMap<String,Object>();
+        List<Map<String,Object>> list= new ArrayList<>();
+        Map<String,Object> map= new HashMap<>();
         map.put("comment_user","路人甲");
         map.put("comment_introduce","广东");
         map.put("comment_user_comment","帅帅帅帅帅");
         map.put("comment_time","2019-05-15");
         list.add(map);
-        map=new HashMap<String,Object>();
+        map= new HashMap<>();
         map.put("comment_user","路人乙");
         map.put("comment_introduce","西安");
         map.put("comment_user_comment","帅帅帅帅帅");
         map.put("comment_time","2019-05-18");
         list.add(map);
-        map=new HashMap<String,Object>();
+        map= new HashMap<>();
         map.put("comment_user","路人丁");
         map.put("comment_introduce","福建");
         map.put("comment_user_comment","帅帅帅帅帅");
@@ -98,14 +89,14 @@ public class Deliver_detail_Activity extends AppCompatActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-           ViewHolder holder=null;
+           ViewHolder holder;
             if (convertView==null){
                 holder =new ViewHolder();
                 convertView=mInflater.inflate(R.layout.comment_listview,null);
-                holder.comment_user= (TextView) convertView.findViewById(R.id.comment_user);
-                holder.comment_introduce= (TextView) convertView.findViewById(R.id.comment_introduce);
-                holder.comment_user_comment= (TextView) convertView.findViewById(R.id.comment_user_comment);
-                holder.comment_time= (TextView) convertView.findViewById(R.id.comment_time);
+                holder.comment_user= convertView.findViewById(R.id.comment_user);
+                holder.comment_introduce= convertView.findViewById(R.id.comment_introduce);
+                holder.comment_user_comment= convertView.findViewById(R.id.comment_user_comment);
+                holder.comment_time= convertView.findViewById(R.id.comment_time);
                 convertView.setTag(holder);
             }else{
                 holder= (ViewHolder) convertView.getTag();

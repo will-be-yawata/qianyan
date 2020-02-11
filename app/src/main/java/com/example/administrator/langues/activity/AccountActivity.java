@@ -17,11 +17,6 @@ public class AccountActivity extends AppCompatActivity {
 
         //返回按钮
         account_return=  findViewById(R.id.account_return);
-        account_return.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        account_return.setOnClickListener(v -> finish());
     }
 }

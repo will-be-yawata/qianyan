@@ -1,7 +1,6 @@
 package com.example.administrator.langues.activity;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -11,7 +10,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.DateFormat;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
@@ -36,95 +34,63 @@ public class FeedbackActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback);
-        feedback_pho= (ImageView) findViewById(R.id.feedback_pho);
-        feedback_pho.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onCreateDialog(PICTURE_DIALOG_ID);
-
-            }
-        });
-
-        feedback_return= (ImageButton) findViewById(R.id.feedback_return);
-        feedback_return.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        feedback_pho= findViewById(R.id.feedback_pho);
+        feedback_pho.setOnClickListener(v -> onCreateDialog(PICTURE_DIALOG_ID));
+        feedback_return= findViewById(R.id.feedback_return);
+        feedback_return.setOnClickListener(v -> finish());
     }
     // 对话框创建
     protected Dialog onCreateDialog(int id) {
         switch (id) {
-
             case PICTURE_DIALOG_ID:
                 new AlertDialog.Builder(this)
                         .setTitle("请选择图片来源")
                         .setNegativeButton("相册",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,
-                                                        int which) {
-                                        dialog.dismiss();
-                                        Intent intent = new Intent(
-                                                Intent.ACTION_PICK, null);
-                                        intent.setDataAndType(
-                                                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                                                "image/*");
-                                        startActivityForResult(intent, 1);
-
-                                    }
+                                (dialog, which) -> {
+                                    dialog.dismiss();
+                                    Intent intent = new Intent(
+                                            Intent.ACTION_PICK, null);
+                                    intent.setDataAndType(
+                                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                                            "image/*");
+                                    startActivityForResult(intent, 1);
                                 })
                         .setPositiveButton("拍照",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,
-                                                        int whichButton) {
-                                        dialog.dismiss();
-                                        Intent intent = new Intent(
-                                                MediaStore.ACTION_IMAGE_CAPTURE);
-                                        intent.putExtra(
-                                                MediaStore.EXTRA_OUTPUT,
-                                                Uri.fromFile(new File(
-                                                        Environment
-                                                                .getExternalStorageDirectory(),
-                                                        "temp.jpg")));
-                                        startActivityForResult(intent, 2);
-                                    }
+                                (dialog, whichButton) -> {
+                                    dialog.dismiss();
+                                    Intent intent = new Intent(
+                                            MediaStore.ACTION_IMAGE_CAPTURE);
+                                    intent.putExtra(
+                                            MediaStore.EXTRA_OUTPUT,
+                                            Uri.fromFile(new File(
+                                                    Environment
+                                                            .getExternalStorageDirectory(),
+                                                    "temp.jpg")));
+                                    startActivityForResult(intent, 2);
                                 }).show();
         }
         return null;
     }
-
-
-
-
     //picture
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
-
             case 1:
-                if (data == null) {
-                    return;
-                }
+                if (data == null) { return; }
                 startPhotoZoom(data.getData());
                 break;
             case 2:
-
                 File temp = new File(Environment.getExternalStorageDirectory()
                         + "/temp.jpg");
                 startPhotoZoom(Uri.fromFile(temp));
                 break;
             case 3:
-                if (data != null) {
-                    setPicToView(data);
-                }
+                if (data != null) { setPicToView(data); }
                 break;
-
             default:
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-
     public void startPhotoZoom(Uri uri) {
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
@@ -137,7 +103,7 @@ public class FeedbackActivity extends AppCompatActivity {
     }
     private void setPicToView(Intent picdata) {
         Bundle extras = picdata.getExtras();
-        FileOutputStream b = null;
+        FileOutputStream b;
         String name = new DateFormat().format("yyyyMMdd_hhmmss",
                 Calendar.getInstance(Locale.CHINA))
                 + ".jpg";
@@ -153,12 +119,9 @@ public class FeedbackActivity extends AppCompatActivity {
             }
             feedback_pho.setImageBitmap(photo);
             picpath = temp.getAbsolutePath();
-
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             photo.compress(Bitmap.CompressFormat.JPEG, 60, stream);
             photobytes = stream.toByteArray();
         }
-
     }
-
 }

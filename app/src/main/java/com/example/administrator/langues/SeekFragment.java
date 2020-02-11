@@ -2,8 +2,6 @@ package com.example.administrator.langues;
 
 
 import android.animation.ObjectAnimator;
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,20 +14,15 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.hyphenate.chat.EMClient;
+import com.example.administrator.langues.activity.RegisterActivity;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import entry.User;
 import util.EMHelp;
-import util.core.FriendOperation;
-import util.core.FriendStatus;
 import util.core.PairingOperation;
 
 
@@ -52,9 +45,7 @@ public class SeekFragment extends Fragment {
     private Animation animation9 = null;
     private Animation animation10 = null;
     private Animation animation11 = null;
-    private ObjectAnimator ot=null;
     private  Timer timer;
-    private SeekFragment that=this;
     private Handler mHandler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -86,13 +77,9 @@ public class SeekFragment extends Fragment {
             }
         }
     };
-
-
-
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            // Inflate the layout for this fragment
             View view=inflater.inflate(R.layout.fragment_seek, container, false);
 
             image1=view.findViewById(R.id.image1);
@@ -119,21 +106,13 @@ public class SeekFragment extends Fragment {
            animation10 = AnimationUtils.loadAnimation(getContext(), R.anim.anim_rotate);
            animation11 = AnimationUtils.loadAnimation(getContext(), R.anim.anim_translate_bounce);
 
-
-
-
-
-
-
-
             timer=new Timer();
 
             startTime();
 
-
             //测试用
 //--------------------------------------------------------------------------------------------------
-            Button pairing=view.findViewById(R.id.button2);
+            Button pairing=view.findViewById(R.id.seek_btn);
             pairing.setOnClickListener(view1 -> cancelPairing=
             (new PairingOperation()).pairing(new PairingOperation.PairingCallback() {
                 public void onSuccess(int status, HashMap<String, String> data) {

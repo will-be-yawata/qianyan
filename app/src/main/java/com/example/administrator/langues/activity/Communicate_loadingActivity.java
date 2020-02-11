@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.example.administrator.langues.R;
 
 import java.text.DecimalFormat;
-import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -24,31 +23,24 @@ public class Communicate_loadingActivity extends AppCompatActivity implements Vi
     private Timer timer;
     private TimerTask timerTask;
     private DecimalFormat decimalFormat;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_communicate_loading);
         init();
         getTime();
-
         statTime();//开始计时
-
         openquiet_btn.setOnClickListener(this);
         closequiet_btn.setOnClickListener(this);
         opensound_btn.setOnClickListener(this);
         closesound_btn.setOnClickListener(this);
         finish_btn.setOnClickListener(this);
     }
-
     private void getTime() {
-
     }
-
     public void onClick(View view) {
         switch(view.getId()) {
             case R.id.openquiet_btn:
-
                 openquiet_btn.setVisibility(view.GONE);
                 closequiet_btn.setVisibility(view.VISIBLE);
                 break;
@@ -70,9 +62,6 @@ public class Communicate_loadingActivity extends AppCompatActivity implements Vi
                 break;
         }
     }
-
-
-
     private void init() {
         openquiet_btn=findViewById(R.id.openquiet_btn);
         closequiet_btn=findViewById(R.id.closequiet_btn);
@@ -99,15 +88,12 @@ public class Communicate_loadingActivity extends AppCompatActivity implements Vi
             timer.scheduleAtFixedRate(timerTask, 1000,1000);//严格按照时间执行
 //        timer.schedule(timerTask, 1000, 1000);//如果时间过长，间隔时间会不准
         }
-
     }
-
     private void stopTime(){
         if(timer!= null){
             timer.cancel();
         }
     }
-
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -125,7 +111,6 @@ public class Communicate_loadingActivity extends AppCompatActivity implements Vi
     private void freshTime() {
         time++;
         cl_time.setText(formatTime(time));
-
     }
     private String formatTime(int time) {
         if(decimalFormat == null){
@@ -136,12 +121,6 @@ public class Communicate_loadingActivity extends AppCompatActivity implements Vi
         String ss = decimalFormat.format(time % 60);
         return hh + ":" + mm + ":" + ss;
     }
-
-
-
-
-
-
 }
 
 

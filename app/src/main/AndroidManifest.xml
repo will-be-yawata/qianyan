@@ -100,32 +100,19 @@
         <activity
             android:name=".activity.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".activity.RegisterActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
-            android:theme="@style/AppTheme.NoActionBar"
-<<<<<<< HEAD
-            android:windowSoftInputMode="adjustPan|stateHidden">
-        </activity>
-=======
+
             android:windowSoftInputMode="adjustPan|stateHidden" />
->>>>>>> 3a687b606a192f83265f0f37ad31d587ddff5ef4
         <activity
             android:name=".activity.FeedbackActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activity.Deliver_textActivity" />
         <activity
             android:name="com.jay.ui.PhotoPickerActivity"
-<<<<<<< HEAD
-            android:theme="@style/AppTheme">
-        </activity>
-=======
             android:theme="@style/AppTheme" />
         <activity android:name=".activity.Friends_chatActivity" />
         <activity android:name=".activity.Seek_loadingActivity" />
         <activity android:name=".activity.Seek_successActivity" />
         <activity android:name=".activity.Communicate_loadingActivity"></activity>
->>>>>>> 3a687b606a192f83265f0f37ad31d587ddff5ef4
     </application>
 
 </manifest>

@@ -19,21 +19,16 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class TabFragment extends Fragment {
-
     private TabLayout tabLayout;
-
     private FragmentManager fm;
     private List<Fragment> fragments;
-
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view=inflater.inflate(R.layout.fragment_tab, container, false);
-        tabLayout = (TabLayout) view.findViewById(R.id.tabs);
+        tabLayout = view.findViewById(R.id.tabs);
 
         fragments = new ArrayList<>();
         SeekFragment seekPersonFragment=new SeekFragment();
@@ -61,15 +56,12 @@ public class TabFragment extends Fragment {
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-
                 setFragments(tab.getPosition());
                if(tab.getPosition()==0){
                    tabLayout.getTabAt(0).setIcon(R.mipmap.find1);
                    tabLayout.getTabAt(1).setIcon(R.mipmap.trends);
                    tabLayout.getTabAt(2).setIcon(R.mipmap.news);
                    tabLayout.getTabAt(3).setIcon(R.mipmap.personal);
-
-
                 }
                 if(tab.getPosition()==1){
                     tabLayout.getTabAt(0).setIcon(R.mipmap.find);
@@ -77,7 +69,6 @@ public class TabFragment extends Fragment {
                     tabLayout.getTabAt(2).setIcon(R.mipmap.news);
                     tabLayout.getTabAt(3).setIcon(R.mipmap.personal);
                     seekPersonFragment.closeTime();
-
                 }
                 if(tab.getPosition()==2){
                     tabLayout.getTabAt(0).setIcon(R.mipmap.find);
@@ -94,20 +85,11 @@ public class TabFragment extends Fragment {
                     seekPersonFragment.closeTime();
                 }
             }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
+            public void onTabUnselected(TabLayout.Tab tab) { }
+            public void onTabReselected(TabLayout.Tab tab) {}
         });
         return view;
     }
-
     private void setFragments(int position){
         fm.beginTransaction().replace(R.id.tablayout_frame,
                 fragments.get(position),"t"+position).commit();

@@ -36,18 +36,11 @@ public class SquareFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_square, container, false);
-
         deliver=view.findViewById(R.id.deliver);
-        deliver.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent=new Intent(getContext(),Deliver_textActivity.class);
-                startActivity(intent);
-
-            }
+        deliver.setOnClickListener(v -> {
+            Intent intent=new Intent(getContext(),Deliver_textActivity.class);
+            startActivity(intent);
         });
-
         square_tab=view.findViewById(R.id.square_tab);
         square_viewpager=view.findViewById(R.id.square_viewpager);
 
@@ -63,7 +56,6 @@ public class SquareFragment extends Fragment {
         square_viewpager.setAdapter(adapter);
         square_tab.setupWithViewPager(square_viewpager);
         square_viewpager.setCurrentItem(0);
-
         return view;
     }
     public class squareFindAdapter extends FragmentPagerAdapter {
@@ -73,7 +65,6 @@ public class SquareFragment extends Fragment {
             super(manager);
             this.fragments = fragments;
             this.titles = titles;
-
         }
         @Override
         public Fragment getItem(int position) {
@@ -87,7 +78,5 @@ public class SquareFragment extends Fragment {
         public CharSequence getPageTitle(int position) {
             return titles.get(position);
         }
-
     }
-
 }

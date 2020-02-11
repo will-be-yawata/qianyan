@@ -49,23 +49,15 @@ public class AdapterDate extends BaseAdapter {
             //初始化日历签到状态
         }
     }
-
-    @Override
     public int getCount() {
         return days.size();
     }
-
-    @Override
     public Object getItem(int i) {
         return days.get(i);
     }
-
-    @Override
     public long getItemId(int i) {
         return i;
     }
-
-    @Override
     public View getView(final int i, View view, ViewGroup viewGroup) {
         ViewHolder viewHolder;
         if(view==null){
@@ -75,9 +67,9 @@ public class AdapterDate extends BaseAdapter {
         }else{
             viewHolder = (ViewHolder) view.getTag();
         }
-        viewHolder.tv = (TextView) view.findViewById(R.id.tvWeek);
-        viewHolder.rlItem = (RelativeLayout) view.findViewById(R.id.rlItem);
-        viewHolder.ivStatus = (ImageView) view.findViewById(R.id.ivStatus);
+        viewHolder.tv = view.findViewById(R.id.tvWeek);
+        viewHolder.rlItem = view.findViewById(R.id.rlItem);
+        viewHolder.ivStatus = view.findViewById(R.id.ivStatus);
         viewHolder.tv.setText(days.get(i)+"");
         if(days.get(i)==0){
             viewHolder.rlItem.setVisibility(View.GONE);
@@ -89,30 +81,25 @@ public class AdapterDate extends BaseAdapter {
             viewHolder.tv.setTextColor(Color.parseColor("#666666"));
             viewHolder.ivStatus.setVisibility(View.GONE);
         }
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(status.get(i)){
-                    Toast.makeText(context,"签到过了!",Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(context,"签到成功!",Toast.LENGTH_SHORT).show();
-                    status.set(i,true);
-                    notifyDataSetChanged();
-                    if(onSignedSuccess!=null){
-                        onSignedSuccess.OnSignedSuccess();
-                    }
+        view.setOnClickListener(view1 -> {
+            if(status.get(i)){
+                Toast.makeText(context,"签到过了!",Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(context,"签到成功!",Toast.LENGTH_SHORT).show();
+                status.set(i,true);
+                notifyDataSetChanged();
+                if(onSignedSuccess!=null){
+                    onSignedSuccess.OnSignedSuccess();
                 }
             }
         });
         return view;
     }
-
     class ViewHolder{
         RelativeLayout rlItem;
         TextView tv;
         ImageView ivStatus;
     }
-
     public void setOnSignedSuccess(OnSignedSuccess onSignedSuccess){
         this.onSignedSuccess = onSignedSuccess;
     }

@@ -19,14 +19,12 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
 /**
  * 下拉刷新控件</br>
  * 真正实现下拉刷新的是这个控件，
  * ScrollOverListView只是提供触摸的事件等
  */
 public class PullDownView extends LinearLayout implements ScrollOverListView.OnScrollOverListener {
-	private static final String TAG = "PullDownView";
 	
 	private static final int START_PULL_DEVIATION = 50;	// 移动误差
 	private static final int AUTO_INCREMENTAL = 10;		// 自增量，用于回弹

@@ -1,6 +1,5 @@
 package com.example.administrator.langues.activity;
 
-import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
@@ -47,8 +46,6 @@ public class Seek_successActivity extends AppCompatActivity {
             }
         }
     };
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,13 +64,7 @@ public class Seek_successActivity extends AppCompatActivity {
                 startActivity(i);
             }
         }, 4000);//4秒后跳转到Communicate_loadingActivity页面
-
-
-
-
-
     }
-
     private void getdisplay() {
         // 通过WindowManager获取屏幕的宽高
         DisplayMetrics dm = new DisplayMetrics();
@@ -81,7 +72,6 @@ public class Seek_successActivity extends AppCompatActivity {
         width=dm.widthPixels;
         height=dm.heightPixels;
     }
-
     private void start() {
         animSet= new AnimatorSet();
         animSet.play(objectAnimator1).with(objectAnimator2).with(objectAnimator3);
@@ -95,11 +85,7 @@ public class Seek_successActivity extends AppCompatActivity {
         animSet2.play(objectAnimator6).with(objectAnimator7);
         animSet2.setDuration(3000l);
         animSet2.start();
-
-
-
     }
-
     private void animation() {
         //飞机动画
         objectAnimator1=ObjectAnimator.ofFloat(seeksuccess_icon,"scaleX",0f,20f);
@@ -111,11 +97,7 @@ public class Seek_successActivity extends AppCompatActivity {
         //蓝色用户
         objectAnimator6=ObjectAnimator.ofFloat(blue_user,"translationX",-600f,0f);
         objectAnimator7=ObjectAnimator.ofFloat(blue_user,"translationY",900f,-272f);
-
-
     }
-
-
     private void init() {
         seeksuccess_icon=findViewById(R.id.seeksuccess_icon);
         red_user=findViewById(R.id.red_user);
@@ -131,8 +113,5 @@ public class Seek_successActivity extends AppCompatActivity {
             }
         },0,4000);
     }
-    public void closeTime(){
-        timer.cancel();
-
-    }
+    public void closeTime(){ timer.cancel(); }
 }

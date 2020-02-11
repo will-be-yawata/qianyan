@@ -1,30 +1,12 @@
 package com.example.administrator.langues.activity;
 
-import android.content.Context;
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.administrator.langues.R;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class SettingActivity extends AppCompatActivity {
-    ListView setting_listview;
-    List<Map<String,Object>> mData;
     ImageButton setting_return;
 
     @Override
@@ -46,13 +28,8 @@ public class SettingActivity extends AppCompatActivity {
         });*/
 
         //返回
-        setting_return= (ImageButton) findViewById(R.id.setting_return);
-        setting_return.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        setting_return= findViewById(R.id.setting_return);
+        setting_return.setOnClickListener(v -> finish());
     }
     /*private List<Map<String,Object>>getData(){
         List<Map<String,Object>> list=new ArrayList<Map<String, Object>>();

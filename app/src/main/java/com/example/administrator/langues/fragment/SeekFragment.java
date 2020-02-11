@@ -1,14 +1,10 @@
 package com.example.administrator.langues.fragment;
 
-
-import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,9 +38,7 @@ public class SeekFragment extends Fragment {
     private Animation animation9 = null;
     private Animation animation10 = null;
     private Animation animation11 = null;
-    private ObjectAnimator ot=null;
     private  Timer timer;
-    private SeekFragment that=this;
     private Handler mHandler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -76,9 +70,6 @@ public class SeekFragment extends Fragment {
             }
         }
     };
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -112,24 +103,13 @@ public class SeekFragment extends Fragment {
         animation11 = AnimationUtils.loadAnimation(getContext(), R.anim.anim_translate_bounce);
         timer=new Timer();
         startTime();
-
-        seek_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i=new Intent(getContext(),Seek_loadingActivity.class);//跳转到匹配中页面
-                startActivity(i);
-
-            }
+        seek_btn.setOnClickListener(view1 -> {
+            Intent i=new Intent(getContext(),Seek_loadingActivity.class);//跳转到匹配中页面
+            startActivity(i);
         });
-
-
-
         return view;
     }
-    public void closeTime(){
-        timer.cancel();
-
-    }
+    public void closeTime(){ timer.cancel(); }
     public  void startTime(){
         timer.schedule(new TimerTask() {
             @Override
