@@ -6,6 +6,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.administrator.langues.adapter.AdapterDate;
+import com.example.administrator.langues.adapter.AdapterWeek;
+
 /**
  * Created by Administrator on 2017/8/16.
  */
