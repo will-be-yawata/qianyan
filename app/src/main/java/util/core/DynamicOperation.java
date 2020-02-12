@@ -6,11 +6,14 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 
 import org.xutils.common.Callback;
+import org.xutils.common.util.KeyValue;
 import org.xutils.http.RequestParams;
+import org.xutils.http.body.MultipartBody;
 import org.xutils.x;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import entry.Dynamic;
 import entry.User;
@@ -73,19 +76,55 @@ public class DynamicOperation {
         sendPublishDynamic(text,results,callback);
     }
     public void sendPublishDynamic(String text,ArrayList<String> results,DynamicPublishCallback callback){
-        RequestParams params=new RequestParams(Url.ROOT+Url.PUBLISH_DYNAMIC);
-        if(text!=null && text.equals("")){
-            params.addBodyParameter("text",text);
-        }
-        if(results!=null && results.size()>0){
-            params.setMultipart(true);
-            for (int i = 0; i < results.size(); i++) {
-                params.addBodyParameter("img"+i,new File(results.get(i)),null);
-            }
-
-        }
-        params.addBodyParameter("phone", User.getInstance().getPhone());
+//        RequestParams params=new RequestParams(Url.ROOT+Url.PUBLISH_DYNAMIC);
+//        if(text!=null && !text.equals("")){
+//            params.addBodyParameter("text",text);
+//        }
+//        if(results!=null && results.size()>0){
+//            params.setMultipart(true);
+//            for (int i = 0; i < results.size(); i++) {
+////                params.addBodyParameter("img"+i,new File(results.get(i)),"multipart/form-data");
+//                params.addBodyParameter("img"+i,new File(results.get(i)),"multipart/form-data","img"+i);
+//            }
+//
+//
+//        }
+//        params.addBodyParameter("phone", User.getInstance().getPhone());
 //        params.addBodyParameter("img",new File("url"),null,"文件名");
+        //-------------------------------------------------
+//        RequestParams params=new RequestParams(Url.ROOT+Url.PUBLISH_DYNAMIC);
+//        List<KeyValue> list = new ArrayList<>();
+//        if(text!=null && !text.equals("")){
+//            list.add(new KeyValue("text",text));
+//        }
+//        if(results!=null && results.size()>0){
+//            params.setMultipart(true);
+//            for (int i = 0; i < results.size(); i++) {
+//                list.add(new KeyValue("img"+i,new File(results.get(i))));
+//            }
+//        }
+//        list.add(new KeyValue("phone",User.getInstance().getPhone()));
+//        MultipartBody body = new MultipartBody(list, "UTF-8");
+//        params.setRequestBody(body);
+        //-------------------------------------------------
+        RequestParams params=new RequestParams(Url.ROOT+Url.PUBLISH_DYNAMIC);
+        params.setMultipart(true);
+        List<KeyValue> list=new ArrayList<>();
+        if(text!=null && !text.equals("")) {
+            list.add(new KeyValue("text", text));
+        }
+        list.add(new KeyValue("phone",User.getInstance().getPhone()));
+        if(results!=null && results.size()>0){
+            for(int i=0;i<results.size();i++){
+                list.add(new KeyValue("img"+i,new File(results.get(i))));
+            }
+        }
+        MultipartBody body=new MultipartBody(list,"UTF-8");
+        params.setRequestBody(body);
+        //-------------------------------------------------
+
+
+
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String s) {

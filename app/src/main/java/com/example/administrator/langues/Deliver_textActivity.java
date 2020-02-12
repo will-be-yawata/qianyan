@@ -51,7 +51,10 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
 
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
     private FloatingActionButton btn2;
+    private Button send_btn;
     private ImageButton deliver_return;
+    private ArrayList ready_to_publish;//准备发布的图片集合
+    private AutoCompleteTextView autoCompleteTextView;
     private boolean isMultiSelect;
     private int defaultMaxCount = 9;
     private int current_select_count;
@@ -69,6 +72,24 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
     private int mScreenWidth;
 
 
+    //TODO 将下面的代码放入到点击发布之后的代码块
+    /*
+    DynamicOperation dynamicOperation=new DynamicOperation();
+                String user_text=autoCompleteTextView.getText().toString();
+
+                dynamicOperation.publishDynamic(user_text, ready_to_publish, new DynamicOperation.DynamicPublishCallback() {
+                    @Override
+                    public void publishDynamicData(String s) {
+                        if(s.equals("1")){
+                            //成功
+                            Toast.makeText(getApplicationContext(),"成功",Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(),"失败",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+    * */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +97,10 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.activity_deliver_text);
         hidBar();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        autoCompleteTextView=(AutoCompleteTextView)findViewById(R.id.autoCompleteTextView2);
+        ready_to_publish=new ArrayList();
+        send_btn=(Button)findViewById(R.id.deliver_btn);
+        send_btn.setOnClickListener(this);
         setSupportActionBar(toolbar);
         current_select_count=0;
         //返回按钮
@@ -112,11 +137,6 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
         }
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
-
-
-
-
-
 
     class VIewHolder {
         ImageView iv;
@@ -210,9 +230,29 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
                 bundle.putInt(PhotoPickerActivity.MAX_SELECT_SIZE, defaultMaxCount);
                 bundle.putInt("current_select_count",current_select_count);
                 intent.putExtras(bundle);
+                startActivityForResult(intent,1001);
                 break;
+            case R.id.deliver_btn:
+                DynamicOperation dynamicOperation=new DynamicOperation();
+                String user_text=autoCompleteTextView.getText().toString();
+
+                dynamicOperation.publishDynamic(user_text, ready_to_publish, new DynamicOperation.DynamicPublishCallback() {
+                    @Override
+                    public void publishDynamicData(String s) {
+                        if(s.equals("1")){
+                            //成功
+                            Toast.makeText(getApplicationContext(),"成功",Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(),"失败",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+                break;
+
+
         }
-        startActivityForResult(intent,1001);
+
     }
 
 
@@ -227,6 +267,7 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
             if (isMultiSelect) {
                 //多选
                 results = data.getStringArrayListExtra(PhotoPickerActivity.SELECT_RESULTS_ARRAY);
+                ready_to_publish=results;
                 current_select_count+=results.size();
 
                 for (int i = 0; i < results.size(); i++) {
@@ -292,6 +333,7 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 listpath.remove(position);
+                ready_to_publish.remove(position);
                 current_select_count--;
                 adapter.notifyDataSetChanged();
 
