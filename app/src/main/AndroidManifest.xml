@@ -119,6 +119,8 @@
         <activity android:name=".activity.User_data.User_DataActivity" />
         <activity android:name=".activity.User_data.Uesr_exitActivity" />
         <activity android:name=".activity.User_data.Member_DataActivity"></activity>
+        <activity android:name=".activity.MyPage.MyCourse.CourseActivity"></activity>
+        <activity android:name=".activity.ReleaseActivity"></activity>
     </application>
 
 </manifest>

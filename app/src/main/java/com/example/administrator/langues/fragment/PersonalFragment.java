@@ -11,10 +11,12 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.administrator.langues.R;
 import com.example.administrator.langues.activity.AccountActivity;
 import com.example.administrator.langues.activity.FeedbackActivity;
+import com.example.administrator.langues.activity.MyPage.MyCourse.CourseActivity;
 import com.example.administrator.langues.activity.My_ConcernActivity;
 import com.example.administrator.langues.activity.My_DeliverActivity;
 import com.example.administrator.langues.activity.SettingActivity;
@@ -38,6 +40,7 @@ public class PersonalFragment extends Fragment {
     ImageButton dope;//消息按钮
     ImageButton user_data;//资料按钮
     RelativeLayout account;//我的账户
+    RelativeLayout course;//我的课程
     RelativeLayout sign_in;//我的签到
     RelativeLayout conver;//兑换中心
     RelativeLayout my_deliver;//我的发布
@@ -86,6 +89,17 @@ public class PersonalFragment extends Fragment {
                     ((ImageButton)v).setImageDrawable(getResources().getDrawable(R.mipmap.report1));
                 }*/
                 return false;
+            }
+        });
+        //我的课程
+        course=view.findViewById(R.id.my_course);
+        course.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /*Toast toast=Toast.makeText(getContext(),"123",Toast.LENGTH_SHORT);
+                toast.show();*/
+                Intent intent=new Intent(getActivity(),CourseActivity.class);
+                startActivity(intent);
             }
         });
 
