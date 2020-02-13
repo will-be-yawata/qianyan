@@ -19,6 +19,7 @@ import com.example.administrator.langues.activity.My_ConcernActivity;
 import com.example.administrator.langues.activity.My_DeliverActivity;
 import com.example.administrator.langues.activity.SettingActivity;
 import com.example.administrator.langues.activity.Sign_In_Activity;
+import com.example.administrator.langues.activity.User_data.Member_DataActivity;
 import com.example.administrator.langues.activity.User_data.User_DataActivity;
 
 
@@ -33,6 +34,7 @@ import com.example.administrator.langues.activity.User_data.User_DataActivity;
 public class PersonalFragment extends Fragment {
     ImageButton report;//签到按钮
     TextView reportText;//文字“签到”
+    TextView memberText;//用户属性
     ImageButton dope;//消息按钮
     ImageButton user_data;//资料按钮
     RelativeLayout account;//我的账户
@@ -58,6 +60,15 @@ public class PersonalFragment extends Fragment {
                 Intent intent=new Intent(getActivity(),User_DataActivity.class);
                 startActivity(intent);
                             }
+        });
+        //用户属性
+        memberText=view.findViewById(R.id.member);
+        memberText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getContext(),Member_DataActivity.class);
+                startActivity(intent);
+            }
         });
         //签到
         report= (ImageButton) view.findViewById(R.id.report);

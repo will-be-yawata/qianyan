@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.administrator.langues.R;
+import com.example.administrator.langues.activity.AccountActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -29,9 +30,11 @@ public class User_DataActivity extends AppCompatActivity implements View.OnClick
     RelativeLayout status_dialog;
     RelativeLayout address_dialog;
     RelativeLayout attribute_dialog;
+    RelativeLayout integral_dialog;
 
 
     TextView sex_Text;//性别
+    TextView integral_Text;//性别
     TextView name_Text;//昵称
     TextView birthday_Text;//生日
     TextView address_Text;//地区
@@ -56,6 +59,8 @@ public class User_DataActivity extends AppCompatActivity implements View.OnClick
         name_dialog.setOnClickListener(this);
         //修改属性
         attribute_dialog.setOnClickListener(this);
+        //修改积分
+        integral_dialog.setOnClickListener(this);
         //修改性别
         sex_dialog.setOnClickListener(this);
         date_dialog.setOnClickListener(this);
@@ -76,6 +81,7 @@ public class User_DataActivity extends AppCompatActivity implements View.OnClick
         birthday_Text=findViewById(R.id.user_data_birthday);
         status_Text=findViewById(R.id.user_data_status);
         address_Text=findViewById(R.id.user_data_address);
+        integral_Text=findViewById(R.id.integral_Text);
         /*
         *DIALOG
         * */
@@ -85,6 +91,7 @@ public class User_DataActivity extends AppCompatActivity implements View.OnClick
         status_dialog=findViewById(R.id.status_dialog);
         address_dialog=findViewById(R.id.address_dialog);
         attribute_dialog=findViewById(R.id.attribute_dialog);
+        integral_dialog=findViewById(R.id.integral_dialog);
     }
     @Override
     public void onClick(View view) {
@@ -161,8 +168,12 @@ public class User_DataActivity extends AppCompatActivity implements View.OnClick
                 }.show();
                 break;
             case R.id.attribute_dialog://修改属性
-                Intent intent=new Intent(getBaseContext(),Member_DataActivity.class);
-                startActivity(intent);
+                Intent att=new Intent(getBaseContext(),Member_DataActivity.class);
+                startActivity(att);
+                break;
+            case R.id.integral_dialog:
+                Intent inte=new Intent(getBaseContext(),AccountActivity.class);
+                startActivity(inte);
                 break;
         }
 

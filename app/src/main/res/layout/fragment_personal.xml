@@ -73,6 +73,46 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
 
+                            <RelativeLayout
+                                android:id="@+id/level"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentTop="true"
+
+
+                                android:layout_marginStart="3dp"
+                                android:layout_marginTop="11dp"
+                                android:layout_marginBottom="-30dp"
+                                android:layout_toEndOf="@+id/username">
+
+                                <TextView
+                                    android:id="@+id/level_text"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_marginStart="2dp"
+                                    android:layout_marginLeft="2dp"
+                                    android:layout_marginTop="0dp"
+                                    android:layout_toEndOf="@+id/level_pho"
+                                    android:layout_toRightOf="@+id/level_pho"
+                                    android:text="1"
+                                    android:textColor="#f4ea2a" />
+
+                                <ImageView
+                                    android:id="@+id/level_pho"
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+
+                                    android:layout_alignParentStart="true"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_marginStart="5dp"
+                                    android:layout_marginLeft="5dp"
+                                    android:layout_marginTop="4dp"
+                                    android:src="@mipmap/lv" />
+                            </RelativeLayout>
+
+
                             <ImageView
                                 android:id="@+id/imageView3"
                                 android:layout_width="18dp"
@@ -83,8 +123,7 @@
                                 android:layout_marginTop="45dp"
                                 android:layout_toEndOf="@+id/Per_user_pho"
                                 android:layout_toRightOf="@+id/Per_user_pho"
-                                android:src="@mipmap/member" />
-
+                                android:src="@mipmap/unmember" />
 
 
                             <TextView
@@ -97,7 +136,7 @@
                                 android:layout_marginBottom="-1dp"
                                 android:layout_toEndOf="@+id/imageView3"
                                 android:layout_toRightOf="@+id/imageView3"
-                                android:text="会员" />
+                                android:text="普通用户" />
 
                             <TextView
                                 android:id="@+id/username"
@@ -134,10 +173,12 @@
                                 android:id="@+id/report"
                                 android:layout_width="15dp"
                                 android:layout_height="15dp"
-                                android:layout_alignParentTop="true"
-                                android:layout_marginTop="30dp"
+
+                                android:layout_alignTop="@+id/reportText"
+                                android:layout_marginTop="2dp"
                                 android:layout_marginEnd="2dp"
                                 android:layout_marginRight="2dp"
+                                android:layout_marginBottom="-45dp"
                                 android:layout_toStartOf="@+id/reportText"
                                 android:layout_toLeftOf="@+id/reportText"
                                 android:background="@android:color/transparent"
@@ -148,10 +189,15 @@
                                 android:id="@+id/reportText"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_alignParentTop="true"
                                 android:layout_alignParentEnd="true"
-                                android:layout_centerVertical="true"
-                                android:layout_marginEnd="13dp"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginTop="27dp"
+                                android:layout_marginEnd="8dp"
+                                android:layout_marginRight="8dp"
                                 android:text="签到" />
+
+
                         </RelativeLayout>
 
                         <View
@@ -167,12 +213,13 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginBottom="3dp">
+
                             <RelativeLayout
                                 android:id="@+id/my_deliver"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:clickable="true"
-                                >
+                                android:clickable="true">
+
                                 <TextView
                                     android:id="@+id/textView5"
                                     android:layout_width="wrap_content"
@@ -235,8 +282,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentTop="true"
                                 android:layout_alignParentEnd="true"
-                                android:layout_alignParentRight="true"
-                                >
+                                android:layout_alignParentRight="true">
+
                                 <TextView
                                     android:id="@+id/textView11"
                                     android:layout_width="wrap_content"
@@ -265,7 +312,6 @@
                             </RelativeLayout>
 
 
-
                         </RelativeLayout>
 
                     </LinearLayout>
@@ -286,8 +332,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/click_color"
-                            android:padding="5dp"
-                            android:clickable="true">
+                            android:clickable="true"
+                            android:padding="5dp">
 
                             <TextView
                                 android:id="@+id/textView3"
@@ -299,7 +345,7 @@
                                 android:layout_marginBottom="1dp"
                                 android:layout_toEndOf="@+id/imageButton3"
                                 android:layout_toRightOf="@+id/imageButton3"
-                                android:text="我的账户" />
+                                android:text="我的积分" />
 
                             <ImageButton
                                 android:id="@+id/imageButton3"
@@ -348,13 +394,14 @@
                             android:layout_alignParentLeft="true"
                             android:layout_marginTop="0dp"
                             android:background="#e1e1e1" />
+
                         <RelativeLayout
                             android:id="@+id/sign_in"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="5dp"
                             android:background="@drawable/click_color"
-                            android:clickable="true">
+                            android:clickable="true"
+                            android:padding="5dp">
 
                             <TextView
                                 android:id="@+id/textView30"
@@ -380,7 +427,6 @@
                                 android:background="@android:color/transparent"
                                 android:scaleType="centerInside"
                                 android:src="@mipmap/sign_in" />
-
 
 
                             <ImageButton
@@ -410,8 +456,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/click_color"
-                            android:padding="5dp"
-                            android:clickable="true">
+                            android:clickable="true"
+                            android:padding="5dp">
 
                             <ImageButton
                                 android:id="@+id/imageButton6"
@@ -435,7 +481,7 @@
                                 android:layout_marginBottom="1dp"
                                 android:layout_toEndOf="@+id/imageButton5"
                                 android:layout_toRightOf="@+id/imageButton5"
-                                android:text="我的订单" />
+                                android:text="我的课程" />
 
                             <ImageButton
                                 android:id="@+id/imageButton5"
@@ -465,9 +511,9 @@
                             android:id="@+id/conver"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="5dp"
                             android:background="@drawable/click_color"
-                            android:clickable="true">
+                            android:clickable="true"
+                            android:padding="5dp">
 
                             <ImageButton
                                 android:id="@+id/imageButton7"
@@ -520,9 +566,9 @@
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="5dp"
                             android:background="@drawable/click_color"
-                            android:clickable="true">
+                            android:clickable="true"
+                            android:padding="5dp">
 
                             <ImageButton
                                 android:id="@+id/imageButton9"
@@ -575,9 +621,9 @@
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="5dp"
                             android:background="@drawable/click_color"
-                            android:clickable="true">
+                            android:clickable="true"
+                            android:padding="5dp">
 
                             <ImageButton
                                 android:id="@+id/imageButton11"
@@ -631,9 +677,9 @@
                             android:id="@+id/feedback"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="5dp"
                             android:background="@drawable/click_color"
-                            android:clickable="true">
+                            android:clickable="true"
+                            android:padding="5dp">
 
                             <ImageButton
                                 android:id="@+id/imageButton12"
@@ -686,9 +732,9 @@
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="5dp"
                             android:background="@drawable/click_color"
-                            android:clickable="true">
+                            android:clickable="true"
+                            android:padding="5dp">
 
                             <ImageButton
                                 android:id="@+id/imageButton14"
@@ -742,9 +788,9 @@
                             android:id="@+id/setting"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="5dp"
                             android:background="@drawable/click_color"
-                            android:clickable="true">
+                            android:clickable="true"
+                            android:padding="5dp">
 
                             <ImageButton
                                 android:id="@+id/imageButton16"

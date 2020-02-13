@@ -6,6 +6,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_seek_person">seekPerson</string>
     <drawable name="color2">#4bb1e7</drawable>
+    <drawable name="gvcolor1">#fb9a7a</drawable>
+    <drawable name="gvcolor2">#f5c394</drawable>
 
 
 </resources>

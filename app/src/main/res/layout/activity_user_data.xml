@@ -266,6 +266,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <RelativeLayout
+            android:id="@+id/integral_dialog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/click_color"
@@ -284,7 +285,7 @@
                 android:text="积分"
                 android:textSize="16dp" />
             <TextView
-                android:id="@+id/user_data_itegral"
+                android:id="@+id/user_data_integral"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"

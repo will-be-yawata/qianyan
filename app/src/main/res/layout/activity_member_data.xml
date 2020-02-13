@@ -48,7 +48,7 @@
 
 
         <ImageButton
-            android:id="@+id/imageButton25"
+            android:id="@+id/member_set_btn"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_alignParentTop="true"
@@ -71,6 +71,18 @@
                 android:textColor="#fff"
                 android:text="ブタ頭" />
 
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="18dp"
+            android:layout_height="17dp"
+            android:layout_alignBottom="@+id/textView42"
+            android:layout_marginEnd="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginBottom="1dp"
+            android:layout_toStartOf="@+id/textView42"
+            android:layout_toLeftOf="@+id/textView42"
+            android:src="@mipmap/member" />
+
             <TextView
                 android:id="@+id/textView42"
                 android:layout_width="wrap_content"
@@ -79,15 +91,16 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="9dp"
                 android:text="立即开通会员享受特权" />
+
             <Button
-            android:id="@+id/button2"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_below="@+id/textView42"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="6dp"
-            android:background="@drawable/button_radius"
-            android:text="开通会员" />
+                android:id="@+id/button2"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_below="@+id/textView42"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/button_radius"
+                android:text="开通会员" />
 
 
 
