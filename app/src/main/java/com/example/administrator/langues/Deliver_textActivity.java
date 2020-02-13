@@ -72,24 +72,7 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
     private int mScreenWidth;
 
 
-    //TODO 将下面的代码放入到点击发布之后的代码块
-    /*
-    DynamicOperation dynamicOperation=new DynamicOperation();
-                String user_text=autoCompleteTextView.getText().toString();
 
-                dynamicOperation.publishDynamic(user_text, ready_to_publish, new DynamicOperation.DynamicPublishCallback() {
-                    @Override
-                    public void publishDynamicData(String s) {
-                        if(s.equals("1")){
-                            //成功
-                            Toast.makeText(getApplicationContext(),"成功",Toast.LENGTH_LONG).show();
-                        }
-                        else {
-                            Toast.makeText(getApplicationContext(),"失败",Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
-    * */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -241,13 +224,18 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
                     public void publishDynamicData(String s) {
                         if(s.equals("1")){
                             //成功
-                            Toast.makeText(getApplicationContext(),"成功",Toast.LENGTH_LONG).show();
+
+                            Toast.makeText(getApplicationContext(),"发布成功",Toast.LENGTH_LONG).show();
+
+
                         }
                         else {
-                            Toast.makeText(getApplicationContext(),"失败",Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(),"发布失败",Toast.LENGTH_LONG).show();
                         }
                     }
                 });
+                Toast.makeText(getApplicationContext(),"发布中,请稍后",Toast.LENGTH_LONG).show();
+                startActivity(new Intent(getApplicationContext(),SquareFragment.class));
                 break;
 
 
@@ -267,7 +255,7 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
             if (isMultiSelect) {
                 //多选
                 results = data.getStringArrayListExtra(PhotoPickerActivity.SELECT_RESULTS_ARRAY);
-                ready_to_publish=results;
+                ready_to_publish.addAll(results);
                 current_select_count+=results.size();
 
                 for (int i = 0; i < results.size(); i++) {

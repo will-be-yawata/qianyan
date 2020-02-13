@@ -23,6 +23,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import entry.Dynamic;
+import util.core.DynamicOperation;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,16 +42,13 @@ public class squareFindFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_square_find, container, false);
-
-
-
-
-
-
-
-
-
-
+        DynamicOperation dynamicOperation=new DynamicOperation();
+        dynamicOperation.getSquare(0, 10, new DynamicOperation.DynamicGetCallback() {
+            @Override
+            public void getDynamicData(ArrayList<Dynamic> res) {
+                Log.i("mData",res.toString());
+            }
+        });
         square_find_listview=view.findViewById(R.id.square_find_listview);
         gridView=view.findViewById(R.id.square_gridview);
 

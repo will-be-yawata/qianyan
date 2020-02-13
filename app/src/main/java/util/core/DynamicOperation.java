@@ -150,6 +150,37 @@ public class DynamicOperation {
         //TODO 返回好友发表的动态，按时间倒序
         void getDynamicData(ArrayList<Dynamic> res);
     }
+    public void getSquare(int limit,int offset,DynamicGetCallback callback){
+        RequestParams params=new RequestParams(Url.ROOT+Url.GET_QUARE);
+        params.addBodyParameter("limit", ""+limit);
+        params.addBodyParameter("offset", ""+offset);
+
+        x.http().post(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String s) {
+                ArrayList<Dynamic> res=JSON.parseObject(s,new TypeReference<ArrayList<Dynamic>>(){});
+                for (int i = 0; i < res.size(); i++) {
+                    Log.i("zjq","success:"+res.get(i).toString());
+                }
+                callback.getDynamicData(res);
+            }
+            @Override
+            public void onError(Throwable throwable, boolean b) {
+                Log.i("zjq","onError:"+throwable.getMessage());
+            }
+
+            @Override
+            public void onCancelled(CancelledException e) {
+                Log.i("zjq","onCancelled:"+e.getMessage());
+            }
+
+            @Override
+            public void onFinished() {
+                Log.i("zjq","onFinished");
+            }
+        });
+    }
+
     public interface  DynamicPublishCallback{
         //TODO 返回影响条数 1表示成功，0表示失败
         void publishDynamicData(String s);
