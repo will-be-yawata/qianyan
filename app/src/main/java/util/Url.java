@@ -19,6 +19,7 @@ public class Url {
     public static String DELETE_FRIEND_STATUS="friendstatus/deletefriendstatus.html";
 
     public static String GET_DYNAMIC="dynamic/getdynamic.html";
+    public static String GET_QUARE="dynamic/getsquare.html";
     public static String PUBLISH_DYNAMIC="dynamic/publishdynamic.html";
 
     public static String PAIRING="pairing/pairing.html";
