@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -20,6 +21,11 @@ import com.example.administrator.langues.activity.My_ConcernActivity;
 import com.example.administrator.langues.activity.My_DeliverActivity;
 import com.example.administrator.langues.activity.SettingActivity;
 import com.example.administrator.langues.activity.Sign_In_Activity;
+
+import org.xutils.x;
+
+import entry.User;
+import util.Url;
 
 
 /**
@@ -42,9 +48,13 @@ public class PersonalFragment extends Fragment {
     RelativeLayout setting;//设置
     RelativeLayout feedback;//意见反馈
 
+    ImageView userimg;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_personal, container, false);
+        userimg=view.findViewById(R.id.imageView2);
+        x.image().bind(userimg, Url.USER_IMG+ User.getInstance().getImg());
         //签到
         report= view.findViewById(R.id.report);
         reportText= view.findViewById(R.id.reportText);

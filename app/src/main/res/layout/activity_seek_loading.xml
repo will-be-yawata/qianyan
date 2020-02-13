@@ -23,9 +23,10 @@
             android:layout_marginTop="18dp"
             android:layout_marginEnd="18dp"
             android:layout_marginRight="18dp"
-            app:srcCompat="@mipmap/cancel"
             android:background="@android:color/transparent"
-            android:scaleType="centerInside"/>
+            android:clickable="true"
+            android:scaleType="centerInside"
+            app:srcCompat="@mipmap/cancel" />
 
 
         <ImageView
