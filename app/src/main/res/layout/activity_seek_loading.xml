@@ -84,7 +84,15 @@
             android:layout_marginRight="68dp"
             android:layout_marginBottom="62dp"
             app:srcCompat="@mipmap/icon5" />
-        <de.hdodenhof.circleimageview.CircleImageView
+        <!--<de.hdodenhof.circleimageview.MCircleImageView-->
+            <!--android:id="@+id/seek_loading_user"-->
+            <!--android:layout_width="70dp"-->
+            <!--android:layout_height="70dp"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:src="@mipmap/user"/>-->
+        <ImageView
             android:id="@+id/seek_loading_user"
             android:layout_width="70dp"
             android:layout_height="70dp"

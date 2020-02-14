@@ -12,19 +12,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/cl_user_pho"
+        <!--<de.hdodenhof.circleimageview.MCircleImageView-->
+            <!--android:id="@+id/cl_user_pho"-->
+            <!--android:layout_width="201dp"-->
+            <!--android:layout_height="201dp"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:src="@mipmap/user" />-->
+        <ImageView
+            android:id="@+id/com_user_img"
             android:layout_width="201dp"
             android:layout_height="201dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:src="@mipmap/user" />
-
         <TextView
-            android:id="@+id/textView26"
+            android:id="@+id/com_user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/cl_user_pho"
+            android:layout_above="@+id/com_user_img"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="29dp"
             android:text="小白"

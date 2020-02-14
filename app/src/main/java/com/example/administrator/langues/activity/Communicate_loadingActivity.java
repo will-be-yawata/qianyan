@@ -1,20 +1,33 @@
 package com.example.administrator.langues.activity;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.administrator.langues.R;
+
+import org.xutils.common.util.DensityUtil;
+import org.xutils.image.ImageOptions;
+import org.xutils.x;
 
 import java.text.DecimalFormat;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Communicate_loadingActivity extends AppCompatActivity implements View.OnClickListener {
+import de.hdodenhof.circleimageview.MCircleImageView;
+import entry.User;
+import util.EMHelp;
+import util.Url;
+
+public class Communicate_loadingActivity extends AppCompatActivity {
+    private final static int COUNTTIME=0;
     private ImageButton openquiet_btn,closequiet_btn,opensound_btn,closesound_btn,finish_btn;
     private TextView cl_time;
     private int time= 0;
@@ -23,45 +36,18 @@ public class Communicate_loadingActivity extends AppCompatActivity implements Vi
     private Timer timer;
     private TimerTask timerTask;
     private DecimalFormat decimalFormat;
+    private ImageView userImg;
+    private TextView userName;
+    private Handler mHandl ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_communicate_loading);
         init();
-        getTime();
         statTime();//开始计时
-        openquiet_btn.setOnClickListener(this);
-        closequiet_btn.setOnClickListener(this);
-        opensound_btn.setOnClickListener(this);
-        closesound_btn.setOnClickListener(this);
-        finish_btn.setOnClickListener(this);
+        listener();
     }
-    private void getTime() {
-    }
-    public void onClick(View view) {
-        switch(view.getId()) {
-            case R.id.openquiet_btn:
-                openquiet_btn.setVisibility(view.GONE);
-                closequiet_btn.setVisibility(view.VISIBLE);
-                break;
-            case R.id.closequiet_btn:
-                openquiet_btn.setVisibility(view.VISIBLE);
-                closequiet_btn.setVisibility(view.GONE);
-                break;
-            case R.id.opensound_btn:
-                opensound_btn.setVisibility(view.GONE);
-                closesound_btn.setVisibility(view.VISIBLE);
-                break;
-            case R.id.closesound_btn:
-                opensound_btn.setVisibility(view.VISIBLE);
-                closesound_btn.setVisibility(view.GONE);
-                break;
-            case R.id.finish_btn:
-                t_btn=true;
-                finish();
-                break;
-        }
-    }
+    @SuppressLint("HandlerLeak")
     private void init() {
         openquiet_btn=findViewById(R.id.openquiet_btn);
         closequiet_btn=findViewById(R.id.closequiet_btn);
@@ -69,24 +55,73 @@ public class Communicate_loadingActivity extends AppCompatActivity implements Vi
         closesound_btn=findViewById(R.id.closesound_btn);
         finish_btn=findViewById(R.id.finish_btn);
         cl_time=findViewById(R.id.cl_time);
-    }
-    //统计通话时间
-    private void statTime(){
+        userName=findViewById(R.id.com_user_name);
+        userImg=findViewById(R.id.com_user_img);
+
+        ImageOptions imageOptions = new ImageOptions.Builder().setSize(DensityUtil.dip2px(70), DensityUtil.dip2px(70))
+                .setRadius(DensityUtil.dip2px(70))
+                .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
+                .setLoadingDrawableId(R.mipmap.ic_launcher)//正在加载时的图片
+                .setFailureDrawableId(R.mipmap.ic_launcher).build();//加载失败时的图片
+        x.image().bind(userImg,Url.USER_IMG+getIntent().getStringExtra("enemyImg"),imageOptions);
+
         timer = new Timer();
-        timerTask = new TimerTask(){
-            @Override
-            public void run() {
-                if (!t_btn){
-                    Message msg = new Message();
-                    msg.what = 1;
-                    //发送
-                    handler.sendMessage(msg);
+
+        mHandl=new Handler() {
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                switch (msg.what) {
+                    case COUNTTIME:
+                        freshTime();
+                        break;
+                    default:
+                        stopTime();
+                        break;
                 }
             }
         };
+    }
+    private void listener(){
+        openquiet_btn.setOnClickListener(view -> {
+            openquiet_btn.setVisibility(View.GONE);
+            closequiet_btn.setVisibility(View.VISIBLE);
+        });
+        closequiet_btn.setOnClickListener(view -> {
+            openquiet_btn.setVisibility(View.VISIBLE);
+            closequiet_btn.setVisibility(View.GONE);
+        });
+        opensound_btn.setOnClickListener(view -> {
+            opensound_btn.setVisibility(View.GONE);
+            closesound_btn.setVisibility(View.VISIBLE);
+        });
+        closesound_btn.setOnClickListener(view -> {
+            opensound_btn.setVisibility(View.VISIBLE);
+            closesound_btn.setVisibility(View.GONE);
+        });
+        finish_btn.setOnClickListener(view -> {
+            t_btn=true;
+            (new EMHelp()).endCall();
+            finish();
+        });
+        (new EMHelp()).callStateListener(new EMHelp.StateListenerCallback() {
+            public void accepted() {}
+            public void disconnected() {
+                finish();
+            }
+        });
+    }
+    //统计通话时间
+    private void statTime(){
         if(timer != null){
-            timer.scheduleAtFixedRate(timerTask, 1000,1000);//严格按照时间执行
-//        timer.schedule(timerTask, 1000, 1000);//如果时间过长，间隔时间会不准
+            timer.scheduleAtFixedRate(new TimerTask(){
+                public void run() {
+                    if (!t_btn){
+                        Message msg = new Message();
+                        msg.what = COUNTTIME;
+                        mHandl.sendMessage(msg);
+                    }
+                }
+            },1000,1000);
         }
     }
     private void stopTime(){
@@ -94,20 +129,6 @@ public class Communicate_loadingActivity extends AppCompatActivity implements Vi
             timer.cancel();
         }
     }
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 1:
-                    freshTime();
-                    break;
-                default:
-                    stopTime();
-                    break;
-            }
-        }
-    };
     private void freshTime() {
         time++;
         cl_time.setText(formatTime(time));
