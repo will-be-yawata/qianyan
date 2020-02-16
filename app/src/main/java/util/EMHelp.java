@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
-import com.example.administrator.langues.MainActivity;
+import com.example.administrator.langues.activity.MainActivity;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMCallStateChangeListener;
@@ -32,6 +32,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import entry.User;
+import util.core.FriendOperation;
+import util.core.FriendStatus;
 
 
 public class EMHelp {
@@ -41,7 +43,7 @@ public class EMHelp {
     public final static int CHAT_IMAGE=3;//图片消息
 
     private Activity activity;
-    private Class jump;
+    private ReceiveCallback receiveCallback;
     public void init(Activity activity){
         this.activity=activity;
     }
@@ -96,6 +98,8 @@ public class EMHelp {
                                 User.getInstance().setSex(result.get("sex"));
                                 User.getInstance().setDan(result.get("dan"));
                                 callback.isLogin(true,"登录成功");
+                                FriendOperation.getInstance().friendListener();
+                                FriendStatus.getInstance().getFriendStatus();
                             }
 
                             @Override
@@ -138,6 +142,8 @@ public class EMHelp {
                 User.getInstance().setSex(result.get("sex"));
                 User.getInstance().setDan(result.get("dan"));
                 callback.onSuccess();
+                FriendOperation.getInstance().friendListener();
+                FriendStatus.getInstance().getFriendStatus();
             }
             public void onError(Throwable throwable, boolean b) {
                 Log.i("mData","onError");
@@ -215,8 +221,8 @@ public class EMHelp {
         }
     }
     //监听呼入通话
-    public void receiveListener(Context baseContext,Class jump){
-        this.jump=jump;
+    public void receiveListener(Context baseContext,ReceiveCallback callback){
+        receiveCallback=callback;
         IntentFilter callFilter = new IntentFilter(EMClient.getInstance().callManager().getIncomingCallBroadcastAction());
         CallReceiver callReceiver=new CallReceiver();
         baseContext.registerReceiver(callReceiver, callFilter);
@@ -244,28 +250,28 @@ public class EMHelp {
             public void onCallStateChanged(CallState callState, EMCallStateChangeListener.CallError error) {
                 switch (callState) {
                     case CONNECTING: // 正在连接对方
-                        Log.i("mData","正在连接对方");
+                        Log.i("zjq","正在连接对方");
                         break;
                     case CONNECTED: // 双方已经建立连接
-                        Log.i("mData","双方已经建立连接");
+                        Log.i("zjq","双方已经建立连接");
                         break;
                     case ACCEPTED: // 电话接通成功
-                        Log.i("mData","电话接通成功");
+                        Log.i("zjq","电话接通成功");
                         callback.accepted();
                         break;
                     case DISCONNECTED: // 电话断了
-                        Log.i("mData","电话断了");
+                        Log.i("zjq","电话断了");
                         callback.disconnected();
                         break;
                     case NETWORK_UNSTABLE: //网络不稳定
                         if(error == CallError.ERROR_NO_DATA){
                             //无通话数据
-                            Log.i("mData","网络不稳定");
+                            Log.i("zjq","网络不稳定");
                         }else{
                         }
                         break;
                     case NETWORK_NORMAL: //网络恢复正常
-                        Log.i("mData","网络恢复正常");
+                        Log.i("zjq","网络恢复正常");
                         break;
                     default:
                         break;
@@ -281,12 +287,12 @@ public class EMHelp {
             String from = intent.getStringExtra("from");
             // call type
 //            String type = intent.getStringExtra("type");
-
+            receiveCallback.onReceive(from);
             //跳转到通话页面
-            Intent i=new Intent(activity.getApplicationContext(),jump);
-            i.putExtra("phone",from);
-            activity.startActivity(i);
-            jump=null;
+//            Intent i=new Intent(activity.getApplicationContext(),jump);
+//            i.putExtra("phone",from);
+//            activity.startActivity(i);
+//            jump=null;
         }
 
     }
@@ -303,5 +309,8 @@ public class EMHelp {
     public interface AutoLoginCallback{
         void onSuccess();
         void onError();
+    }
+    public interface ReceiveCallback{
+        void onReceive(String from);
     }
 }

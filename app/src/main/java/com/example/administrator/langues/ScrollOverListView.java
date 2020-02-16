@@ -6,7 +6,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ListView;
 
-
 /**
  * <p>一个可以监听ListView是否滚动到最顶部或最底部的自定义控件</p>
  * 只能监听由触摸产生的，如果是ListView本身Flying导致的，则不能监听</br>

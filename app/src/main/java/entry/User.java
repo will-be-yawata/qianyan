@@ -26,7 +26,7 @@ public class User {
     private String img;
     private ArrayList<Friend> friends=null;
 
-    public static User Instance;
+    private static User Instance;
     private User(){}
 
     public static User getInstance(){
@@ -96,8 +96,8 @@ public class User {
         return false;
     }
     public void updateFriends(UpdateFriendsCallback callback){
-        RequestParams params=new RequestParams(Url.ROOT+Url.FRIEND);
-        params.addBodyParameter("username",phone);
+        RequestParams params=new RequestParams(Url.ROOT+Url.GET_FRIEND);
+        params.addBodyParameter("phone",phone);
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String s) {

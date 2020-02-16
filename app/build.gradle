@@ -4,6 +4,13 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
 
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+
     defaultConfig {
         applicationId "com.example.administrator.langues"
         minSdkVersion 16
@@ -40,19 +47,7 @@ dependencies {
     compile 'com.android.support:cardview-v7:28.0.0'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile files('libs/Volley.jar')
-    compile files('libs/Xutils.jar')
+    implementation 'org.xutils:xutils:3.8.4'
     implementation project(':photopicker')
     implementation files('libs/fastjson-1.2.5.jar')
 }
-/*MobSDK {
-    appKey "2c2251f394e08"
-    appSecret "bbb0dbce8beba06822ecedfe878d9867"
-    SMSSDK {
-        gui false
-        //默认使用GUI，若不使用GUI，通过以下开关关闭
-        //gui false
-        //若使用GUI的自动填充验证码功能，需打开此设置
-        //autoSMS true
-    }
-}
-*/

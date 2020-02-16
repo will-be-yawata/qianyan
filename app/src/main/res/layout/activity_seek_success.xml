@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#d2f1ff"
+    tools:context=".activity.Seek_successActivity">
+
+    <!--红方(我方)-->
+    <RelativeLayout
+        android:id="@+id/red_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true">
+
+        <ImageView
+            android:id="@+id/imageView13"
+            android:layout_width="272dp"
+            android:layout_height="272dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="@android:color/transparent"
+            app:srcCompat="@mipmap/icon9" />
+
+        <!--<de.hdodenhof.circleimageview.MCircleImageView-->
+            <!--android:id="@+id/red_user_img"-->
+            <!--android:layout_width="70dp"-->
+            <!--android:layout_height="70dp"-->
+            <!--android:layout_alignStart="@+id/imageView13"-->
+            <!--android:layout_alignLeft="@+id/imageView13"-->
+            <!--android:layout_alignTop="@+id/imageView13"-->
+            <!--android:layout_marginStart="30dp"-->
+            <!--android:layout_marginLeft="30dp"-->
+            <!--android:layout_marginTop="153dp"-->
+            <!--android:src="@mipmap/user" />-->
+        <ImageView
+            android:id="@+id/red_user_img"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignStart="@+id/imageView13"
+            android:layout_alignLeft="@+id/imageView13"
+            android:layout_alignTop="@+id/imageView13"
+            android:layout_marginStart="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="153dp"
+            android:src="@mipmap/user"/>
+    </RelativeLayout>
+    <!--飞机-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/seeksuccess_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            app:srcCompat="@mipmap/icon8" />
+
+    </RelativeLayout>
+    <!--蓝方(敌方)-->
+    <RelativeLayout
+        android:id="@+id/blue_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true">
+
+        <ImageView
+            android:id="@+id/imageView14"
+            android:layout_width="272dp"
+            android:layout_height="272dp"
+            android:background="@android:color/transparent"
+            app:srcCompat="@mipmap/icon10" />
+
+        <!--<de.hdodenhof.circleimageview.MCircleImageView-->
+            <!--android:id="@+id/blue_user_img"-->
+            <!--android:layout_width="70dp"-->
+            <!--android:layout_height="70dp"-->
+            <!--android:layout_alignEnd="@+id/imageView14"-->
+            <!--android:layout_alignRight="@+id/imageView14"-->
+            <!--android:layout_alignBottom="@+id/imageView14"-->
+            <!--android:layout_marginEnd="30dp"-->
+            <!--android:layout_marginRight="30dp"-->
+            <!--android:layout_marginBottom="155dp"-->
+            <!--android:src="@mipmap/user" />-->
+        <ImageView
+            android:id="@+id/blue_user_img"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignEnd="@+id/imageView14"
+            android:layout_alignRight="@+id/imageView14"
+            android:layout_alignBottom="@+id/imageView14"
+            android:layout_marginEnd="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="155dp"
+            android:src="@mipmap/user"/>
+    </RelativeLayout>
+</RelativeLayout>
