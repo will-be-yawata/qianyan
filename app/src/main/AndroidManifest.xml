@@ -80,7 +80,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.AccountActivity"
+            android:name=".activity.MyPage.User_data.AccountActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.Deliver_detail_Activity"
@@ -120,7 +120,7 @@
         <activity android:name=".activity.User_data.Uesr_exitActivity" />
         <activity android:name=".activity.User_data.Member_DataActivity"></activity>
         <activity android:name=".activity.MyPage.MyCourse.CourseActivity"></activity>
-        <activity android:name=".activity.ReleaseActivity"></activity>
+        <activity android:name=".activity.Square.ReleaseActivity"></activity>
     </application>
 
 </manifest>

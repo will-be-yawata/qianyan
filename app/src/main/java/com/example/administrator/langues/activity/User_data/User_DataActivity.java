@@ -2,23 +2,18 @@ package com.example.administrator.langues.activity.User_data;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.administrator.langues.R;
-import com.example.administrator.langues.activity.AccountActivity;
+import com.example.administrator.langues.activity.MyPage.User_data.AccountActivity;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 public class User_DataActivity extends AppCompatActivity implements View.OnClickListener {
 

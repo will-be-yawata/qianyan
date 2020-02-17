@@ -65,23 +65,15 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
             }
         });
 
-
         btn2 = (FloatingActionButton) findViewById(R.id.btn2);
-
         btn2.setOnClickListener(this);
         gridview=findViewById(R.id.gridview);
         listpath = new ArrayList<>();
-
-
-
 
 /*获取屏幕宽度*/
         Display display = getWindowManager().getDefaultDisplay();
         mScreenHeight= display.getHeight();
         mScreenWidth = display.getWidth();
-
-
-
 
     }
     public  void hidBar(){
@@ -90,11 +82,6 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
         }
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
-
-
-
-
-
     class VIewHolder {
         ImageView iv;
     }
@@ -145,11 +132,6 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
-
-
-
-
-
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(Deliver_textActivity.this, PhotoPickerActivity.class);
@@ -160,10 +142,7 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
                 isMultiSelect = true;
                 Bundle bundle = new Bundle();
                 bundle.putBoolean(PhotoPickerActivity.IS_MULTI_SELECT, true);
-
-
                 defaultMaxCount = 9;
-
                 bundle.putInt(PhotoPickerActivity.MAX_SELECT_SIZE, defaultMaxCount);
                 intent.putExtras(bundle);
                 break;
@@ -198,7 +177,6 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
                         if( listpath.size() >= 9) { //第一张为默认图片
                             Toast.makeText(Deliver_textActivity.this, "图片数9张已满", Toast.LENGTH_SHORT).show();
 
-
                         }
 
                         else {
@@ -208,10 +186,6 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
                         }
                     }
                 });
-
-
-
-
                 if (results == null) {
                     return;
                 }

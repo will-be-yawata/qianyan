@@ -11,7 +11,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.administrator.langues.R;
-import com.example.administrator.langues.activity.AccountActivity;
 
 import java.util.Calendar;
 

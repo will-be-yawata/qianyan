@@ -11,14 +11,13 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.administrator.langues.R;
-import com.example.administrator.langues.activity.AccountActivity;
+import com.example.administrator.langues.activity.MyPage.User_data.AccountActivity;
 import com.example.administrator.langues.activity.FeedbackActivity;
-import com.example.administrator.langues.activity.MyPage.MyCourse.CourseActivity;
 import com.example.administrator.langues.activity.My_ConcernActivity;
 import com.example.administrator.langues.activity.My_DeliverActivity;
+import com.example.administrator.langues.activity.Square.ReleaseActivity;
 import com.example.administrator.langues.activity.SettingActivity;
 import com.example.administrator.langues.activity.Sign_In_Activity;
 import com.example.administrator.langues.activity.User_data.Member_DataActivity;
@@ -98,8 +97,10 @@ public class PersonalFragment extends Fragment {
             public void onClick(View view) {
                 /*Toast toast=Toast.makeText(getContext(),"123",Toast.LENGTH_SHORT);
                 toast.show();*/
-                Intent intent=new Intent(getActivity(),CourseActivity.class);
-                startActivity(intent);
+               /* Intent intent=new Intent(getActivity(),CourseActivity.class);
+                startActivity(intent);*/
+               Intent intent=new Intent(getActivity(),ReleaseActivity.class);
+               startActivity(intent);
             }
         });
 

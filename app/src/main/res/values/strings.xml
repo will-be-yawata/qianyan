@@ -9,5 +9,8 @@
     <drawable name="gvcolor1">#fb9a7a</drawable>
     <drawable name="gvcolor2">#f5c394</drawable>
 
+    <string name="image_selector_select_image">Select Image</string>
+    <string name="image_selector_select_none">No image selected</string>
+
 
 </resources>
