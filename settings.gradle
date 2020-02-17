@@ -1,1 +1,1 @@
-include ':app', ':PhotoPicker', ':photopicker', ':selectorlibrary'
+include ':app', ':PhotoPicker', ':selectorlibrary'

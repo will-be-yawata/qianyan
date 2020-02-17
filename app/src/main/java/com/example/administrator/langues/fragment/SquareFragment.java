@@ -15,7 +15,8 @@ import android.widget.ImageButton;
 
 
 import com.example.administrator.langues.R;
-import com.example.administrator.langues.activity.Deliver_textActivity;
+
+import com.example.administrator.langues.activity.Square.ReleaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +43,7 @@ public class SquareFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                Intent intent=new Intent(getContext(),Deliver_textActivity.class);
+                Intent intent=new Intent(getContext(),ReleaseActivity.class);
                 startActivity(intent);
 
             }

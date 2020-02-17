@@ -56,6 +56,7 @@ public class ReleaseActivity extends AppCompatActivity implements View.OnClickLi
         init();
         getWindowWH();
         add_pho_btn.setOnClickListener(this);
+        release_return.setOnClickListener(this);
     }
 
     private void init() {
