@@ -9,8 +9,10 @@ import android.os.Message;
 import android.os.Parcel;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,11 +25,9 @@ import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import de.hdodenhof.circleimageview.MCircleImageView;
 import entry.User;
 import util.EMHelp;
 import util.Url;
@@ -68,6 +68,13 @@ public class Seek_loadingActivity extends AppCompatActivity {
             closeAnimTime();
             finish();
         });
+//        Button btn=findViewById(R.id.zjqbtn);
+//        btn.setOnClickListener(view-> {
+//            (new EMHelp()).answerCall();
+//            Intent intent=new Intent(Seek_loadingActivity.this,Communicate_loadingActivity.class);
+//            intent.putExtra("enemyImg","default.jpg");
+//            startActivity(intent);
+//        });
 //        user_img.setOnClickListener(view -> {
 //            Intent i=new Intent(getBaseContext(),Seek_successActivity.class);
 //            closeAnimTime();
@@ -145,7 +152,7 @@ public class Seek_loadingActivity extends AppCompatActivity {
                     public void onSuccess(int status, HashMap<String, String> data) {
                         EMHelp emHelp=new EMHelp();
                         if(status==PairingOperation.WAIT){
-                            runOnUiThread(()-> Toast.makeText(Seek_loadingActivity.this,"if(status==pairingop...)",Toast.LENGTH_LONG).show());
+                            runOnUiThread(()-> Toast.makeText(Seek_loadingActivity.this,"if(status==pairingop...)",Toast.LENGTH_SHORT).show());
                             emHelp.receiveListener(Seek_loadingActivity.this, from ->{
                                 runOnUiThread(()-> Toast.makeText(Seek_loadingActivity.this,"get from...",Toast.LENGTH_LONG).show());
                                     pairingOperation.getEnemy(from, new PairingOperation.GetEnemyCallback() {
@@ -162,8 +169,11 @@ public class Seek_loadingActivity extends AppCompatActivity {
                                     startActivity(intent);
                                     finish();
                                 }
-                                public void onError(String msg) {}
-                            });});
+                                public void onError(String msg) {
+                                    runOnUiThread(()->Toast.makeText(Seek_loadingActivity.this,"onError:"+msg,Toast.LENGTH_LONG).show());
+                                }
+                            });
+                            });
                         }else if(status==PairingOperation.PAIRING){
                             Intent intent=new Intent(Seek_loadingActivity.this,Seek_successActivity.class);
                             intent.putExtra("status",PairingOperation.PAIRING);

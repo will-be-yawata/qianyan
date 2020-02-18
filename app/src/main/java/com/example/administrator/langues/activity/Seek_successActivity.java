@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.example.administrator.langues.R;
 
@@ -22,7 +23,6 @@ import org.xutils.x;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import de.hdodenhof.circleimageview.MCircleImageView;
 import entry.User;
 import util.EMHelp;
 import util.Url;
@@ -51,30 +51,16 @@ public class Seek_successActivity extends AppCompatActivity {
         startTime();
         listener();
         if(status== PairingOperation.WAIT) {
+            runOnUiThread(()->Toast.makeText(Seek_successActivity.this,"status:WAIT",Toast.LENGTH_SHORT).show());
             emHelp.answerCall();
         }else if(status== PairingOperation.PAIRING){
-            emHelp.voiceCall(getIntent().getStringExtra("enemyPhone"));
+            String enemyPhone=getIntent().getStringExtra("enemyPhone");
+            runOnUiThread(()->Toast.makeText(Seek_successActivity.this,"status:PAIRING\nenemyPhone:"+enemyPhone,Toast.LENGTH_SHORT).show());
+            emHelp.voiceCall(enemyPhone);
         }else{
             closeTime();
             finish();
         }
-        /*
-        emHelp.callStateListener(new EMHelp.StateListenerCallback() {
-                                public void accepted() {
-                                    Intent intent=new Intent(Seek_loadingActivity.this,RegisterActivity.class);
-                                    startActivity(intent);
-                                }
-                                public void disconnected() {}
-                            });
-         */
-//        timer.schedule(new TimerTask() {
-//            public void run() {
-//                Intent i=new Intent(getBaseContext(),Communicate_loadingActivity.class);
-//                finish();
-//                closeTime();
-//                startActivity(i);
-//            }
-//        }, 4000);//4秒后跳转到Communicate_loadingActivity页面
     }
     private void getdisplay() {
         // 通过WindowManager获取屏幕的宽高
@@ -150,7 +136,7 @@ public class Seek_successActivity extends AppCompatActivity {
         };
     }
     private void listener(){
-        emHelp.callStateListener(new EMHelp.StateListenerCallback() {
+        emHelp.addCallStateListener(new EMHelp.StateListenerCallback() {
             public void accepted() {
                 Intent intent=new Intent(Seek_successActivity.this,Communicate_loadingActivity.class);
                 intent.putExtra("enemyPhone",getIntent().getStringExtra("enemyPhone"));
@@ -158,6 +144,7 @@ public class Seek_successActivity extends AppCompatActivity {
                 startActivity(intent);
                 closeTime();
                 finish();
+                emHelp.closeCallStateListener();
             }
             public void disconnected() {}
         });

@@ -11,14 +11,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <!--<de.hdodenhof.circleimageview.MCircleImageView-->
-            <!--android:id="@+id/cl_user_pho"-->
-            <!--android:layout_width="201dp"-->
-            <!--android:layout_height="201dp"-->
-            <!--android:layout_centerHorizontal="true"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:src="@mipmap/user" />-->
         <ImageView
             android:id="@+id/com_user_img"
             android:layout_width="201dp"

@@ -21,7 +21,6 @@ import java.text.DecimalFormat;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import de.hdodenhof.circleimageview.MCircleImageView;
 import entry.User;
 import util.EMHelp;
 import util.Url;
@@ -39,6 +38,8 @@ public class Communicate_loadingActivity extends AppCompatActivity {
     private ImageView userImg;
     private TextView userName;
     private Handler mHandl ;
+
+    private EMHelp emHelp=new EMHelp();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,13 +101,14 @@ public class Communicate_loadingActivity extends AppCompatActivity {
         });
         finish_btn.setOnClickListener(view -> {
             t_btn=true;
-            (new EMHelp()).endCall();
+            emHelp.endCall();
             finish();
         });
-        (new EMHelp()).callStateListener(new EMHelp.StateListenerCallback() {
+        emHelp.addCallStateListener(new EMHelp.StateListenerCallback() {
             public void accepted() {}
             public void disconnected() {
                 finish();
+                emHelp.closeCallStateListener();
             }
         });
     }
