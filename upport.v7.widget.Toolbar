@@ -1,0 +1,1326 @@
+[1mdiff --git a/.idea/modules.xml b/.idea/modules.xml[m
+[1mindex 1334da8..f23494f 100644[m
+[1m--- a/.idea/modules.xml[m
+[1m+++ b/.idea/modules.xml[m
+[36m@@ -3,7 +3,7 @@[m
+   <component name="ProjectModuleManager">[m
+     <modules>[m
+       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />[m
+[31m-      <module fileurl="file://$PROJECT_DIR$/photopicker/photopicker.iml" filepath="$PROJECT_DIR$/photopicker/photopicker.iml" />[m
+[32m+[m[32m      <module fileurl="file://$PROJECT_DIR$/photopicker/PhotoPicker.iml" filepath="$PROJECT_DIR$/photopicker/PhotoPicker.iml" />[m
+       <module fileurl="file://$PROJECT_DIR$/qianyan.iml" filepath="$PROJECT_DIR$/qianyan.iml" />[m
+       <module fileurl="file://$PROJECT_DIR$/app/qianyan-app.iml" filepath="$PROJECT_DIR$/app/qianyan-app.iml" />[m
+     </modules>[m
+[1mdiff --git a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml[m
+[1mindex c3083fc..d5c34e4 100644[m
+[1m--- a/app/src/main/AndroidManifest.xml[m
+[1m+++ b/app/src/main/AndroidManifest.xml[m
+[36m@@ -70,7 +70,11 @@[m
+             android:name=".MainActivity"[m
+             android:label="@string/app_name"[m
+             android:theme="@style/AppTheme.NoActionBar">[m
+[32m+[m[32m            <intent-filter>[m
+[32m+[m[32m                <action android:name="android.intent.action.MAIN" />[m
+ [m
+[32m+[m[32m                <category android:name="android.intent.category.LAUNCHER" />[m
+[32m+[m[32m            </intent-filter>[m
+         </activity>[m
+         <activity[m
+             android:name=".AccountActivity"[m
+[36m@@ -93,11 +97,7 @@[m
+         <activity[m
+             android:name=".LoginActivity"[m
+             android:theme="@style/AppTheme.NoActionBar" >[m
+[31m-            <intent-filter>[m
+[31m-                <action android:name="android.intent.action.MAIN" />[m
+ [m
+[31m-                <category android:name="android.intent.category.LAUNCHER" />[m
+[31m-            </intent-filter>[m
+         </activity>[m
+         <activity[m
+             android:name=".RegisterActivity"[m
+[1mdiff --git a/app/src/main/java/com/example/administrator/langues/GridView_Img_Adapter.java b/app/src/main/java/com/example/administrator/langues/GridView_Img_Adapter.java[m
+[1mnew file mode 100644[m
+[1mindex 0000000..8399e6d[m
+[1m--- /dev/null[m
+[1m+++ b/app/src/main/java/com/example/administrator/langues/GridView_Img_Adapter.java[m
+[36m@@ -0,0 +1,66 @@[m
+[32m+[m[32mpackage com.example.administrator.langues;[m
+[32m+[m
+[32m+[m[32mimport android.content.Context;[m
+[32m+[m[32mimport android.view.LayoutInflater;[m
+[32m+[m[32mimport android.view.View;[m
+[32m+[m[32mimport android.view.ViewGroup;[m
+[32m+[m[32mimport android.widget.BaseAdapter;[m
+[32m+[m[32mimport android.widget.GridView;[m
+[32m+[m[32mimport android.widget.ImageView;[m
+[32m+[m[32mimport android.widget.TextView;[m
+[32m+[m
+[32m+[m[32mimport org.xutils.image.ImageOptions;[m
+[32m+[m[32mimport org.xutils.x;[m
+[32m+[m
+[32m+[m[32mimport util.Url;[m
+[32m+[m
+[32m+[m[32mpublic class GridView_Img_Adapter extends BaseAdapter {[m
+[32m+[m[32m    private String [] datas;[m
+[32m+[m[32m    private LayoutInflater inflater;[m
+[32m+[m[32m    private ImageView imageView;[m
+[32m+[m[32m    public final class ViewHolder{[m
+[32m+[m[32m        public ImageView imageView_holder;[m
+[32m+[m[32m    }[m
+[32m+[m[32m    public GridView_Img_Adapter(Context context){[m
+[32m+[m[32m        inflater=LayoutInflater.from(context);[m
+[32m+[m[32m    }[m
+[32m+[m[32m    public void setData(String[] datas){[m
+[32m+[m[32m        this.datas=datas;[m
+[32m+[m[32m    }[m
+[32m+[m[32m    @Override[m
+[32m+[m[32m    public int getCount() {[m
+[32m+[m[32m        return datas.length;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    @Override[m
+[32m+[m[32m    public Object getItem(int i) {[m
+[32m+[m[32m        return null;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    @Override[m
+[32m+[m[32m    public long getItemId(int i) {[m
+[32m+[m[32m        return 0;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    @Override[m
+[32m+[m[32m    public View getView(int i, View view, ViewGroup viewGroup) {[m
+[32m+[m[32m        GridView_Img_Adapter.ViewHolder holder=null;[m
+[32m+[m[32m        if (view==null){[m
+[32m+[m[32m            holder =new GridView_Img_Adapter.ViewHolder();[m
+[32m+[m[32m            view=inflater.inflate(R.layout.square_find_photo,null);[m
+[32m+[m[32m            this.imageView=view.findViewById(R.id.square_photo);[m
+[32m+[m[32m            view.setTag(holder);[m
+[32m+[m[32m        }else{[m
+[32m+[m[32m            holder= (GridView_Img_Adapter.ViewHolder) view.getTag();[m
+[32m+[m[32m        }[m
+[32m+[m[32m        ImageOptions imageOptions=new ImageOptions.Builder()[m
+[32m+[m[32m                //.setLoadingDrawable()[m
+[32m+[m[32m//        .setFailureDrawable()[m
+[32m+[m[32m        .setUseMemCache(true)[m
+[32m+[m[32m//                .setCircular()[m
+[32m+[m[32m//        .setIgnoreGif()[m
+[32m+[m[32m        .build();[m
+[32m+[m[32m        x.image().bind(this.imageView,Url.UPLOAD+datas[i],imageOptions);[m
+[32m+[m[32m        return view;[m
+[32m+[m[32m    }[m
+[32m+[m[32m}[m
+[1mdiff --git a/app/src/main/java/com/example/administrator/langues/LoginActivity.java b/app/src/main/java/com/example/administrator/langues/LoginActivity.java[m
+[1mindex b606f93..5a677af 100644[m
+[1m--- a/app/src/main/java/com/example/administrator/langues/LoginActivity.java[m
+[1m+++ b/app/src/main/java/com/example/administrator/langues/LoginActivity.java[m
+[36m@@ -8,6 +8,11 @@[m [mimport android.view.View;[m
+ import android.widget.Button;[m
+ import android.widget.EditText;[m
+ import android.widget.TextView;[m
+[32m+[m[32mimport android.widget.Toast;[m
+[32m+[m
+[32m+[m
+[32m+[m
+[32m+[m[32mimport com.hyphenate.chat.EMClient;[m
+ [m
+ [m
+ import java.util.ArrayList;[m
+[36m@@ -15,6 +20,7 @@[m [mimport java.util.ArrayList;[m
+ import entry.Dynamic;[m
+ import entry.Friend;[m
+ import entry.User;[m
+[32m+[m
+ import util.EMHelp;[m
+ import util.core.DynamicOperation;[m
+ [m
+[36m@@ -28,16 +34,25 @@[m [mpublic class LoginActivity extends AppCompatActivity {[m
+         super.onCreate(savedInstanceState);[m
+         setContentView(R.layout.activity_login);[m
+         initViews();[m
+[32m+[m[32m        if(EMClient.getInstance().getCurrentUser()==""){[m
+[32m+[m[32m            Toast.makeText(getBaseContext(),"请先登录",Toast.LENGTH_SHORT).show();[m
+[32m+[m[32m        }else{[m
+[32m+[m[32m            EMClient.getInstance().logout(true);[m
+[32m+[m[32m        }[m
+[32m+[m[32m//        Log.i("test",EMClient.getInstance().getCurrentUser()+"|"+EMClient.getInstance().getCurrentUser());[m
+ [m
+         emHelp=new EMHelp();[m
+         emHelp.init(this);[m
+[32m+[m
+ //        emHelp.login("15728283805","1");[m
+[32m+[m
+         login_button.setOnClickListener(new View.OnClickListener() {[m
+             @Override[m
+             public void onClick(View view) {[m
+                 String phone=usertext.getText().toString();[m
+                 String pwdtextcon=pwdtext.getText().toString();[m
+                 user_login(phone,pwdtextcon);[m
+[32m+[m
+             }[m
+         });[m
+         resign_text.setOnClickListener(new View.OnClickListener() {[m
+[36m@@ -72,13 +87,22 @@[m [mpublic class LoginActivity extends AppCompatActivity {[m
+         resign_text=(TextView)findViewById(R.id.textView33);[m
+     }[m
+ [m
+[32m+[m
+     public void user_login(String phone,String pwd){[m
+[31m-        emHelp.login(phone, pwd, (isLogin, message) -> {[m
+[31m-            if(isLogin){[m
+[31m-                Intent intent=new Intent(LoginActivity.this,MainActivity.class);[m
+[31m-                startActivity(intent);[m
+[31m-                finish();[m
+[32m+[m
+[32m+[m[32m        emHelp.login(phone, pwd, new EMHelp.IsLoginCallback() {[m
+[32m+[m[32m            @Override[m
+[32m+[m[32m            public void isLogin(boolean isLogin, String message) {[m
+[32m+[m[32m                if(isLogin){[m
+[32m+[m[32m                    startActivity(new Intent(getBaseContext(),MainActivity.class));[m
+[32m+[m[32m//                    Toast.makeText(getBaseContext(),"登录成功",Toast.LENGTH_SHORT).show();[m
+[32m+[m[32m                    runOnUiThread(()->Toast.makeText(getBaseContext(),"登录成功",Toast.LENGTH_SHORT).show());[m
+[32m+[m[32m                    finish();[m
+[32m+[m[32m                }else{[m
+[32m+[m[32m                   runOnUiThread(()->Toast.makeText(getBaseContext(),"登录失败,请检查用户名或者密码",Toast.LENGTH_SHORT).show());[m
+[32m+[m[32m                }[m
+             }[m
+         });[m
+     }[m
+[32m+[m
+ }[m
+[1mdiff --git a/app/src/main/java/com/example/administrator/langues/MainActivity.java b/app/src/main/java/com/example/administrator/langues/MainActivity.java[m
+[1mindex 6c90956..53afc0c 100644[m
+[1m--- a/app/src/main/java/com/example/administrator/langues/MainActivity.java[m
+[1m+++ b/app/src/main/java/com/example/administrator/langues/MainActivity.java[m
+[36m@@ -1,9 +1,13 @@[m
+ package com.example.administrator.langues;[m
+ [m
+ import android.os.Bundle;[m
+[32m+[m[32mimport android.support.design.widget.FloatingActionButton;[m
+[32m+[m[32mimport android.support.design.widget.Snackbar;[m
+ import android.support.v4.app.Fragment;[m
+ import android.support.v4.app.FragmentManager;[m
+ import android.support.v7.app.AppCompatActivity;[m
+[32m+[m[32mimport android.support.v7.widget.Toolbar;[m
+[32m+[m[32mimport android.view.View;[m
+ import android.view.Menu;[m
+ import android.view.MenuItem;[m
+ import android.widget.Button;[m
+[36m@@ -31,11 +35,13 @@[m [mpublic class MainActivity extends AppCompatActivity {[m
+         fragments=new ArrayList<Fragment>();[m
+         fm=super.getSupportFragmentManager();[m
+         initFragments();[m
+[32m+[m
+     }[m
+     private void initFragments(){[m
+         TabFragment tabFragment=new TabFragment();[m
+         fragments.add(tabFragment);[m
+ [m
+[32m+[m
+         /*TrendsFragment trendsFragment=new TrendsFragment();[m
+         fragments.add(trendsFragment);[m
+         FindFragment findFragment=new FindFragment();[m
+[36m@@ -49,12 +55,14 @@[m [mpublic class MainActivity extends AppCompatActivity {[m
+         fm.beginTransaction().replace(R.id.content_frame,[m
+                 fragments.get(position),"t"+position).commit();[m
+     }[m
+[32m+[m
+     @Override[m
+     public boolean onCreateOptionsMenu(Menu menu) {[m
+         // Inflate the menu; this adds items to the action bar if it is present.[m
+         getMenuInflater().inflate(R.menu.menu_main, menu);[m
+         return true;[m
+     }[m
+[32m+[m
+     @Override[m
+     public boolean onOptionsItemSelected(MenuItem item) {[m
+         // Handle action bar item clicks here. The action bar will[m
+[1mdiff --git a/app/src/main/java/com/example/administrator/langues/MyApplication.java b/app/src/main/java/com/example/administrator/langues/MyApplication.java[m
+[1mindex aca1086..5adf8f3 100644[m
+[1m--- a/app/src/main/java/com/example/administrator/langues/MyApplication.java[m
+[1m+++ b/app/src/main/java/com/example/administrator/langues/MyApplication.java[m
+[36m@@ -1,17 +1,9 @@[m
+ package com.example.administrator.langues;[m
+ [m
+[31m-import android.app.Activity;[m
+ import android.app.ActivityManager;[m
+ import android.app.Application;[m
+[31m-import android.app.ProgressDialog;[m
+[31m-import android.content.BroadcastReceiver;[m
+[31m-import android.content.Context;[m
+[31m-import android.content.Intent;[m
+[31m-import android.content.IntentFilter;[m
+ import android.content.pm.PackageManager;[m
+[31m-import android.os.Bundle;[m
+ import android.util.Log;[m
+[31m-import android.widget.Toast;[m
+ [m
+ import com.hyphenate.chat.EMClient;[m
+ import com.hyphenate.chat.EMOptions;[m
+[36m@@ -19,21 +11,16 @@[m [mimport com.hyphenate.chat.EMOptions;[m
+ import java.util.Iterator;[m
+ import java.util.List;[m
+ [m
+[32m+[m[32mimport org.xutils.common.Callback;[m
+[32m+[m[32mimport org.xutils.http.RequestParams;[m
+ import org.xutils.x;[m
+ [m
+[31m-import entry.User;[m
+[31m-import util.EMHelp;[m
+[31m-[m
+ public class MyApplication extends Application {[m
+[31m-    private boolean isBackground=true;[m
+     @Override[m
+     public void onCreate() {[m
+         super.onCreate();[m
+         initEM();[m
+         x.Ext.init(this);[m
+[31m-[m
+[31m-        listenForForeground();[m
+[31m-        listenForScreenTurningOff();[m
+     }[m
+     private void initEM() {[m
+         EMOptions options = new EMOptions();[m
+[36m@@ -81,81 +68,4 @@[m [mpublic class MyApplication extends Application {[m
+         }[m
+         return processName;[m
+     }[m
+[31m-    //应用切换至前台[m
+[31m-    private void listenForForeground(){[m
+[31m-        registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {[m
+[31m-            public void onActivityResumed(Activity activity) {[m
+[31m-                if (isBackground) {[m
+[31m-                    isBackground = false;[m
+[31m-                    notifyForeground(activity);[m
+[31m-                }[m
+[31m-            }[m
+[31m-            public void onActivityCreated(Activity activity, Bundle bundle) {}[m
+[31m-            public void onActivityStarted(Activity activity) {}[m
+[31m-            public void onActivityPaused(Activity activity) {}[m
+[31m-            public void onActivityStopped(Activity activity) {}[m
+[31m-            public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {}[m
+[31m-            public void onActivityDestroyed(Activity activity) {}[m
+[31m-        });[m
+[31m-    }[m
+[31m-    //手机熄屏[m
+[31m-    private void listenForScreenTurningOff() {[m
+[31m-        IntentFilter screenStateFilter = new IntentFilter(Intent.ACTION_SCREEN_OFF);[m
+[31m-        registerReceiver(new BroadcastReceiver() {[m
+[31m-            public void onReceive(Context context, Intent intent) {[m
+[31m-                isBackground = true;[m
+[31m-                notifyBackground();[m
+[31m-            }[m
+[31m-        }, screenStateFilter);[m
+[31m-    }[m
+[31m-    //应用切换至后台[m
+[31m-    public void onTrimMemory(int level){[m
+[31m-        super.onTrimMemory(level);[m
+[31m-        if(level==TRIM_MEMORY_UI_HIDDEN){[m
+[31m-            isBackground=true;[m
+[31m-            notifyBackground();[m
+[31m-        }[m
+[31m-    }[m
+[31m-    private void notifyForeground(Activity activity) {[m
+[31m-        Log.i("mData","调用notifyForeground()");[m
+[31m-        Log.i("mData","isConnected():"+EMClient.getInstance().isLoggedInBefore());[m
+[31m-        Log.i("mData","isLoggedInBefore():"+EMClient.getInstance().isLoggedInBefore());[m
+[31m-        Log.i("mData","getCurrentUser():"+EMClient.getInstance().getCurrentUser());[m
+[31m-        Log.i("mData","getPhone():"+User.getInstance().getPhone());[m
+[31m-        if(EMClient.getInstance().isConnected())[m
+[31m-            if (EMClient.getInstance().isLoggedInBefore())[m
+[31m-                if(EMClient.getInstance().getCurrentUser()!=null && !EMClient.getInstance().getCurrentUser().equals(""))[m
+[31m-                    if (User.getInstance().getPhone()==null || User.getInstance().getPhone().equals("")) {[m
+[31m-                        ProgressDialog progressDialog = new ProgressDialog(activity);[m
+[31m-                        progressDialog.setTitle("自动登录");[m
+[31m-                        progressDialog.setMessage("正在获得用户信息...");[m
+[31m-                        progressDialog.setIndeterminate(true);[m
+[31m-                        progressDialog.setCancelable(false);[m
+[31m-                        progressDialog.show();[m
+[31m-                        new EMHelp().autologin(EMClient.getInstance().getCurrentUser(), new EMHelp.AutoLoginCallback() {[m
+[31m-                            @Override[m
+[31m-                            public void onSuccess() {[m
+[31m-                                Intent intent=new Intent(activity.getApplicationContext(),MainActivity.class);[m
+[31m-                                activity.startActivity(intent);[m
+[31m-                                Log.i("mData",User.getInstance().getPhone());[m
+[31m-                            }[m
+[31m-[m
+[31m-                            @Override[m
+[31m-                            public void onError() {[m
+[31m-                                Toast.makeText(activity,"自动登录失败",Toast.LENGTH_LONG).show();[m
+[31m-                                Intent intent=new Intent(activity.getApplicationContext(),LoginActivity.class);[m
+[31m-                                activity.startActivity(intent);[m
+[31m-                            }[m
+[31m-                            public void onFinished(){[m
+[31m-                                progressDialog.dismiss();[m
+[31m-                            }[m
+[31m-                        });[m
+[31m-                    }[m
+[31m-    }[m
+[31m-    private void notifyBackground() {[m
+[31m-        // This is where you can notify listeners, handle session tracking, etc[m
+[31m-    }[m
+[31m-    public boolean isBackground() {[m
+[31m-        return isBackground;[m
+[31m-    }[m
+ }[m
+[1mdiff --git a/app/src/main/java/com/example/administrator/langues/RegisterActivity.java b/app/src/main/java/com/example/administrator/langues/RegisterActivity.java[m
+[1mindex d1a6d4e..81342d2 100644[m
+[1m--- a/app/src/main/java/com/example/administrator/langues/RegisterActivity.java[m
+[1m+++ b/app/src/main/java/com/example/administrator/langues/RegisterActivity.java[m
+[36m@@ -1,5 +1,6 @@[m
+ package com.example.administrator.langues;[m
+ [m
+[32m+[m[32mimport android.content.Intent;[m
+ import android.support.v7.app.AppCompatActivity;[m
+ import android.os.Bundle;[m
+ import android.util.Log;[m
+[36m@@ -50,15 +51,22 @@[m [mprivate EMHelp emHelp;[m
+         initView();[m
+         emHelp=new EMHelp();[m
+         emHelp.init(this);[m
+[31m-        emHelp.answerCall();[m
+         btn.setOnClickListener(new View.OnClickListener() {[m
+             @Override[m
+             public void onClick(View view) {[m
+ [m
+                 Log.i("mData",name.getText().toString());[m
+                 Log.i("mData",pwd.getText().toString());[m
+[32m+[m[32m                String userName=name.getText().toString();[m
+[32m+[m[32m                String userPwd=pwd.getText().toString();[m
+[32m+[m[32m                try {[m
+[32m+[m[32m                    register();[m
+[32m+[m[32m                    startActivity(new Intent(RegisterActivity.this,LoginActivity.class));[m
+[32m+[m[32m                }catch (Exception e){[m
+[32m+[m[32m                    Toast.makeText(getBaseContext(),"注册失败",Toast.LENGTH_SHORT).show();[m
+[32m+[m[32m                }[m
+[32m+[m
+ [m
+[31m-                register();[m
+ [m
+             }[m
+         });[m
+[36m@@ -73,6 +81,7 @@[m [mprivate EMHelp emHelp;[m
+     private void register() {[m
+             String userName=name.getText().toString();[m
+             String userPwd=pwd.getText().toString();[m
+[32m+[m
+             emHelp.registered(userName, userPwd, new EMHelp.RegisterCallback() {[m
+                 @Override[m
+                 public void isRegister(boolean isRegister) {[m
+[36m@@ -88,6 +97,7 @@[m [mprivate EMHelp emHelp;[m
+ //            }else{[m
+ //                runOnUiThread(()->Toast.makeText(getApplicationContext(),"失败",Toast.LENGTH_LONG));[m
+ //            }[m
+[32m+[m
+ //            emHelp.registered()[m
+ //            RequestParams params=new RequestParams(ROOT+REGISTER);[m
+ //            params.setMultipart(false);[m
+[1mdiff --git a/app/src/main/java/com/example/administrator/langues/SeekFragment.java b/app/src/main/java/com/example/administrator/langues/SeekFragment.java[m
+[1mindex cf426fd..bc000c7 100644[m
+[1m--- a/app/src/main/java/com/example/administrator/langues/SeekFragment.java[m
+[1m+++ b/app/src/main/java/com/example/administrator/langues/SeekFragment.java[m
+[36m@@ -1,6 +1,8 @@[m
+ package com.example.administrator.langues;[m
+ [m
+ [m
+[32m+[m[32mimport android.animation.AnimatorInflater;[m
+[32m+[m[32mimport android.animation.AnimatorSet;[m
+ import android.animation.ObjectAnimator;[m
+ import android.content.Intent;[m
+ import android.os.Bundle;[m
+[36m@@ -13,22 +15,24 @@[m [mimport android.view.View;[m
+ import android.view.ViewGroup;[m
+ import android.view.animation.Animation;[m
+ import android.view.animation.AnimationUtils;[m
+[32m+[m[32mimport android.widget.AdapterView;[m
+[32m+[m[32mimport android.widget.ArrayAdapter;[m
+ import android.widget.Button;[m
+ import android.widget.ImageView;[m
+[32m+[m[32mimport android.widget.Spinner;[m
+[32m+[m[32mimport android.widget.Toast;[m
+[32m+[m
+[32m+[m[32mimport com.hyphenate.chat.EMClient;[m
+ [m
+[31m-import java.util.HashMap;[m
+ import java.util.Timer;[m
+ import java.util.TimerTask;[m
+ [m
+[31m-import util.EMHelp;[m
+[31m-import util.core.PairingOperation;[m
+[31m-[m
+[31m-[m
+ [m
+ /**[m
+  * A simple {@link Fragment} subclass.[m
+  */[m
+ public class SeekFragment extends Fragment {[m
+[32m+[m[32m    private Button seekbtn;[m
+     private static int START_ANIMATION=0;[m
+     ImageView image1,image2,image3,image4,image5,image6,image7,image8,image9,image10,image11;[m
+     private Animation animation1 = null;[m
+[36m@@ -77,14 +81,33 @@[m [mpublic class SeekFragment extends Fragment {[m
+         }[m
+     };[m
+ [m
+[32m+[m[32m        public void initViews(View view){[m
+[32m+[m[32m            seekbtn=view.findViewById(R.id.button2);[m
+[32m+[m[32m        }[m
+[32m+[m[32m        public void initListener(){[m
+[32m+[m[32m            seekbtn.setOnClickListener(new View.OnClickListener() {[m
+[32m+[m[32m                @Override[m
+[32m+[m[32m                public void onClick(View view) {[m
+[32m+[m[32m                    if(EMClient.getInstance().getCurrentUser()==""){[m
+[32m+[m[32m                        startActivity(new Intent(getContext(),LoginActivity.class));[m
+[32m+[m[32m                        getActivity().finish();[m
+[32m+[m[32m                    }[m
+[32m+[m[32m                    else{[m
+[32m+[m[32m                        Toast.makeText(getContext(),"开始匹配",Toast.LENGTH_SHORT).show();[m
+[32m+[m[32m                        Log.i("test",EMClient.getInstance().getCurrentUser());[m
+[32m+[m[32m                    }[m
+ [m
+[32m+[m[32m                }[m
+[32m+[m[32m            });[m
+[32m+[m[32m        }[m
+ [m
+         @Override[m
+         public View onCreateView(LayoutInflater inflater, ViewGroup container,[m
+                                  Bundle savedInstanceState) {[m
+             // Inflate the layout for this fragment[m
+             View view=inflater.inflate(R.layout.fragment_seek, container, false);[m
+[31m-[m
+[32m+[m[32m            initViews(view);[m
+[32m+[m[32m            initListener();[m
+             image1=view.findViewById(R.id.image1);[m
+             image2=view.findViewById(R.id.image2);[m
+             image3=view.findViewById(R.id.image3);[m
+[36m@@ -121,40 +144,8 @@[m [mpublic class SeekFragment extends Fragment {[m
+             startTime();[m
+ [m
+ [m
+[31m-            //测试用[m
+[31m-            Button pairing=view.findViewById(R.id.button2);[m
+[31m-            pairing.setOnClickListener(view1 -> {[m
+[31m-                (new PairingOperation()).pairing(new PairingOperation.PairingCallback() {[m
+[31m-                    @Override[m
+[31m-                    public void onSuccess(int status, HashMap<String, String> data) {[m
+[31m-                        EMHelp emHelp=new EMHelp();[m
+[31m-                        emHelp.init(SeekFragment.this.getActivity());[m
+[31m-                        if(status==PairingOperation.WAIT){[m
+[31m-                            emHelp.receiveListener(getContext(),RegisterActivity.class);[m
+[31m-                        }else if(status==PairingOperation.PAIRING){[m
+[31m-                            emHelp.voiceCall(data.get("owner"));[m
+[31m-                            //跳转页面并渲染[m
+[31m-                            Log.i("mData","头像:"+data.get("img"));[m
+[31m-                            Log.i("mData","房间id:"+data.get("id"));[m
+[31m-                            Log.i("mData","段位:"+data.get("name"));[m
+[31m-[m
+[31m-                            emHelp.callStateListener(new EMHelp.StateListenerCallback() {[m
+[31m-                                @Override[m
+[31m-                                public void accepted() {[m
+[31m-                                    Intent intent=new Intent(SeekFragment.this.getActivity(),RegisterActivity.class);[m
+[31m-                                    startActivity(intent);[m
+[31m-                                }[m
+[31m-                            });[m
+[31m-                        }[m
+[31m-                    }[m
+[31m-                    @Override[m
+[31m-                    public void onCancelled() {[m
+[31m-                    }[m
+[31m-                    @Override[m
+[31m-                    public void onError(String msg) {[m
+[31m-                    }[m
+[31m-                });[m
+[31m-            });[m
+[32m+[m
+[32m+[m
+             return view;[m
+         }[m
+ public void closeTime(){[m
+[1mdiff --git a/app/src/main/java/com/example/administrator/langues/squareFriendFragment.java b/app/src/main/java/com/example/administrator/langues/squareFriendFragment.java[m
+[1mindex 8834702..792cea0 100644[m
+[1m--- a/app/src/main/java/com/example/administrator/langues/squareFriendFragment.java[m
+[1m+++ b/app/src/main/java/com/example/administrator/langues/squareFriendFragment.java[m
+[36m@@ -3,7 +3,10 @@[m [mpackage com.example.administrator.langues;[m
+ [m
+ import android.content.Context;[m
+ import android.os.Bundle;[m
+[32m+[m[32mimport android.os.Handler;[m
+[32m+[m[32mimport android.os.Message;[m
+ import android.support.v4.app.Fragment;[m
+[32m+[m[32mimport android.util.Log;[m
+ import android.view.LayoutInflater;[m
+ import android.view.View;[m
+ import android.view.ViewGroup;[m
+[36m@@ -19,6 +22,11 @@[m [mimport java.util.HashMap;[m
+ import java.util.List;[m
+ import java.util.Map;[m
+ [m
+[32m+[m[32mimport entry.Dynamic;[m
+[32m+[m[32mimport entry.Friend;[m
+[32m+[m[32mimport entry.User;[m
+[32m+[m[32mimport util.core.DynamicOperation;[m
+[32m+[m
+ [m
+ /**[m
+  * A simple {@link Fragment} subclass.[m
+[36m@@ -26,7 +34,31 @@[m [mimport java.util.Map;[m
+ public class squareFriendFragment extends Fragment {[m
+     ListView square_friend_listview;[m
+     GridView gridView;[m
+[31m-    List<Map<String,Object>> mData;[m
+[32m+[m[32m    private GridView_Img_Adapter gridView_img_adapter;[m
+[32m+[m[32m    private ArrayList<String[]> datas;[m
+[32m+[m[32m    List<Map<String,Object>> mData=new ArrayList<>();[m
+[32m+[m[32m    squareFindAdapter squareFindAdapter;[m
+[32m+[m[32m    Handler mHandler=new Handler(){[m
+[32m+[m[32m    @Override[m
+[32m+[m[32m    public void handleMessage(Message msg) {[m
+[32m+[m[32m        switch (msg.what){[m
+[32m+[m[32m            case 2:[m
+[32m+[m[32m                break;[m
+[32m+[m[32m            case 1:[m
+[32m+[m[32m                squareFindAdapter=new squareFindAdapter(getContext());[m
+[32m+[m[32m                square_friend_listview.setAdapter(squareFindAdapter);[m
+[32m+[m[32m                square_friend_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {[m
+[32m+[m[32m                    @Override[m
+[32m+[m[32m                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {[m
+[32m+[m
+[32m+[m[32m                    }[m
+[32m+[m[32m                });[m
+[32m+[m[32m                mData.addAll((List<Map<String,Object>>)msg.obj);[m
+[32m+[m[32m                squareFindAdapter.notifyDataSetChanged();[m
+[32m+[m[32m                break;[m
+[32m+[m[32m        }[m
+[32m+[m[32m    }[m
+[32m+[m[32m};[m
+ [m
+ [m
+     @Override[m
+[36m@@ -36,32 +68,39 @@[m [mpublic class squareFriendFragment extends Fragment {[m
+         View view=inflater.inflate(R.layout.fragment_square_friend, container, false);[m
+        square_friend_listview=view.findViewById(R.id.square_friend_listview);[m
+         gridView=view.findViewById(R.id.square_gridview);[m
+[31m-[m
+[31m-[m
+[31m-        mData=getData();[m
+[31m-        squareFindAdapter squareFindAdapter=new squareFindAdapter(getContext());[m
+[31m-        square_friend_listview.setAdapter(squareFindAdapter);[m
+[31m-        square_friend_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {[m
+[32m+[m[32m        datas=new ArrayList<>();[m
+[32m+[m[32m        gridView_img_adapter=new GridView_Img_Adapter(getContext());[m
+[32m+[m[32m        getData();[m
+[32m+[m[32m        return view;[m
+[32m+[m[32m    }[m
+[32m+[m[32m    private void getData(){[m
+[32m+[m[32m        User.getInstance().updateFriends(new User.UpdateFriendsCallback() {[m
+             @Override[m
+[31m-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {[m
+[32m+[m[32m            public void updateFriends(ArrayList<Friend> f) {[m
+[32m+[m[32m                if(f==null){[m
+[32m+[m[32m                    Log.i("cwk","完蛋");[m
+[32m+[m[32m                }[m
+[32m+[m[32m                DynamicOperation dynamicOperation=new DynamicOperation();[m
+[32m+[m[32m                dynamicOperation.getDynamic(0, 10, new DynamicOperation.DynamicGetCallback() {[m
+[32m+[m[32m                    @Override[m
+[32m+[m[32m                    public void getDynamicData(ArrayList<Dynamic> res) {[m
+[32m+[m[32m                        List<Map<String,Object>> list=new ArrayList<Map<String, Object>>();[m
+[32m+[m[32m                        for(Dynamic dynamic:res) {[m
+[32m+[m[32m                            Map<String, Object> map = new HashMap<String, Object>();[m
+[32m+[m[32m                            map.put("square_name", dynamic.getName());[m
+[32m+[m[32m                            map.put("square_introduce", dynamic.getText());[m
+[32m+[m[32m                            datas.add(dynamic.getImg());[m
+[32m+[m[32m                            list.add(map);[m
+[32m+[m[32m                        }[m
+[32m+[m[32m                        Message tmp=mHandler.obtainMessage();[m
+[32m+[m[32m                        tmp.what=1;[m
+[32m+[m[32m                        tmp.obj=list;[m
+[32m+[m[32m                        mHandler.sendMessage(tmp);[m
+[32m+[m[32m                    }[m
+[32m+[m[32m                });[m
+ [m
+             }[m
+         });[m
+[31m-[m
+[31m-[m
+[31m-[m
+[31m-[m
+[31m-        return view;[m
+[31m-    }[m
+[31m-    private List<Map<String,Object>> getData(){[m
+[31m-        List<Map<String,Object>> list=new ArrayList<Map<String, Object>>();[m
+[31m-        for(int i=0;i<10;i++) {[m
+[31m-            Map<String, Object> map = new HashMap<String, Object>();[m
+[31m-            map.put("square_name", "渣渣辉");[m
+[31m-            map.put("square_introduce", "长亭外，古道边，芳草碧连天。晚风拂柳笛声残，夕阳山外山。天之涯，地之角，知交半零落。一壶浊酒尽余欢，今宵别梦寒。");[m
+[31m-            list.add(map);[m
+[31m-        }[m
+[31m-        return list;[m
+     }[m
+ [m
+ [m
+[36m@@ -77,7 +116,8 @@[m [mpublic class squareFriendFragment extends Fragment {[m
+         }[m
+         @Override[m
+         public int getCount() {[m
+[31m-            return mData.size();[m
+[32m+[m[32m//            return mData.size();[m
+[32m+[m[32m            return mData==null?0:mData.size();[m
+         }[m
+ [m
+         @Override[m
+[36m@@ -112,14 +152,15 @@[m [mpublic class squareFriendFragment extends Fragment {[m
+                 meumList.add(map);[m
+             }[m
+ [m
+[32m+[m[32m            gridView_img_adapter.setData(datas.get(position));[m
+[32m+[m[32m            gridView_img_adapter.notifyDataSetChanged();[m
+[32m+[m[32m//            SimpleAdapter squareFindItemAdapter = new SimpleAdapter(getContext(),[m
+[32m+[m[32m//                    meumList, //数据源[m
+[32m+[m[32m//                    R.layout.square_find_photo, //xml实现[m
+[32m+[m[32m//                    new String[]{"square_photo"}, //对应map的Key[m
+[32m+[m[32m//                    new int[]{R.id.square_photo});  //对应R的Id[m
+ [m
+[31m-            SimpleAdapter squareFindItemAdapter = new SimpleAdapter(getContext(),[m
+[31m-                    meumList, //数据源[m
+[31m-                    R.layout.square_find_photo, //xml实现[m
+[31m-                    new String[]{"square_photo"}, //对应map的Key[m
+[31m-                    new int[]{R.id.square_photo});  //对应R的Id[m
+[31m-[m
+[31m-            holder.square_friend_photo.setAdapter(squareFindItemAdapter);[m
+[32m+[m[32m            holder.square_friend_photo.setAdapter(gridView_img_adapter);[m
+             holder.square_friend_name.setText((String)mData.get(position).get("square_name"));[m
+             holder.square_friend_introduce.setText((String)mData.get(position).get("square_introduce"));[m
+ [m
+[1mdiff --git a/app/src/main/java/entry/User.java b/app/src/main/java/entry/User.java[m
+[1mindex d2959dc..4a1641e 100644[m
+[1m--- a/app/src/main/java/entry/User.java[m
+[1m+++ b/app/src/main/java/entry/User.java[m
+[36m@@ -22,7 +22,6 @@[m [mpublic class User {[m
+     private String name;[m
+     private String pwd;[m
+     private String sex;[m
+[31m-    private String dan;[m
+     private String img;[m
+     private ArrayList<Friend> friends=null;[m
+ [m
+[36m@@ -73,15 +72,6 @@[m [mpublic class User {[m
+     public void setImg(String img) {[m
+         this.img = img;[m
+     }[m
+[31m-[m
+[31m-    public String getDan() {[m
+[31m-        return dan;[m
+[31m-    }[m
+[31m-[m
+[31m-    public void setDan(String dan) {[m
+[31m-        this.dan = dan;[m
+[31m-    }[m
+[31m-[m
+     public boolean addFriend(Friend f){[m
+         return friends.add(f);[m
+     }[m
+[36m@@ -109,6 +99,8 @@[m [mpublic class User {[m
+ [m
+             @Override[m
+             public void onError(Throwable throwable, boolean b) {[m
+[32m+[m[32m                Log.i("zjq",throwable.getMessage());[m
+[32m+[m[32m                callback.updateFriends(null);[m
+             }[m
+ [m
+             @Override[m
+[36m@@ -126,19 +118,6 @@[m [mpublic class User {[m
+         return friends;[m
+     }[m
+     public void release(){Instance=null;}[m
+[31m-[m
+[31m-    @Override[m
+[31m-    public String toString() {[m
+[31m-        return "User{" +[m
+[31m-                "phone='" + phone + '\'' +[m
+[31m-                ", name='" + name + '\'' +[m
+[31m-                ", pwd='" + pwd + '\'' +[m
+[31m-                ", sex='" + sex + '\'' +[m
+[31m-                ", img='" + img + '\'' +[m
+[31m-                ", friends=" + friends +[m
+[31m-                '}';[m
+[31m-    }[m
+[31m-[m
+     public interface UpdateFriendsCallback{[m
+         void updateFriends(ArrayList<Friend> f);[m
+     }[m
+[1mdiff --git a/app/src/main/java/util/EMHelp.java b/app/src/main/java/util/EMHelp.java[m
+[1mindex 59ec1da..8841e81 100644[m
+[1m--- a/app/src/main/java/util/EMHelp.java[m
+[1m+++ b/app/src/main/java/util/EMHelp.java[m
+[36m@@ -1,27 +1,22 @@[m
+ package util;[m
+ [m
+ import android.app.Activity;[m
+[31m-import android.app.ProgressDialog;[m
+ import android.content.BroadcastReceiver;[m
+ import android.content.Context;[m
+ import android.content.Intent;[m
+ import android.content.IntentFilter;[m
+ import android.util.Log;[m
+ import android.view.View;[m
+[31m-import android.widget.ProgressBar;[m
+ import android.widget.Toast;[m
+ [m
+ import com.alibaba.fastjson.JSON;[m
+ import com.alibaba.fastjson.TypeReference;[m
+[32m+[m[32mimport com.example.administrator.langues.MainActivity;[m
+ import com.hyphenate.EMCallBack;[m
+[31m-import com.hyphenate.EMValueCallBack;[m
+[31m-import com.hyphenate.chat.EMCallStateChangeListener;[m
+[31m-import com.hyphenate.chat.EMChatRoom;[m
+ import com.hyphenate.chat.EMClient;[m
+ import com.hyphenate.chat.EMMessage;[m
+ import com.hyphenate.exceptions.EMNoActiveCallException;[m
+ import com.hyphenate.exceptions.EMServiceNotReadyException;[m
+[31m-import com.hyphenate.exceptions.HyphenateException;[m
+ [m
+ import org.xutils.common.Callback;[m
+ import org.xutils.http.RequestParams;[m
+[36m@@ -40,13 +35,13 @@[m [mpublic class EMHelp {[m
+     public final static int CHAT_IMAGE=3;//图片消息[m
+ [m
+     private Activity activity;[m
+[31m-    private Class jump;[m
+     public void init(Activity activity){[m
+         this.activity=activity;[m
+     }[m
+ [m
+ [m
+     public void registered(String phone,String pwd,RegisterCallback callback){[m
+[32m+[m
+         RequestParams params=new RequestParams(Url.ROOT+Url.REGISTER);[m
+         params.addBodyParameter("phone",phone);[m
+         params.addBodyParameter("pwd",pwd);[m
+[36m@@ -54,6 +49,7 @@[m [mpublic class EMHelp {[m
+             @Override[m
+             public void onSuccess(String s) {[m
+                 HashMap res=JSON.parseObject(s,new TypeReference<HashMap<String,Object>>(){});[m
+[32m+[m[32m                Log.i("mData",res.get("message").toString());[m
+                 if((boolean)res.get("success"))[m
+                     callback.isRegister(true);[m
+                 else[m
+[36m@@ -62,54 +58,79 @@[m [mpublic class EMHelp {[m
+ [m
+             @Override[m
+             public void onError(Throwable throwable, boolean b) {[m
+[32m+[m[32m                Log.i("mData","onError:"+throwable.getMessage());[m
+                 callback.isRegister(false);[m
+             }[m
+ [m
+             @Override[m
+             public void onCancelled(CancelledException e) {[m
+[32m+[m[32m                Log.i("mData","onCancelled:"+e.getMessage());[m
+                 callback.isRegister(false);[m
+             }[m
+ [m
+             @Override[m
+             public void onFinished() {[m
+[32m+[m[32m                Log.i("mData","onFinished: 结束");[m
+             }[m
+         });[m
+     }[m
+     public void login(String phone,String pwd,IsLoginCallback callback){[m
+[32m+[m[32m        Log.i("mData","1");[m
+[32m+[m[32m        Log.i("mData","phone:"+phone+",pwd:"+pwd);[m
+                 EMClient.getInstance().login(phone, pwd, new EMCallBack() {[m
+                     @Override[m
+                     public void onSuccess() {[m
+[32m+[m[32m//                        HashMap<String,String> result;[m
+[32m+[m[32m//                        User user=User.getInstance();[m
+[32m+[m[32m                        Log.i("mData","2");[m
+                         RequestParams params=new RequestParams(Url.ROOT+Url.LOGIN);[m
+                         params.addBodyParameter("phone",phone);[m
+                         params.addBodyParameter("pwd",pwd);[m
+[31m-                        x.http().post(params, new Callback.CommonCallback<String>() {[m
+[31m-                            @Override[m
+[31m-                            public void onSuccess(String s) {[m
+[31m-                                HashMap<String,String> result;[m
+[31m-                                result=JSON.parseObject(s,new TypeReference<HashMap<String,String>>(){});[m
+[31m-                                User.getInstance().setPhone(result.get("phone"));[m
+[31m-                                User.getInstance().setName(result.get("name"));[m
+[31m-                                User.getInstance().setPwd(result.get("pwd"));[m
+[31m-                                User.getInstance().setImg(result.get("img"));[m
+[31m-                                User.getInstance().setSex(result.get("sex"));[m
+[31m-                                User.getInstance().setDan(result.get("dan"));[m
+[31m-                                callback.isLogin(true,"登录成功");[m
+[31m-                            }[m
+[32m+[m[32m                        Log.i("mData","3");[m
+[32m+[m[32m                x.http().post(params, new Callback.CommonCallback<String>() {[m
+[32m+[m[32m                    @Override[m
+[32m+[m[32m                    public void onSuccess(String s) {[m
+[32m+[m[32m                        HashMap<String,String> result;[m
+[32m+[m[32m                        User user=User.getInstance();[m
+[32m+[m[32m                        Log.i("mData","4");[m
+[32m+[m[32m                        result=JSON.parseObject(s,new TypeReference<HashMap<String,String>>(){});[m
+[32m+[m[32m                        user.setPhone(result.get("phone"));[m
+[32m+[m[32m                        user.setName(result.get("name"));[m
+[32m+[m[32m                        user.setPwd(result.get("pwd"));[m
+[32m+[m[32m                        user.setImg(result.get("img"));[m
+[32m+[m[32m                        user.setSex(result.get("sex"));[m
+[32m+[m[32m                        callback.isLogin(true,"登录成功");[m
+[32m+[m[32m                    }[m
+ [m
+[31m-                            @Override[m
+[31m-                            public void onError(Throwable throwable, boolean b) {[m
+[31m-                                callback.isLogin(false,throwable.getMessage());[m
+[31m-                            }[m
+[32m+[m[32m                    @Override[m
+[32m+[m[32m                    public void onError(Throwable throwable, boolean b) {[m
+[32m+[m[32m                        callback.isLogin(false,throwable.getMessage());[m
+[32m+[m[32m                    }[m
+ [m
+[31m-                            @Override[m
+[31m-                            public void onCancelled(CancelledException e) {[m
+[31m-                                callback.isLogin(false,e.getMessage());[m
+[31m-                            }[m
+[32m+[m[32m                    @Override[m
+[32m+[m[32m                    public void onCancelled(CancelledException e) {[m
+[32m+[m[32m                        callback.isLogin(false,e.getMessage());[m
+[32m+[m[32m                    }[m
+ [m
+[31m-                            @Override[m
+[31m-                            public void onFinished() {[m
+[31m-                            }[m
+[31m-                        });[m
+[32m+[m[32m                    @Override[m
+[32m+[m[32m                    public void onFinished() {[m
+[32m+[m[32m                    }[m
+[32m+[m[32m                });[m
+[32m+[m[32m//                        try {[m
+[32m+[m[32m//                            result=JSON.parseObject(x.http().postSync(params,String.class),new TypeReference<HashMap<String,String>>(){});[m
+[32m+[m[32m//                            user.setPhone(result.get("phone"));[m
+[32m+[m[32m//                            user.setName(result.get("name"));[m
+[32m+[m[32m//                            user.setPwd(result.get("pwd"));[m
+[32m+[m[32m//                            user.setImg(result.get("img"));[m
+[32m+[m[32m//                            user.setSex(result.get("sex"));[m
+[32m+[m[32m//                            activity.runOnUiThread(()->Toast.makeText(activity.getApplicationContext(),"登录成功",Toast.LENGTH_SHORT).show());[m
+[32m+[m[32m////                    activity.startActivity(new Intent(activity.getApplicationContext(),jump));[m
+[32m+[m[32m//                            activity.finish();[m
+[32m+[m[32m//                        } catch (Throwable throwable) {[m
+[32m+[m[32m//                            user.release();[m
+[32m+[m[32m//                            Log.e("test","I am here");[m
+[32m+[m[32m//                            activity.runOnUiThread(()->Toast.makeText(activity.getApplicationContext(),throwable.getMessage(),Toast.LENGTH_SHORT).show());[m
+[32m+[m[32m//                        }[m
+                     }[m
+                     @Override[m
+                     public void onError(int code, String error) {[m
+[36m@@ -121,55 +142,7 @@[m [mpublic class EMHelp {[m
+                     }[m
+                 });[m
+     }[m
+[31m-    public void autologin(String phone,AutoLoginCallback callback){[m
+[31m-        RequestParams params=new RequestParams(Url.ROOT+Url.AUTOLOGIN);[m
+[31m-        params.addBodyParameter("phone",phone);[m
+[31m-        x.http().post(params, new Callback.CommonCallback<String>() {[m
+[31m-            public void onSuccess(String s) {[m
+[31m-                Log.i("mData","success:"+s);[m
+[31m-                HashMap<String,String> result;[m
+[31m-                result=JSON.parseObject(s,new TypeReference<HashMap<String,String>>(){});[m
+[31m-                User.getInstance().setPhone(result.get("phone"));[m
+[31m-                User.getInstance().setName(result.get("name"));[m
+[31m-                User.getInstance().setPwd(result.get("pwd"));[m
+[31m-                User.getInstance().setImg(result.get("img"));[m
+[31m-                User.getInstance().setSex(result.get("sex"));[m
+[31m-                User.getInstance().setDan(result.get("dan"));[m
+[31m-                callback.onSuccess();[m
+[31m-            }[m
+[31m-            public void onError(Throwable throwable, boolean b) {[m
+[31m-                Log.i("mData","onError");[m
+[31m-                callback.onError();[m
+[31m-                for (int i = 0; i < throwable.getStackTrace().length; i++) {[m
+[31m-                    Log.i("mData","onError:"+throwable.getStackTrace()[i]);[m
+[31m-                }[m
+[31m-            }[m
+[31m-            public void onCancelled(CancelledException e) {}[m
+[31m-            public void onFinished() {}[m
+[31m-        });[m
+[31m-    }[m
+[31m-    public void join(String roomId){[m
+[31m-        Log.i("mData",roomId);[m
+[31m-        EMClient.getInstance().chatroomManager().joinChatRoom(roomId, new EMValueCallBack<EMChatRoom>() {[m
+[31m-            @Override[m
+[31m-            public void onSuccess(EMChatRoom value) {[m
+[31m-                String roomid=value.getId();[m
+[31m-                Log.i("mData",value.getId());[m
+[31m-                try {[m
+[31m-                    EMChatRoom rootDetail=EMClient.getInstance().chatroomManager().fetchChatRoomFromServer(roomid);[m
+[31m-                    Log.i("mData","name:"+rootDetail.getName()+"\n"[m
+[31m-                            +"Owner:"+rootDetail.getOwner()+"\n"[m
+[31m-                            +"Description:"+rootDetail.getDescription());[m
+[31m-                } catch (HyphenateException e) {[m
+[31m-                    e.printStackTrace();[m
+[31m-                }[m
+[31m-            }[m
+[31m-            @Override[m
+[31m-            public void onError(int error, String errorMsg) {[m
+[31m-                Log.i("mData",errorMsg);[m
+[31m-            }[m
+[31m-        });[m
+[31m-    }[m
+[32m+[m
+     /**[m
+      *[m
+      * @param content 文本消息提供content;[m
+[36m@@ -202,71 +175,55 @@[m [mpublic class EMHelp {[m
+ [m
+         }[m
+     }[m
+[31m-    //拨打电话[m
+[31m-    public void voiceCall(String username){[m
+[31m-        try{[m
+[31m-            EMClient.getInstance().callManager().makeVoiceCall(username);[m
+[31m-         }catch(EMServiceNotReadyException e){[m
+[31m-            e.printStackTrace();[m
+[32m+[m[32m    public void voiceCall(String username,HashMap<String,Object> data){[m
+[32m+[m[32m        if(data==null){[m
+[32m+[m[32m            try{[m
+[32m+[m[32m                EMClient.getInstance().callManager().makeVoiceCall(username);[m
+[32m+[m[32m                activity.runOnUiThread(()->Toast.makeText(activity.getApplicationContext(),"拨打...",Toast.LENGTH_SHORT).show());[m
+[32m+[m[32m            }catch(EMServiceNotReadyException e){[m
+[32m+[m[32m                e.printStackTrace();[m
+[32m+[m[32m            }[m
+[32m+[m[32m        }else{[m
+[32m+[m[32m            if(data.size()>0){[m
+[32m+[m[32m                try {[m
+[32m+[m[32m                    EMClient.getInstance().callManager().makeVoiceCall(username,data.toString());[m
+[32m+[m[32m                }catch(EMServiceNotReadyException e){[m
+[32m+[m[32m                    e.printStackTrace();[m
+[32m+[m[32m                    //[m
+[32m+[m[32m                }[m
+[32m+[m[32m            }[m
+         }[m
+     }[m
+[31m-    //监听呼入通话[m
+[31m-    public void receiveListener(Context baseContext,Class jump){[m
+[31m-        this.jump=jump;[m
+[32m+[m[32m    public void addBroadcastReceiver(HashMap<String,View> btn){[m
+         IntentFilter callFilter = new IntentFilter(EMClient.getInstance().callManager().getIncomingCallBroadcastAction());[m
+[31m-        CallReceiver callReceiver=new CallReceiver();[m
+[31m-        baseContext.registerReceiver(callReceiver, callFilter);[m
+[31m-    }[m
+[31m-    //接听[m
+[31m-    public void answerCall(){[m
+[31m-        try {[m
+[31m-            EMClient.getInstance().callManager().answerCall();[m
+[31m-        } catch (EMNoActiveCallException e) {[m
+[31m-            e.printStackTrace();[m
+[31m-        }[m
+[31m-    }[m
+[31m-    //挂断[m
+[31m-    public void endCall(){[m
+[31m-        try {[m
+[31m-            EMClient.getInstance().callManager().endCall();[m
+[31m-        } catch (EMNoActiveCallException e) {[m
+[31m-            e.printStackTrace();[m
+[31m-        }[m
+[31m-    }[m
+[31m-    //监听通话状态[m
+[31m-    public void callStateListener(StateListenerCallback callback){[m
+[31m-        EMClient.getInstance().callManager().addCallStateChangeListener(new EMCallStateChangeListener() {[m
+[31m-            @Override[m
+[31m-            public void onCallStateChanged(CallState callState, EMCallStateChangeListener.CallError error) {[m
+[31m-                switch (callState) {[m
+[31m-                    case CONNECTING: // 正在连接对方[m
+[31m-                        Log.i("mData","正在连接对方");[m
+[31m-                        break;[m
+[31m-                    case CONNECTED: // 双方已经建立连接[m
+[31m-                        Log.i("mData","双方已经建立连接");[m
+[31m-                        break;[m
+[31m-                    case ACCEPTED: // 电话接通成功[m
+[31m-                        Log.i("mData","电话接通成功");[m
+[31m-                        callback.accepted();[m
+[31m-                        break;[m
+[31m-                    case DISCONNECTED: // 电话断了[m
+[31m-                        Log.i("mData","电话断了");[m
+[31m-                        callback.disconnected();[m
+[31m-                        break;[m
+[31m-                    case NETWORK_UNSTABLE: //网络不稳定[m
+[31m-                        if(error == CallError.ERROR_NO_DATA){[m
+[31m-                            //无通话数据[m
+[31m-                            Log.i("mData","网络不稳定");[m
+[31m-                        }else{[m
+[31m-                        }[m
+[31m-                        break;[m
+[31m-                    case NETWORK_NORMAL: //网络恢复正常[m
+[31m-                        Log.i("mData","网络恢复正常");[m
+[31m-                        break;[m
+[31m-                    default:[m
+[31m-                        break;[m
+[31m-                }[m
+[31m-[m
+[32m+[m[32m        activity.getBaseContext().registerReceiver(new CallReceiver(), callFilter);[m
+[32m+[m[32m        btn.get("answer").setOnClickListener(view->{[m
+[32m+[m[32m            try {[m
+[32m+[m[32m                EMClient.getInstance().callManager().answerCall();[m
+[32m+[m[32m                activity.runOnUiThread(()->Toast.makeText(activity.getApplicationContext(),"接听...",Toast.LENGTH_SHORT).show());[m
+[32m+[m[32m            } catch (EMNoActiveCallException e) {[m
+[32m+[m[32m                // TODO Auto-generated catch block[m
+[32m+[m[32m                e.printStackTrace();[m
+[32m+[m[32m                activity.runOnUiThread(()->Toast.makeText(activity.getApplicationContext(),"接听出错",Toast.LENGTH_SHORT).show());[m
+[32m+[m[32m            }[m
+[32m+[m[32m        });[m
+[32m+[m[32m        btn.get("reject").setOnClickListener(view->{[m
+[32m+[m[32m            try {[m
+[32m+[m[32m                EMClient.getInstance().callManager().rejectCall();[m
+[32m+[m[32m                activity.runOnUiThread(()->Toast.makeText(activity.getApplicationContext(),"拒绝",Toast.LENGTH_SHORT).show());[m
+[32m+[m[32m            } catch (EMNoActiveCallException e) {[m
+[32m+[m[32m                // TODO Auto-generated catch block[m
+[32m+[m[32m                e.printStackTrace();[m
+[32m+[m[32m                activity.runOnUiThread(()->Toast.makeText(activity.getApplicationContext(),"拒绝出错",Toast.LENGTH_SHORT).show());[m
+[32m+[m[32m            }[m
+[32m+[m[32m        });[m
+[32m+[m[32m        btn.get("end").setOnClickListener(view -> {[m
+[32m+[m[32m            try {[m
+[32m+[m[32m                EMClient.getInstance().callManager().endCall();[m
+[32m+[m[32m                activity.runOnUiThread(()->Toast.makeText(activity.getApplicationContext(),"挂断",Toast.LENGTH_SHORT).show());[m
+[32m+[m[32m            } catch (EMNoActiveCallException e) {[m
+[32m+[m[32m                e.printStackTrace();[m
+[32m+[m[32m                activity.runOnUiThread(()->Toast.makeText(activity.getApplicationContext(),"挂断出错",Toast.LENGTH_SHORT).show());[m
+             }[m
+         });[m
+     }[m
+[36m@@ -276,15 +233,12 @@[m [mpublic class EMHelp {[m
+             // 拨打方username[m
+             String from = intent.getStringExtra("from");[m
+             // call type[m
+[31m-//            String type = intent.getStringExtra("type");[m
+[32m+[m[32m            String type = intent.getStringExtra("type");[m
+[32m+[m[32m            activity.runOnUiThread(()->Toast.makeText(activity.getApplicationContext(),from+"来电...",Toast.LENGTH_SHORT).show());[m
+[32m+[m[32m            Log.i("mData","from:"+from+",type:"+type);[m
+ [m
+             //跳转到通话页面[m
+[31m-            Intent i=new Intent(activity.getApplicationContext(),jump);[m
+[31m-            i.putExtra("phone",from);[m
+[31m-            activity.startActivity(i);[m
+[31m-            jump=null;[m
+         }[m
+[31m-[m
+     }[m
+     public interface IsLoginCallback{[m
+         void isLogin(boolean isLogin,String message);[m
+[36m@@ -292,12 +246,4 @@[m [mpublic class EMHelp {[m
+     public interface RegisterCallback{[m
+         void isRegister(boolean isRegister);[m
+     }[m
+[31m-    public interface StateListenerCallback{[m
+[31m-        void accepted();[m
+[31m-        void disconnected();[m
+[31m-    }[m
+[31m-    public interface AutoLoginCallback{[m
+[31m-        void onSuccess();[m
+[31m-        void onError();[m
+[31m-    }[m
+ }[m
+[1mdiff --git a/app/src/main/java/util/Url.java b/app/src/main/java/util/Url.java[m
+[1mindex c4fdbaf..055c8f4 100644[m
+[1m--- a/app/src/main/java/util/Url.java[m
+[1m+++ b/app/src/main/java/util/Url.java[m
+[36m@@ -6,12 +6,10 @@[m [mpackage util;[m
+ [m
+ public class Url {[m
+     public static String ROOT="http://119.23.216.103/qianyan/public/index.php/index/";[m
+[32m+[m[32m    public static String UPLOAD="http://119.23.216.103/qianyan/public/upload/";[m
+     public static String REGISTER="register/register.html";[m
+     public static String LOGIN="login/login.html";[m
+[31m-    public static String AUTOLOGIN="login/autologin.html";[m
+     public static String FRIEND="friend/friend.html";[m
+     public static String GET_DYNAMIC="dynamic/getdynamic.html";[m
+     public static String PUBLISH_DYNAMIC="dynamic/publishdynamic.html";[m
+[31m-    public static String PAIRING="pairing/pairing.html";[m
+[31m-    public static String GET_ENEMY="pairing/getenemy.html";[m
+ }[m
+[1mdiff --git a/app/src/main/java/util/core/DynamicOperation.java b/app/src/main/java/util/core/DynamicOperation.java[m
+[1mindex d2753e1..8f27192 100644[m
+[1m--- a/app/src/main/java/util/core/DynamicOperation.java[m
+[1m+++ b/app/src/main/java/util/core/DynamicOperation.java[m
+[36m@@ -26,7 +26,6 @@[m [mpublic class DynamicOperation {[m
+         x.http().post(params, new Callback.CommonCallback<String>() {[m
+             @Override[m
+             public void onSuccess(String s) {[m
+[31m-                Log.i("mData","dynamic:"+s);[m
+                 ArrayList<Dynamic> res=JSON.parseObject(s,new TypeReference<ArrayList<Dynamic>>(){});[m
+                 for (int i = 0; i < res.size(); i++) {[m
+                     Log.i("mData","success:"+res.get(i).toString());[m
+[1mdiff --git a/app/src/main/java/util/core/PairingOperation.java b/app/src/main/java/util/core/PairingOperation.java[m
+[1mdeleted file mode 100644[m
+[1mindex 871d18f..0000000[m
+[1m--- a/app/src/main/java/util/core/PairingOperation.java[m
+[1m+++ /dev/null[m
+[36m@@ -1,123 +0,0 @@[m
+[31m-package util.core;[m
+[31m-[m
+[31m-import android.util.Log;[m
+[31m-[m
+[31m-import com.alibaba.fastjson.JSON;[m
+[31m-import com.alibaba.fastjson.TypeReference;[m
+[31m-[m
+[31m-import org.xutils.common.Callback;[m
+[31m-import org.xutils.http.RequestParams;[m
+[31m-import org.xutils.x;[m
+[31m-[m
+[31m-import java.util.HashMap;[m
+[31m-[m
+[31m-import entry.User;[m
+[31m-import util.Url;[m
+[31m-[m
+[31m-public class PairingOperation {[m
+[31m-    public static int WAIT=0;[m
+[31m-    public static int PAIRING=1;[m
+[31m-[m
+[31m-    /**[m
+[31m-     *[m
+[31m-     * @param phone     对手的手机号[m
+[31m-     * @param callback  成功：参数包含data.phone(对手手机号)、data.name(对手昵称)、data.img(对手头像)、data.dan(对手段位)[m
+[31m-     *                   失败：msg说明了一切[m
+[31m-     */[m
+[31m-    public void getEnemy(String phone,GetEnemyCallback callback){[m
+[31m-        RequestParams params=new RequestParams(Url.ROOT+Url.GET_ENEMY);[m
+[31m-        params.addBodyParameter("phone",phone);[m
+[31m-        x.http().post(params, new Callback.CommonCallback<String>() {[m
+[31m-            @Override[m
+[31m-            public void onSuccess(String s) {[m
+[31m-                if (!s.equals("false")){[m
+[31m-                    HashMap<String,String> res=JSON.parseObject(s,new TypeReference<HashMap<String,String>>(){});[m
+[31m-                    callback.onSuccess(res);[m
+[31m-                }else{[m
+[31m-                    callback.onError("找不到对手信息");[m
+[31m-                }[m
+[31m-            }[m
+[31m-[m
+[31m-            @Override[m
+[31m-            public void onError(Throwable throwable, boolean b) {[m
+[31m-                callback.onError(throwable.getMessage());[m
+[31m-            }[m
+[31m-[m
+[31m-            @Override[m
+[31m-            public void onCancelled(CancelledException e) {[m
+[31m-            }[m
+[31m-[m
+[31m-            @Override[m
+[31m-            public void onFinished() {[m
+[31m-            }[m
+[31m-        });[m
+[31m-    }[m
+[31m-    public CancelPairing pairing(PairingCallback callback){[m
+[31m-        RequestParams params=new RequestParams(Url.ROOT+Url.PAIRING);[m
+[31m-        params.addBodyParameter("phone",User.getInstance().getPhone());[m
+[31m-        Callback.Cancelable cancelable=x.http().post(params, new Callback.CommonCallback<String>() {[m
+[31m-            @Override[m
+[31m-            public void onSuccess(String s) {[m
+[31m-                HashMap<String,String> result;[m
+[31m-                result=JSON.parseObject(s,new TypeReference<HashMap<String,String>>(){});[m
+[31m-                if(result.get("success").equals("true")){[m
+[31m-                    Log.i("mData",result.toString());[m
+[31m-                    Log.i("mData","type:"+result.get("type"));[m
+[31m-                    String type=result.get("type");[m
+[31m-                    if(type!=null && type.equals("join")){[m
+[31m-                        HashMap<String,String> res;//=(HashMap<String,String>)result.get("data");[m
+[31m-                        res=JSON.parseObject(result.get("data"),new TypeReference<HashMap<String,String>>(){});[m
+[31m-                        Log.i("mData",res.get("id"));[m
+[31m-                        Log.i("mData",res.get("name"));[m
+[31m-                        Log.i("mData",res.get("owner"));[m
+[31m-                        Log.i("mData",res.get("img"));[m
+[31m-                        callback.onSuccess(PAIRING,res);[m
+[31m-                    }else if(type!=null && type.equals("create")){[m
+[31m-                        Log.i("mData",result.get("data"));[m
+[31m-                        HashMap<String,String> res=new HashMap<>();[m
+[31m-                        res.put("id",result.get("data"));[m
+[31m-                        callback.onSuccess(WAIT,res);[m
+[31m-                    }else{[m
+[31m-                        callback.onError("网络不行或服务器出错");[m
+[31m-                    }[m
+[31m-                }else{[m
+[31m-                    callback.onError("网络不行或服务器出错");[m
+[31m-                }[m
+[31m-            }[m
+[31m-[m
+[31m-            @Override[m
+[31m-            public void onError(Throwable throwable, boolean b) {[m
+[31m-                callback.onError(throwable.getMessage());[m
+[31m-            }[m
+[31m-[m
+[31m-            @Override[m
+[31m-            public void onCancelled(CancelledException e) {[m
+[31m-                callback.onCancelled();[m
+[31m-            }[m
+[31m-[m
+[31m-            @Override[m
+[31m-            public void onFinished() {[m
+[31m-            }[m
+[31m-        });[m
+[31m-        return new CancelPairing(cancelable);[m
+[31m-    }[m
+[31m-    public interface PairingCallback{[m
+[31m-        void onSuccess(int status,HashMap<String,String> data);[m
+[31m-        void onCancelled();[m
+[31m-        void onError(String msg);[m
+[31m-    }[m
+[31m-    public interface GetEnemyCallback{[m
+[31m-        void onSuccess(HashMap<String,String> data);[m
+[31m-        void onError(String msg);[m
+[31m-    }[m
+[31m-    class CancelPairing{[m
+[31m-        Callback.Cancelable request;[m
+[31m-        public CancelPairing(Callback.Cancelable request){[m
+[31m-            this.request=request;[m
+[31m-        }[m
+[31m-        void cancel(Callback.Cancelable request){[m
+[31m-            if(!request.isCancelled())[m
+[31m-                request.cancel();[m
+[31m-        }[m
+[31m-    }[m
+[31m-}[m
+[1mdiff --git a/app/src/main/res/layout/activity_register.xml b/app/src/main/res/layout/activity_register.xml[m
+[1mindex 763dace..1b610bf 100644[m
+[1m--- a/app/src/main/res/layout/activity_register.xml[m
+[1m+++ b/app/src/main/res/layout/activity_register.xml[m
+[36m@@ -44,13 +44,14 @@[m
+             android:id="@+id/editText3"[m
+             android:layout_width="138dp"[m
+             android:layout_height="wrap_content"[m
+[31m-            android:hint="获取验证码"[m
+[32m+[m[32m            android:hint="请输入密码"[m
+             android:layout_below="@+id/editText2"[m
+             android:layout_alignStart="@+id/editText2"[m
+             android:layout_marginTop="13dp"[m
+             android:ems="10"[m
+             android:inputType="textPersonName" />[m
+ [m
+[32m+[m
+         <ImageButton[m
+             android:id="@+id/imageButton25"[m
+             android:layout_width="72dp"[m
+[1mdiff --git a/app/src/main/res/layout/square_find_photo.xml b/app/src/main/res/layout/square_find_photo.xml[m
+[1mindex 4d3a3de..591d15f 100644[m
+[1m--- a/app/src/main/res/layout/square_find_photo.xml[m
+[1m+++ b/app/src/main/res/layout/square_find_photo.xml[m
+[36m@@ -7,8 +7,8 @@[m
+ [m
+     <ImageView[m
+         android:id="@+id/square_photo"[m
+[31m-        android:layout_width="wrap_content"[m
+[31m-        android:layout_height="wrap_content"[m
+[32m+[m[32m        android:layout_width="120dp"[m
+[32m+[m[32m        android:layout_height="120dp"[m
+         android:layout_gravity="center_horizontal"[m
+         android:src="@mipmap/user"[m
+         android:scaleType="fitXY"[m
+[1mdiff --git a/gradle.properties b/gradle.properties[m
+[1mindex 7863443..2a3f975 100644[m
+[1m--- a/gradle.properties[m
+[1m+++ b/gradle.properties[m
+[36m@@ -16,5 +16,4 @@[m
+ # This option should only be used with decoupled projects. More details, visit[m
+ # http://www.gradle.org/docs/current/userguide/multi_project_builds.html#sec:decoupled_projects[m
+ # org.gradle.parallel=true[m
+[31m-android.enableAapt2=false[m
+[31m-android.injected.testOnly=false[m
+\ No newline at end of file[m
+[32m+[m[32mandroid.enableAapt2=false[m
+\ No newline at end of file[m

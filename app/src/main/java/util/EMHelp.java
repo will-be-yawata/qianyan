@@ -1,29 +1,39 @@
 package util;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.hyphenate.EMCallBack;
+import com.hyphenate.EMValueCallBack;
+import com.hyphenate.chat.EMCallStateChangeListener;
+import com.hyphenate.chat.EMChatRoom;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.exceptions.EMNoActiveCallException;
 import com.hyphenate.exceptions.EMServiceNotReadyException;
+import com.hyphenate.exceptions.HyphenateException;
 
+import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 import entry.User;
+import util.core.FriendOperation;
+import util.core.FriendStatus;
 
 
 public class EMHelp {
@@ -33,71 +43,142 @@ public class EMHelp {
     public final static int CHAT_IMAGE=3;//图片消息
 
     private Activity activity;
+    private ReceiveCallback receiveCallback;
+    private EMCallStateChangeListener callStateChangeListener=null;
     public void init(Activity activity){
         this.activity=activity;
     }
 
-    /**
-     * 检查完用户名和密码的合法性后再调用
-     * @param phone 唯一标识，用户编号，手机号码
-     * @param nickname 用户昵称
-     * @param pwd 用户密码
-     * @return
-     */
-    public boolean registered(String phone,String nickname,String pwd){
-        Map<String,Object> result;
+
+    public void registered(String phone,String pwd,RegisterCallback callback){
+
         RequestParams params=new RequestParams(Url.ROOT+Url.REGISTER);
         params.addBodyParameter("phone",phone);
-        params.addBodyParameter("nickname",nickname);
         params.addBodyParameter("pwd",pwd);
-        try {
-            result=JSON.parseObject(x.http().postSync(params,String.class),new TypeReference<HashMap<String,Object>>(){});
-            activity.runOnUiThread(()->Toast.makeText(x.app(),result.get("message").toString(),Toast.LENGTH_SHORT).show());
-            if(Boolean.parseBoolean(result.get("success").toString())) return true;
-        } catch (Throwable throwable) {
-            System.out.println("mData:错误");
-            activity.runOnUiThread(()->Toast.makeText(activity.getApplicationContext(),throwable.getMessage(),Toast.LENGTH_SHORT).show());
-        }
-        return false;
-    }
-    public void login(String phone,String pwd){
-        EMClient.getInstance().login(phone, pwd, new EMCallBack() {
+        x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
-            public void onSuccess() {
-                Map<String,String> result;
-                User user=User.getInstance();
-                RequestParams params=new RequestParams(Url.ROOT+Url.LOGIN);
-                params.addBodyParameter("phone",phone);
-                params.addBodyParameter("pwd",pwd);
-                try {
-                    activity.runOnUiThread(()->Toast.makeText(activity.getApplicationContext(),"start try",Toast.LENGTH_SHORT).show());
-                    result=JSON.parseObject(x.http().postSync(params,String.class),new TypeReference<HashMap<String,String>>(){});
-                    user.setPhone(result.get("phone"));
-                    user.setName(result.get("name"));
-                    user.setPwd(result.get("pwd"));
-                    user.setImg(result.get("img"));
-                    user.setSex(result.get("sex"));
-                    activity.runOnUiThread(()->Toast.makeText(activity.getApplicationContext(),"登录成功",Toast.LENGTH_SHORT).show());
-//                    activity.startActivity(new Intent(activity.getApplicationContext(),jump));
-                    activity.finish();
-                } catch (Throwable throwable) {
-                    user.release();
-                    Log.e("test","I am here");
-                    activity.runOnUiThread(()->Toast.makeText(activity.getApplicationContext(),throwable.getMessage(),Toast.LENGTH_SHORT).show());
-                }
+            public void onSuccess(String s) {
+                HashMap res=JSON.parseObject(s,new TypeReference<HashMap<String,Object>>(){});
+                if((boolean)res.get("success"))
+                    callback.isRegister(true);
+                else
+                    callback.isRegister(false);
             }
+
             @Override
-            public void onError(int code, String error) {
-                activity.runOnUiThread(()->Toast.makeText(activity.getApplicationContext(),error,Toast.LENGTH_SHORT).show());
-                User.getInstance().release();
-                Log.e("test","on Error,I am here");
+            public void onError(Throwable throwable, boolean b) {
+                callback.isRegister(false);
             }
+
             @Override
-            public void onProgress(int progress, String status) {
+            public void onCancelled(CancelledException e) {
+                callback.isRegister(false);
+            }
+
+            @Override
+            public void onFinished() {
             }
         });
     }
+    public void login(String phone,String pwd,IsLoginCallback callback){
+                EMClient.getInstance().login(phone, pwd, new EMCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        RequestParams params=new RequestParams(Url.ROOT+Url.LOGIN);
+                        params.addBodyParameter("phone",phone);
+                        params.addBodyParameter("pwd",pwd);
+                        x.http().post(params, new Callback.CommonCallback<String>() {
+                            @Override
+                            public void onSuccess(String s) {
+                                HashMap<String,String> result;
+                                result=JSON.parseObject(s,new TypeReference<HashMap<String,String>>(){});
+                                User.getInstance().setPhone(result.get("phone"));
+                                User.getInstance().setName(result.get("name"));
+                                User.getInstance().setPwd(result.get("pwd"));
+                                User.getInstance().setImg(result.get("img"));
+                                User.getInstance().setSex(result.get("sex"));
+                                User.getInstance().setDan(result.get("dan"));
+                                callback.isLogin(true,"登录成功");
+                                FriendOperation.getInstance().friendListener();
+                                FriendStatus.getInstance().getFriendStatus();
+                            }
 
+                            @Override
+                            public void onError(Throwable throwable, boolean b) {
+                                callback.isLogin(false,throwable.getMessage());
+                            }
+
+                            @Override
+                            public void onCancelled(CancelledException e) {
+                                callback.isLogin(false,e.getMessage());
+                            }
+
+                            @Override
+                            public void onFinished() {
+                            }
+                        });
+                    }
+                    @Override
+                    public void onError(int code, String error) {
+                        callback.isLogin(false,error);
+                        User.getInstance().release();
+                    }
+                    @Override
+                    public void onProgress(int progress, String status) {
+                    }
+                });
+    }
+    public void autologin(String phone,AutoLoginCallback callback){
+        RequestParams params=new RequestParams(Url.ROOT+Url.AUTOLOGIN);
+        params.addBodyParameter("phone",phone);
+        x.http().post(params, new Callback.CommonCallback<String>() {
+            public void onSuccess(String s) {
+                Log.i("mData","success:"+s);
+                HashMap<String,String> result;
+                result=JSON.parseObject(s,new TypeReference<HashMap<String,String>>(){});
+                User.getInstance().setPhone(result.get("phone"));
+                User.getInstance().setName(result.get("name"));
+                User.getInstance().setPwd(result.get("pwd"));
+                User.getInstance().setImg(result.get("img"));
+                User.getInstance().setSex(result.get("sex"));
+                User.getInstance().setDan(result.get("dan"));
+                callback.onSuccess();
+                FriendOperation.getInstance().friendListener();
+                FriendStatus.getInstance().getFriendStatus();
+            }
+            public void onError(Throwable throwable, boolean b) {
+                Log.i("mData","onError");
+                callback.onError();
+                for (int i = 0; i < throwable.getStackTrace().length; i++) {
+                    Log.i("mData","onError:"+throwable.getStackTrace()[i]);
+                }
+            }
+            public void onCancelled(CancelledException e) {}
+            public void onFinished() {}
+        });
+    }
+    public void join(String roomId){
+        Log.i("mData",roomId);
+        EMClient.getInstance().chatroomManager().joinChatRoom(roomId, new EMValueCallBack<EMChatRoom>() {
+            @Override
+            public void onSuccess(EMChatRoom value) {
+                String roomid=value.getId();
+                Log.i("mData",value.getId());
+                try {
+                    EMChatRoom rootDetail=EMClient.getInstance().chatroomManager().fetchChatRoomFromServer(roomid);
+                    Log.i("mData","name:"+rootDetail.getName()+"\n"
+                            +"Owner:"+rootDetail.getOwner()+"\n"
+                            +"Description:"+rootDetail.getDescription());
+                } catch (HyphenateException e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onError(int error, String errorMsg) {
+                Log.i("mData",errorMsg);
+            }
+        });
+    }
     /**
      *
      * @param content 文本消息提供content;
@@ -130,68 +211,112 @@ public class EMHelp {
 
         }
     }
-    public void voiceCall(String username,HashMap<String,Object> data){
-        if(data==null){
-            try{
-                EMClient.getInstance().callManager().makeVoiceCall(username);
-                activity.runOnUiThread(()->Toast.makeText(activity.getApplicationContext(),"拨打...",Toast.LENGTH_SHORT).show());
-            }catch(EMServiceNotReadyException e){
-                e.printStackTrace();
-            }
-        }else{
-            if(data.size()>0){
-                try {
-                    EMClient.getInstance().callManager().makeVoiceCall(username,data.toString());
-                }catch(EMServiceNotReadyException e){
-                    e.printStackTrace();
-                }
-            }
+
+    //拨打电话
+    public void voiceCall(String username){
+        try{
+            EMClient.getInstance().callManager().makeVoiceCall(username);
+         }catch(EMServiceNotReadyException e){
+            e.printStackTrace();
+
         }
     }
-    public void addBroadcastReceiver(HashMap<String,View> btn){
+    //监听呼入通话
+    public void receiveListener(Context baseContext,ReceiveCallback callback){
+        receiveCallback=callback;
+        Log.i("zjq","receiveListener");
         IntentFilter callFilter = new IntentFilter(EMClient.getInstance().callManager().getIncomingCallBroadcastAction());
-        activity.getBaseContext().registerReceiver(new CallReceiver(), callFilter);
-        btn.get("answer").setOnClickListener(view->{
-            try {
-                EMClient.getInstance().callManager().answerCall();
-                activity.runOnUiThread(()->Toast.makeText(activity.getApplicationContext(),"接听...",Toast.LENGTH_SHORT).show());
-            } catch (EMNoActiveCallException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-                activity.runOnUiThread(()->Toast.makeText(activity.getApplicationContext(),"接听出错",Toast.LENGTH_SHORT).show());
+        CallReceiver callReceiver=new CallReceiver();
+        baseContext.registerReceiver(callReceiver, callFilter);
+    }
+    //接听
+    public void answerCall(){
+        try {
+            EMClient.getInstance().callManager().answerCall();
+        } catch (EMNoActiveCallException e) {
+            e.printStackTrace();
+        }
+    }
+    //挂断
+    public void endCall(){
+        try {
+            EMClient.getInstance().callManager().endCall();
+        } catch (EMNoActiveCallException e) {
+            e.printStackTrace();
+        }
+    }
+    //监听通话状态
+    public void addCallStateListener(StateListenerCallback callback){
+        callStateChangeListener= (callState, error) -> {
+            switch (callState) {
+                case CONNECTING: // 正在连接对方
+                    Log.i("zjq","正在连接对方");
+                    break;
+                case CONNECTED: // 双方已经建立连接
+                    Log.i("zjq","双方已经建立连接");
+                    break;
+                case ACCEPTED: // 电话接通成功
+                    Log.i("zjq","电话接通成功");
+                    callback.accepted();
+                    break;
+                case DISCONNECTED: // 电话断了
+                    Log.i("zjq","电话断了");
+                    callback.disconnected();
+                    break;
+                case NETWORK_UNSTABLE: //网络不稳定
+                    if(error == EMCallStateChangeListener.CallError.ERROR_NO_DATA){
+                        //无通话数据
+                        Log.i("zjq","网络不稳定");
+                    }else{
+                    }
+                    break;
+                case NETWORK_NORMAL: //网络恢复正常
+                    Log.i("zjq","网络恢复正常");
+                    break;
+                default:
+                    break;
             }
-        });
-        btn.get("reject").setOnClickListener(view->{
-            try {
-                EMClient.getInstance().callManager().rejectCall();
-                activity.runOnUiThread(()->Toast.makeText(activity.getApplicationContext(),"拒绝",Toast.LENGTH_SHORT).show());
-            } catch (EMNoActiveCallException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-                activity.runOnUiThread(()->Toast.makeText(activity.getApplicationContext(),"拒绝出错",Toast.LENGTH_SHORT).show());
-            }
-        });
-        btn.get("end").setOnClickListener(view -> {
-            try {
-                EMClient.getInstance().callManager().endCall();
-                activity.runOnUiThread(()->Toast.makeText(activity.getApplicationContext(),"挂断",Toast.LENGTH_SHORT).show());
-            } catch (EMNoActiveCallException e) {
-                e.printStackTrace();
-                activity.runOnUiThread(()->Toast.makeText(activity.getApplicationContext(),"挂断出错",Toast.LENGTH_SHORT).show());
-            }
-        });
+        };
+        EMClient.getInstance().callManager().addCallStateChangeListener(callStateChangeListener);
+    }
+    public void closeCallStateListener(){
+        if(callStateChangeListener!=null){
+            EMClient.getInstance().callManager().removeCallStateChangeListener(callStateChangeListener);
+            callStateChangeListener=null;
+        }
     }
     private class CallReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             // 拨打方username
             String from = intent.getStringExtra("from");
+            Log.i("zjq","在CallReceiver的Receive中");
             // call type
-            String type = intent.getStringExtra("type");
-            activity.runOnUiThread(()->Toast.makeText(activity.getApplicationContext(),from+"来电...",Toast.LENGTH_SHORT).show());
-            Log.i("mData","from:"+from+",type:"+type);
-
+//            String type = intent.getStringExtra("type");
+            receiveCallback.onReceive(from);
             //跳转到通话页面
+//            Intent i=new Intent(activity.getApplicationContext(),jump);
+//            i.putExtra("phone",from);
+//            activity.startActivity(i);
+//            jump=null;
         }
+
+    }
+    public interface IsLoginCallback{
+        void isLogin(boolean isLogin,String message);
+    }
+    public interface RegisterCallback{
+        void isRegister(boolean isRegister);
+    }
+    public interface StateListenerCallback{
+        void accepted();
+        void disconnected();
+    }
+    public interface AutoLoginCallback{
+        void onSuccess();
+        void onError();
+    }
+    public interface ReceiveCallback{
+        void onReceive(String from);
     }
 }

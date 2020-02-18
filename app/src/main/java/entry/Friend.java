@@ -33,5 +33,12 @@ public class Friend {
         this.img = img;
     }
 
-
+    @Override
+    public String toString() {
+        return "Friend{" +
+                "phone='" + phone + '\'' +
+                ", name='" + name + '\'' +
+                ", img='" + img + '\'' +
+                '}';
+    }
 }

@@ -1,9 +1,8 @@
 package com.example.administrator.langues;
 
 
-import android.animation.AnimatorInflater;
-import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,20 +13,36 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+
+// import android.widget.AdapterView;
+// import android.widget.ArrayAdapter;
+
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.Toast;
+
+
+import com.example.administrator.langues.activity.LoginActivity;
+import com.hyphenate.chat.EMClient;
+
+import java.util.HashMap;
+
+// import com.hyphenate.chat.EMClient;
+
 
 import java.util.Timer;
 import java.util.TimerTask;
+
+import util.EMHelp;
+import util.core.PairingOperation;
+
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class SeekFragment extends Fragment {
+    private Button seekbtn;
     private static int START_ANIMATION=0;
     ImageView image1,image2,image3,image4,image5,image6,image7,image8,image9,image10,image11;
     private Animation animation1 = null;
@@ -76,14 +91,34 @@ public class SeekFragment extends Fragment {
         }
     };
 
+        public void initViews(View view){
+            seekbtn=view.findViewById(R.id.seek_btn);
+        }
+        public void initListener(){
+            seekbtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(EMClient.getInstance().getCurrentUser()==""){
+                        startActivity(new Intent(getContext(),LoginActivity.class));
+                        getActivity().finish();
+                    }
+                    else{
+                        Toast.makeText(getContext(),"开始匹配",Toast.LENGTH_SHORT).show();
+                        Log.i("cwk","开始匹配,当前的用户为"+EMClient.getInstance());
+                        Log.i("test",EMClient.getInstance().getCurrentUser());
+                    }
 
+                }
+            });
+        }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             // Inflate the layout for this fragment
             View view=inflater.inflate(R.layout.fragment_seek, container, false);
-
+            initViews(view);
+            initListener();
             image1=view.findViewById(R.id.image1);
             image2=view.findViewById(R.id.image2);
             image3=view.findViewById(R.id.image3);
@@ -120,8 +155,44 @@ public class SeekFragment extends Fragment {
             startTime();
 
 
-
-
+            //测试用
+//            Button pairing=view.findViewById(R.id.seek_btn);
+//            pairing.setOnClickListener(view1 -> {
+//                (new PairingOperation()).pairing(new PairingOperation.PairingCallback() {
+//                    @Override
+//                    public void onSuccess(int status, HashMap<String, String> data) {
+//                        EMHelp emHelp=new EMHelp();
+//                        emHelp.init(SeekFragment.this.getActivity());
+//                        if(status==PairingOperation.WAIT){
+//                            emHelp.receiveListener(getContext(),RegisterActivity.class);
+//                        }else if(status==PairingOperation.PAIRING){
+//                            emHelp.voiceCall(data.get("owner"));
+//                            //跳转页面并渲染
+//                            Log.i("mData","头像:"+data.get("img"));
+//                            Log.i("mData","房间id:"+data.get("id"));
+//                            Log.i("mData","段位:"+data.get("name"));
+//
+//                            emHelp.callStateListener(new EMHelp.StateListenerCallback() {
+//                                @Override
+//                                public void accepted() {
+//                                    Intent intent=new Intent(SeekFragment.this.getActivity(),RegisterActivity.class);
+//                                    startActivity(intent);
+//                                }
+//                                @Override
+//                                public void disconnected(){
+//
+//                                }
+//                            });
+//                        }
+//                    }
+//                    @Override
+//                    public void onCancelled() {
+//                    }
+//                    @Override
+//                    public void onError(String msg) {
+//                    }
+//                });
+//            });
             return view;
         }
 public void closeTime(){
