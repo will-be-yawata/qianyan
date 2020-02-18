@@ -42,16 +42,9 @@
             android:id="@+id/rg_repassword"
             android:layout_width="252dp"
             android:layout_height="wrap_content"
-<<<<<<< HEAD
             android:layout_below="@+id/tg_password"
             android:layout_alignStart="@+id/rg_tellphone"
             android:layout_marginTop="12dp"
-=======
-            android:hint="请输入密码"
-            android:layout_below="@+id/editText2"
-            android:layout_alignStart="@+id/editText2"
-            android:layout_marginTop="13dp"
->>>>>>> cwk
             android:ems="10"
             android:hint="确认密码"
             android:inputType="textPersonName" />

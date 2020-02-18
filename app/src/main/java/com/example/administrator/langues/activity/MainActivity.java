@@ -34,18 +34,6 @@ public class MainActivity extends AppCompatActivity {
     private void initFragments(){
         TabFragment tabFragment=new TabFragment();
         fragments.add(tabFragment);
-<<<<<<< HEAD:app/src/main/java/com/example/administrator/langues/activity/MainActivity.java
-=======
-
-
-        /*TrendsFragment trendsFragment=new TrendsFragment();
-        fragments.add(trendsFragment);
-        FindFragment findFragment=new FindFragment();
-        fragments.add(findFragment);
-        PersonalFragment personalFragment=new PersonalFragment();
-        fragments.add(personalFragment);*/
-
->>>>>>> cwk:app/src/main/java/com/example/administrator/langues/MainActivity.java
         setFragments(0);
     }
     private void setFragments(int position){

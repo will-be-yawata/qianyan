@@ -4,12 +4,10 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-<<<<<<< HEAD:app/src/main/java/com/example/administrator/langues/activity/Deliver_textActivity.java
-=======
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
->>>>>>> cwk:app/src/main/java/com/example/administrator/langues/Deliver_textActivity.java
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -26,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -35,6 +34,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.administrator.langues.R;
+import com.example.administrator.langues.fragment.SquareFragment;
 import com.jay.ui.PhotoPickerActivity;
 import com.zyq.easypermission.EasyPermission;
 import com.zyq.easypermission.EasyPermissionResult;
@@ -68,27 +68,16 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
 
     private int mScreenHeight;
     private int mScreenWidth;
-
-<<<<<<< HEAD:app/src/main/java/com/example/administrator/langues/activity/Deliver_textActivity.java
-=======
-
-
-
->>>>>>> cwk:app/src/main/java/com/example/administrator/langues/Deliver_textActivity.java
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deliver_text);
         hidBar();
-<<<<<<< HEAD:app/src/main/java/com/example/administrator/langues/activity/Deliver_textActivity.java
-        Toolbar toolbar = findViewById(R.id.toolbar);
-=======
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         autoCompleteTextView=(AutoCompleteTextView)findViewById(R.id.autoCompleteTextView2);
         ready_to_publish=new ArrayList();
         send_btn=(Button)findViewById(R.id.deliver_btn);
         send_btn.setOnClickListener(this);
->>>>>>> cwk:app/src/main/java/com/example/administrator/langues/Deliver_textActivity.java
         setSupportActionBar(toolbar);
         current_select_count=0;
         //返回按钮
@@ -102,27 +91,6 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
         Display display = getWindowManager().getDefaultDisplay();
         mScreenHeight= display.getHeight();
         mScreenWidth = display.getWidth();
-<<<<<<< HEAD:app/src/main/java/com/example/administrator/langues/activity/Deliver_textActivity.java
-        //以下均为测试代码，可删除
-        Button publish=findViewById(R.id.deliver_btn);
-        AutoCompleteTextView text=findViewById(R.id.autoCompleteTextView2);
-        publish.setOnClickListener(v->{
-            for (int i = 0; i < results.size(); i++) {
-                Log.i("mData",results.get(i));
-            }
-            User.getInstance().setPhone("15728283804");
-            (new DynamicOperation()).publishDynamic(text.getText().toString(), results, s -> {
-                if(s.equals("1")){
-                    Toast.makeText(getApplicationContext(),"发布成功",Toast.LENGTH_LONG).show();
-                }
-            });
-        });
-=======
-
-
-
-
->>>>>>> cwk:app/src/main/java/com/example/administrator/langues/Deliver_textActivity.java
     }
     public  void hidBar(){
         if(getSupportActionBar()!=null){
@@ -130,10 +98,6 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
         }
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
-<<<<<<< HEAD:app/src/main/java/com/example/administrator/langues/activity/Deliver_textActivity.java
-=======
-
->>>>>>> cwk:app/src/main/java/com/example/administrator/langues/Deliver_textActivity.java
     class VIewHolder {
         ImageView iv;
     }
@@ -207,14 +171,10 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
                 isMultiSelect = true;
                 Bundle bundle = new Bundle();
                 bundle.putBoolean(PhotoPickerActivity.IS_MULTI_SELECT, true);
-<<<<<<< HEAD:app/src/main/java/com/example/administrator/langues/activity/Deliver_textActivity.java
-                defaultMaxCount = 9;
-=======
 //
 //
                 defaultMaxCount = 9;
 //
->>>>>>> cwk:app/src/main/java/com/example/administrator/langues/Deliver_textActivity.java
                 bundle.putInt(PhotoPickerActivity.MAX_SELECT_SIZE, defaultMaxCount);
                 bundle.putInt("current_select_count",current_select_count);
                 intent.putExtras(bundle);
@@ -247,12 +207,6 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
         }
 
     }
-<<<<<<< HEAD:app/src/main/java/com/example/administrator/langues/activity/Deliver_textActivity.java
-=======
-
-
-
->>>>>>> cwk:app/src/main/java/com/example/administrator/langues/Deliver_textActivity.java
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -288,18 +242,6 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
                 }
                 adapter = new Photodaapter(listpath, this);
                 gridview.setAdapter(adapter);
-<<<<<<< HEAD:app/src/main/java/com/example/administrator/langues/activity/Deliver_textActivity.java
-                gridview.setOnItemClickListener((parent, v, position, id) -> {
-                    if( listpath.size() >= 9) { //第一张为默认图片
-                        Toast.makeText(Deliver_textActivity.this, "图片数9张已满", Toast.LENGTH_SHORT).show();
-                    }else {
-                        dialog(position);
-                        //Toast.makeText(MainActivity.this, "点击第"+(position + 1)+" 号图片",
-                        //      Toast.LENGTH_SHORT).show();
-                    }
-                });
-                if (results == null) { return; }
-=======
                 gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -319,7 +261,6 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
                 if (results == null) {
                     return;
                 }
->>>>>>> cwk:app/src/main/java/com/example/administrator/langues/Deliver_textActivity.java
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < results.size(); i++) {
                     sb.append(i + 1).append('：').append(results.get(i)).append("\n");
@@ -335,12 +276,6 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
         AlertDialog.Builder builder = new AlertDialog.Builder(Deliver_textActivity.this);
         builder.setMessage("确认移除已添加图片吗？");
         builder.setTitle("提示");
-<<<<<<< HEAD:app/src/main/java/com/example/administrator/langues/activity/Deliver_textActivity.java
-        builder.setPositiveButton("确认", (dialog, which) -> {
-            dialog.dismiss();
-            listpath.remove(position);
-            adapter.notifyDataSetChanged();
-=======
         builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -357,17 +292,8 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
             }
->>>>>>> cwk:app/src/main/java/com/example/administrator/langues/Deliver_textActivity.java
         });
         builder.setNegativeButton("取消", (dialog, which) -> dialog.dismiss());
         builder.create().show();
     }
-<<<<<<< HEAD:app/src/main/java/com/example/administrator/langues/activity/Deliver_textActivity.java
-=======
-
-
-
-
-
->>>>>>> cwk:app/src/main/java/com/example/administrator/langues/Deliver_textActivity.java
 }

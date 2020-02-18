@@ -12,7 +12,7 @@ android {
     }
     defaultConfig {
         applicationId "com.example.administrator.langues"
-        minSdkVersion 24
+        minSdkVersion 22
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -41,35 +41,13 @@ dependencies {
     api 'com.hyphenate:hyphenate-sdk:3.6.1'
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:28.0.0'
-    compile 'org.xutils:xutils:3.8.4'
     compile 'com.android.support:design:28.0.0'
     compile 'com.android.support:support-v4:28.0.0'
     compile 'com.android.support:recyclerview-v7:28.0.0'
     compile 'com.android.support:cardview-v7:28.0.0'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile files('libs/Volley.jar')
-<<<<<<< HEAD
     implementation 'org.xutils:xutils:3.8.4'
     implementation project(':photopicker')
     implementation files('libs/fastjson-1.2.5.jar')
 }
-=======
-//    compile files('libs/Xutils.jar')
-
-    implementation project(':photopicker')
-    implementation files('libs/fastjson-1.2.5.jar')
-}
-/*MobSDK {
-    appKey "2c2251f394e08"
-    appSecret "bbb0dbce8beba06822ecedfe878d9867"
-    SMSSDK {
-        gui false
-        //默认使用GUI，若不使用GUI，通过以下开关关闭
-        //gui false
-        //若使用GUI的自动填充验证码功能，需打开此设置
-        //autoSMS true
-    }
-}
-*/
-
->>>>>>> cwk

@@ -3,6 +3,7 @@ package com.example.administrator.langues.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,9 +39,6 @@ public class squareFindFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_square_find, container, false);
-<<<<<<< HEAD:app/src/main/java/com/example/administrator/langues/fragment/squareFindFragment.java
-
-=======
         DynamicOperation dynamicOperation=new DynamicOperation();
         dynamicOperation.getSquare(0, 10, new DynamicOperation.DynamicGetCallback() {
             @Override
@@ -48,7 +46,6 @@ public class squareFindFragment extends Fragment {
                 Log.i("mData",res.toString());
             }
         });
->>>>>>> cwk:app/src/main/java/com/example/administrator/langues/squareFindFragment.java
         square_find_listview=view.findViewById(R.id.square_find_listview);
         gridView=view.findViewById(R.id.square_gridview);
 

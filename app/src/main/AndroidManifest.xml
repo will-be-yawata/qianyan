@@ -38,6 +38,7 @@
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
+        android:largeHeap="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
@@ -107,23 +108,14 @@
             android:name=".activity.Sign_In_Activity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-<<<<<<< HEAD
             android:name=".activity.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
-            android:windowSoftInputMode="adjustPan|stateHidden" />
-=======
-            android:name=".LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
-
-        </activity>
+            <!--android:windowSoftInputMode="adjustPan|stateHidden" />-->
         <activity
-            android:name=".RegisterActivity"
+            android:name=".activity.RegisterActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan|stateHidden">
-        </activity>
->>>>>>> cwk
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".activity.FeedbackActivity"
             android:theme="@style/AppTheme.NoActionBar" />

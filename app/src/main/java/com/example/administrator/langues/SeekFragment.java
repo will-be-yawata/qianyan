@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 
+import com.example.administrator.langues.activity.LoginActivity;
 import com.hyphenate.chat.EMClient;
 
 import java.util.HashMap;
