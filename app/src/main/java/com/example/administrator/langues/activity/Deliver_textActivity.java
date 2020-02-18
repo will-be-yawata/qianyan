@@ -1,11 +1,22 @@
 package com.example.administrator.langues.activity;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+<<<<<<< HEAD:app/src/main/java/com/example/administrator/langues/activity/Deliver_textActivity.java
+=======
+import android.content.pm.PackageManager;
+import android.content.res.Resources;
+>>>>>>> cwk:app/src/main/java/com/example/administrator/langues/Deliver_textActivity.java
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -25,6 +36,8 @@ import android.widget.Toast;
 
 import com.example.administrator.langues.R;
 import com.jay.ui.PhotoPickerActivity;
+import com.zyq.easypermission.EasyPermission;
+import com.zyq.easypermission.EasyPermissionResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,10 +47,15 @@ import util.core.DynamicOperation;
 
 public class Deliver_textActivity extends AppCompatActivity implements View.OnClickListener {
 
+    public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
     private FloatingActionButton btn2;
+    private Button send_btn;
     private ImageButton deliver_return;
+    private ArrayList ready_to_publish;//准备发布的图片集合
+    private AutoCompleteTextView autoCompleteTextView;
     private boolean isMultiSelect;
-    private int defaultMaxCount = 5;
+    private int defaultMaxCount = 9;
+    private int current_select_count;
     private ArrayList<String> results;
     /**显示图片的GridView*/
     private GridView gridview;
@@ -51,13 +69,28 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
     private int mScreenHeight;
     private int mScreenWidth;
 
+<<<<<<< HEAD:app/src/main/java/com/example/administrator/langues/activity/Deliver_textActivity.java
+=======
+
+
+
+>>>>>>> cwk:app/src/main/java/com/example/administrator/langues/Deliver_textActivity.java
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deliver_text);
         hidBar();
+<<<<<<< HEAD:app/src/main/java/com/example/administrator/langues/activity/Deliver_textActivity.java
         Toolbar toolbar = findViewById(R.id.toolbar);
+=======
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        autoCompleteTextView=(AutoCompleteTextView)findViewById(R.id.autoCompleteTextView2);
+        ready_to_publish=new ArrayList();
+        send_btn=(Button)findViewById(R.id.deliver_btn);
+        send_btn.setOnClickListener(this);
+>>>>>>> cwk:app/src/main/java/com/example/administrator/langues/Deliver_textActivity.java
         setSupportActionBar(toolbar);
+        current_select_count=0;
         //返回按钮
         deliver_return=findViewById(R.id.deliver_return);
         deliver_return.setOnClickListener(v -> finish());
@@ -69,6 +102,7 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
         Display display = getWindowManager().getDefaultDisplay();
         mScreenHeight= display.getHeight();
         mScreenWidth = display.getWidth();
+<<<<<<< HEAD:app/src/main/java/com/example/administrator/langues/activity/Deliver_textActivity.java
         //以下均为测试代码，可删除
         Button publish=findViewById(R.id.deliver_btn);
         AutoCompleteTextView text=findViewById(R.id.autoCompleteTextView2);
@@ -83,6 +117,12 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
                 }
             });
         });
+=======
+
+
+
+
+>>>>>>> cwk:app/src/main/java/com/example/administrator/langues/Deliver_textActivity.java
     }
     public  void hidBar(){
         if(getSupportActionBar()!=null){
@@ -90,6 +130,10 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
         }
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
+<<<<<<< HEAD:app/src/main/java/com/example/administrator/langues/activity/Deliver_textActivity.java
+=======
+
+>>>>>>> cwk:app/src/main/java/com/example/administrator/langues/Deliver_textActivity.java
     class VIewHolder {
         ImageView iv;
     }
@@ -140,35 +184,111 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
         Intent intent = new Intent(Deliver_textActivity.this, PhotoPickerActivity.class);
         switch (v.getId()) {
             case R.id.btn2://多选
+//                EasyPermission.build().requestPermission(Deliver_textActivity.this, Manifest.permission.CALL_PHONE);
+                EasyPermission.build()
+                        .mRequestCode(2)
+                        .mContext(Deliver_textActivity.this)
+                        .mPerms(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        .mPerms(Manifest.permission.READ_EXTERNAL_STORAGE)
+                        .mResult(new EasyPermissionResult() {
+                            @Override
+                            public void onPermissionsAccess(int requestCode) {
+                                super.onPermissionsAccess(requestCode);
+                                Log.i("testex","获取成功");
+                            }
+
+                            @Override
+                            public void onPermissionsDismiss(int requestCode, @NonNull List<String> permissions) {
+                                super.onPermissionsDismiss(requestCode, permissions);
+                                Log.i("testex","f");
+                            }
+                        }).requestPermission();
+
                 isMultiSelect = true;
                 Bundle bundle = new Bundle();
                 bundle.putBoolean(PhotoPickerActivity.IS_MULTI_SELECT, true);
+<<<<<<< HEAD:app/src/main/java/com/example/administrator/langues/activity/Deliver_textActivity.java
                 defaultMaxCount = 9;
+=======
+//
+//
+                defaultMaxCount = 9;
+//
+>>>>>>> cwk:app/src/main/java/com/example/administrator/langues/Deliver_textActivity.java
                 bundle.putInt(PhotoPickerActivity.MAX_SELECT_SIZE, defaultMaxCount);
+                bundle.putInt("current_select_count",current_select_count);
                 intent.putExtras(bundle);
+                startActivityForResult(intent,1001);
                 break;
+            case R.id.deliver_btn:
+                DynamicOperation dynamicOperation=new DynamicOperation();
+                String user_text=autoCompleteTextView.getText().toString();
+
+                dynamicOperation.publishDynamic(user_text, ready_to_publish, new DynamicOperation.DynamicPublishCallback() {
+                    @Override
+                    public void publishDynamicData(String s) {
+                        if(s.equals("1")){
+                            //成功
+
+                            Toast.makeText(getApplicationContext(),"发布成功",Toast.LENGTH_LONG).show();
+
+
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(),"发布失败",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+                Toast.makeText(getApplicationContext(),"发布中,请稍后",Toast.LENGTH_LONG).show();
+                startActivity(new Intent(getApplicationContext(),SquareFragment.class));
+                break;
+
+
         }
-        startActivityForResult(intent,1001);
+
     }
+<<<<<<< HEAD:app/src/main/java/com/example/administrator/langues/activity/Deliver_textActivity.java
+=======
+
+
+
+>>>>>>> cwk:app/src/main/java/com/example/administrator/langues/Deliver_textActivity.java
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+
+        try {
         if (requestCode == 1001 && resultCode == RESULT_OK) {
             if (isMultiSelect) {
                 //多选
                 results = data.getStringArrayListExtra(PhotoPickerActivity.SELECT_RESULTS_ARRAY);
+                ready_to_publish.addAll(results);
+                current_select_count+=results.size();
 
-                for(int i=0;i<results.size();i++){
+                for (int i = 0; i < results.size(); i++) {
                     scanpath = results.get(i);
-                    Bitmap bitmap = BitmapFactory.decodeFile(scanpath);
-                    //Log.i("bitmap","bitmap="+results.get(i));
-                    if(bitmap!=null) {
-                        listpath.add(bitmap);
-                       // Log.i("listpath","listpath="+listpath);
+                    try {
+                        Bitmap bitmap = BitmapFactory.decodeFile(scanpath);
+                        Log.i("result_of_picker", "bitmap=" + results.get(i));
+                        if (bitmap != null) {
+                            listpath.add(bitmap);
+                            Log.i("result_of_picker", "listpath=" + listpath);
+                        }
+                    }catch (OutOfMemoryError err){
+                        BitmapFactory.Options opts = new BitmapFactory.Options();
+                        opts.inSampleSize = 4;
+                        Bitmap bmp = BitmapFactory.decodeFile(scanpath, opts);
+                        if (bmp != null) {
+                            listpath.add(bmp);
+                            Log.i("result_of_picker", "listpath=" + listpath);
+                        }
                     }
+
                 }
                 adapter = new Photodaapter(listpath, this);
                 gridview.setAdapter(adapter);
+<<<<<<< HEAD:app/src/main/java/com/example/administrator/langues/activity/Deliver_textActivity.java
                 gridview.setOnItemClickListener((parent, v, position, id) -> {
                     if( listpath.size() >= 9) { //第一张为默认图片
                         Toast.makeText(Deliver_textActivity.this, "图片数9张已满", Toast.LENGTH_SHORT).show();
@@ -179,23 +299,75 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
                     }
                 });
                 if (results == null) { return; }
+=======
+                gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                        if (listpath.size() >= 10) { //第一张为默认图片
+                            Toast.makeText(Deliver_textActivity.this, "图片数9张已满", Toast.LENGTH_SHORT).show();
+
+
+                        } else {
+                            dialog(position);
+                            //Toast.makeText(MainActivity.this, "点击第"+(position + 1)+" 号图片",
+                            //      Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+
+                if (results == null) {
+                    return;
+                }
+>>>>>>> cwk:app/src/main/java/com/example/administrator/langues/Deliver_textActivity.java
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < results.size(); i++) {
-                    sb.append(i+1).append('：').append(results.get(i)).append("\n");
+                    sb.append(i + 1).append('：').append(results.get(i)).append("\n");
                 }
             }
+        }
+    }
+        catch(Exception e){
+            e.printStackTrace();
         }
     }
     public void dialog(final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(Deliver_textActivity.this);
         builder.setMessage("确认移除已添加图片吗？");
         builder.setTitle("提示");
+<<<<<<< HEAD:app/src/main/java/com/example/administrator/langues/activity/Deliver_textActivity.java
         builder.setPositiveButton("确认", (dialog, which) -> {
             dialog.dismiss();
             listpath.remove(position);
             adapter.notifyDataSetChanged();
+=======
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                listpath.remove(position);
+                ready_to_publish.remove(position);
+                current_select_count--;
+                adapter.notifyDataSetChanged();
+
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+>>>>>>> cwk:app/src/main/java/com/example/administrator/langues/Deliver_textActivity.java
         });
         builder.setNegativeButton("取消", (dialog, which) -> dialog.dismiss());
         builder.create().show();
     }
+<<<<<<< HEAD:app/src/main/java/com/example/administrator/langues/activity/Deliver_textActivity.java
+=======
+
+
+
+
+
+>>>>>>> cwk:app/src/main/java/com/example/administrator/langues/Deliver_textActivity.java
 }

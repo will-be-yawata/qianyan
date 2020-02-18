@@ -1,20 +1,24 @@
 package com.jay.ui;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
+import android.support.v4.content.FileProvider;
 import android.support.v4.content.Loader;
 import android.support.v4.util.ArrayMap;
 import android.support.v4.view.MenuItemCompat;
@@ -40,6 +44,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.jay.ui.entity.Photo;
+import com.zyq.easypermission.EasyPermission;
+import com.zyq.easypermission.EasyPermissionResult;
 
 import java.io.File;
 import java.io.IOException;
@@ -72,6 +78,7 @@ public class PhotoPickerActivity extends AppCompatActivity implements LoaderMana
     private RecyclerView rvContainer;
     private PhotoListAdapter photoListAdapter;
     private List<Photo> currentDisplayPhotos;//当前显示的图片
+    private int current_select_count;//当前已经被选中的图片数量
     //----------------------------------------------------------------------------------------------
     private boolean isShowGif;//是否显示gif图片
     private boolean isMultiSelect;//是否支持多选
@@ -92,9 +99,11 @@ public class PhotoPickerActivity extends AppCompatActivity implements LoaderMana
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
+
         if (bundle != null) {
             isMultiSelect = bundle.getBoolean(IS_MULTI_SELECT, false);
             isShowGif = bundle.getBoolean(IS_SHOW_GIF, false);
+            current_select_count = bundle.getInt("current_select_count");
             if (isMultiSelect) {
                 resultPhotoUris = bundle.getStringArrayList(SELECT_RESULTS_ARRAY);
                 if (resultPhotoUris == null) {
@@ -107,6 +116,7 @@ public class PhotoPickerActivity extends AppCompatActivity implements LoaderMana
         }
 
         setContentView(R.layout.photo_picker_activity);
+        check_permission();
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
@@ -115,16 +125,16 @@ public class PhotoPickerActivity extends AppCompatActivity implements LoaderMana
                 toolbarCustomView = new TextView(this);
                 toolbarCustomView.setTextColor(Color.BLACK);
                 toolbarCustomView.setTextSize(20);
-                toolbarCustomView.setText(String.format(Locale.getDefault(), "%d/%d", resultPhotoUris.size(), maxSize));
+                toolbarCustomView.setText(String.format(Locale.getDefault(), "%d/%d", current_select_count+resultPhotoUris.size(), maxSize));
                 ActionBar.LayoutParams params = new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
                 params.gravity = Gravity.CENTER_HORIZONTAL;
                 actionBar.setCustomView(toolbarCustomView, params);
                 actionBar.setDisplayShowCustomEnabled(true);
-            }else{
-                Log.i("mData","isMultiSelect:"+isMultiSelect);
+            } else {
+                Log.i("mData", "isMultiSelect:" + isMultiSelect);
             }
-        }else{
-            Log.i("mData","actionBar is null");
+        } else {
+            Log.i("mData", "actionBar is null");
         }
 
         rvContainer = (RecyclerView) findViewById(R.id.rvContainer);
@@ -143,7 +153,31 @@ public class PhotoPickerActivity extends AppCompatActivity implements LoaderMana
                 exitAndOk();
             }
         });
-        getSupportLoaderManager().initLoader(0, null, this);
+        LoaderManager loaderManager = this.getSupportLoaderManager();
+//        getSupportLoaderManager().initLoader(0, null, this);
+        loaderManager.initLoader(0, null, this);
+    }
+
+    public void check_permission() {
+        EasyPermission.build()
+                .mRequestCode(2)
+                .mContext(PhotoPickerActivity.this)
+                .mPerms(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .mPerms(Manifest.permission.READ_EXTERNAL_STORAGE)
+                .mPerms(Manifest.permission.CAMERA)
+                .mResult(new EasyPermissionResult() {
+                    @Override
+                    public void onPermissionsAccess(int requestCode) {
+                        super.onPermissionsAccess(requestCode);
+                        Log.i("testex", "获取成功");
+                    }
+
+                    @Override
+                    public void onPermissionsDismiss(int requestCode, @NonNull List<String> permissions) {
+                        super.onPermissionsDismiss(requestCode, permissions);
+                        Log.i("testex", "f");
+                    }
+                }).requestPermission();
     }
 
     @Override
@@ -162,7 +196,7 @@ public class PhotoPickerActivity extends AppCompatActivity implements LoaderMana
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (data!=null&&data.moveToFirst()) {
+        if (data != null && data.moveToFirst()) {
             List<Photo> allPhotoUris = new ArrayList<>();
             if (!photoDirMap.containsKey(ALL_PHOTO_DIR_NAME)) {
                 photoDirMap.put(ALL_PHOTO_DIR_NAME, allPhotoUris);
@@ -226,13 +260,20 @@ public class PhotoPickerActivity extends AppCompatActivity implements LoaderMana
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             takePhotoFile = createImageFile();
             // Continue only if the File was successfully created
-            if (takePhotoFile != null) {
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-                        Uri.fromFile(takePhotoFile));
-                startActivityForResult(takePictureIntent, TAKE_PHOTO);
-            } else {
-                showSnackBar(getString(R.string.open_camera_fail));
+            check_permission();
+            try {
+                if (takePhotoFile != null) {
+                    Uri tmp = FileProvider.getUriForFile(getApplicationContext(), "com.example.administrator.langues", takePhotoFile);
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, tmp);
+                    startActivityForResult(takePictureIntent, TAKE_PHOTO);
+                } else {
+                    showSnackBar(getString(R.string.open_camera_fail));
+                }
+            } catch (Exception e) {
+                Log.e("cwk","异常位置:PhotoPickerActivity的onOptionsItemSelected.可能原因:相机问题");
+                e.printStackTrace();
             }
+
         } else if (item.getItemId() == R.id.menu_dir) {
             SubMenu subMenu = item.getSubMenu();
             subMenu.clear();
@@ -259,6 +300,9 @@ public class PhotoPickerActivity extends AppCompatActivity implements LoaderMana
             }
         }
         File file = null;
+        if (!EasyPermission.build().hasPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            EasyPermission.build().requestPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
         try {
             file = File.createTempFile(imageFileName, ".jpg", storageDir);
         } catch (IOException e) {
@@ -301,6 +345,7 @@ public class PhotoPickerActivity extends AppCompatActivity implements LoaderMana
         outState.putInt(MAX_SELECT_SIZE, maxSize);
         if (null != takePhotoFile) {
             outState.putString("takePhotoPath", takePhotoFile.getAbsolutePath());
+//            Uri contentUri=FileProvider.getUriForFile(getApplicationContext(),"com.example.administrator.langues",file);
         }
         if (isMultiSelect) {
             outState.putStringArrayList(SELECT_RESULTS_ARRAY, resultPhotoUris);
@@ -330,9 +375,11 @@ public class PhotoPickerActivity extends AppCompatActivity implements LoaderMana
 
     public void notifyMediaUpdate(File file) {
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        Uri contentUri = Uri.fromFile(file);
+        Uri contentUri = FileProvider.getUriForFile(getApplicationContext(), "com.example.administrator.langues", file);
+//        Uri contentUri = Uri.fromFile(file);
         mediaScanIntent.setData(contentUri);
-        sendBroadcast(mediaScanIntent);
+        MediaScannerConnection.scanFile(this, new String[]{file.getAbsolutePath()}, null, null);
+//        sendBroadcast(mediaScanIntent);
     }
 
     private void exitAndOk() {
@@ -341,14 +388,19 @@ public class PhotoPickerActivity extends AppCompatActivity implements LoaderMana
             if (resultPhotoUris != null && !resultPhotoUris.isEmpty()) {
                 data.putExtra(SELECT_RESULTS_ARRAY, resultPhotoUris);
             } else {
-                showSnackBar("没有选择任何图片,请至少选择一张图片");
+                if(current_select_count!=maxSize){
+                    showSnackBar("没有选择任何图片,请至少选择一张图片");
+                }
+
                 return;
             }
         } else {
             if (!TextUtils.isEmpty(resultPhotoUri)) {
                 data.putExtra(SELECT_RESULTS, resultPhotoUri);
             } else {
-                showSnackBar("没有选择任何图片,请选择一张图片");
+                if(current_select_count!=maxSize){
+                    showSnackBar("没有选择任何图片,请至少选择一张图片");
+                }
                 return;
             }
         }
@@ -410,7 +462,7 @@ public class PhotoPickerActivity extends AppCompatActivity implements LoaderMana
             public void onClick(View v) {
                 CheckBox checkBox = (CheckBox) v;
                 boolean checked = checkBox.isChecked();
-                if (isMultiSelect && maxSize == resultPhotoUris.size() && checked) {
+                if (isMultiSelect && checked && (maxSize == resultPhotoUris.size() + current_select_count)) {
                     onAchieveMaxCount();
                     checkBox.setChecked(false);
                     return;
@@ -454,10 +506,12 @@ public class PhotoPickerActivity extends AppCompatActivity implements LoaderMana
                             resultPhotoUris.remove(uri);
                         }
                     }
-                    if(toolbarCustomView!=null)
-                        toolbarCustomView.setText(String.format(Locale.getDefault(), "%d/%d", resultPhotoUris.size(), maxSize));
+                    if (toolbarCustomView != null){
+                        int tmp=current_select_count+resultPhotoUris.size();
+                        toolbarCustomView.setText(String.format(Locale.getDefault(), "%d/%d", tmp, maxSize));
+                    }
                     else
-                        Log.i("mData","false");
+                        Log.i("mData", "false");
                 }
             }
         };

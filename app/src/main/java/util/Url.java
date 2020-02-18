@@ -6,6 +6,10 @@ package util;
 
 public class Url {
     public static String ROOT="http://119.23.216.103/qianyan/public/index.php/index/";
+<<<<<<< HEAD
+=======
+    public static String UPLOAD="http://119.23.216.103/qianyan/public/upload/";
+>>>>>>> cwk
 
     public static String REGISTER="register/register.html";
     public static String LOGIN="login/login.html";

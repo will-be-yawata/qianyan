@@ -1,5 +1,6 @@
 package com.example.administrator.langues.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,10 +26,31 @@ private EMHelp emHelp;
         emHelp=new EMHelp();
         emHelp.init(this);
         emHelp.answerCall();
+<<<<<<< HEAD:app/src/main/java/com/example/administrator/langues/activity/RegisterActivity.java
         btn.setOnClickListener(view -> {
             Log.i("mData",name.getText().toString());
             Log.i("mData",pwd.getText().toString());
             register();
+=======
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Log.i("mData",name.getText().toString());
+                Log.i("mData",pwd.getText().toString());
+                String userName=name.getText().toString();
+                String userPwd=pwd.getText().toString();
+                try {
+                    register();
+                    startActivity(new Intent(RegisterActivity.this,LoginActivity.class));
+                }catch (Exception e){
+                    Toast.makeText(getBaseContext(),"注册失败",Toast.LENGTH_SHORT).show();
+                }
+
+
+
+            }
+>>>>>>> cwk:app/src/main/java/com/example/administrator/langues/RegisterActivity.java
         });
     }
     private void initView() {
@@ -39,11 +61,23 @@ private EMHelp emHelp;
     private void register() {
             String userName=name.getText().toString();
             String userPwd=pwd.getText().toString();
+<<<<<<< HEAD:app/src/main/java/com/example/administrator/langues/activity/RegisterActivity.java
             emHelp.registered(userName, userPwd, isRegister -> {
                 if(isRegister){
                     runOnUiThread(()->Toast.makeText(getApplicationContext(),"注册成功",Toast.LENGTH_LONG).show());
                 }else{
                     runOnUiThread(()->Toast.makeText(getApplicationContext(),"注册失败",Toast.LENGTH_LONG).show());
+=======
+
+            emHelp.registered(userName, userPwd, new EMHelp.RegisterCallback() {
+                @Override
+                public void isRegister(boolean isRegister) {
+                    if(isRegister){
+                        runOnUiThread(()->Toast.makeText(getApplicationContext(),"注册成功",Toast.LENGTH_LONG).show());
+                    }else{
+                        runOnUiThread(()->Toast.makeText(getApplicationContext(),"注册失败",Toast.LENGTH_LONG).show());
+                    }
+>>>>>>> cwk:app/src/main/java/com/example/administrator/langues/RegisterActivity.java
                 }
             });
 //            if(emHelp.registered(userName,"123",userPwd)){
@@ -51,6 +85,7 @@ private EMHelp emHelp;
 //            }else{
 //                runOnUiThread(()->Toast.makeText(getApplicationContext(),"失败",Toast.LENGTH_LONG));
 //            }
+
 //            emHelp.registered()
 //            RequestParams params=new RequestParams(ROOT+REGISTER);
 //            params.setMultipart(false);

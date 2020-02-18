@@ -4,10 +4,12 @@ buildscript {
     repositories {
         google()
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+
         jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.0'
+
 
         // 注册MobSDK
        // classpath 'com.mob.sdk:MobSDK:+'
@@ -21,6 +23,7 @@ allprojects {
     repositories {
         google()
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'https://jitpack.io' }
         jcenter()
         mavenCentral();
 
@@ -29,7 +32,10 @@ allprojects {
             url 'https://maven.google.com/'
             name 'Google'
         }
+
     }
+
+
 }
 ext {
     versionCode = 30302

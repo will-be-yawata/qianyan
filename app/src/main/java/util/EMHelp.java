@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.example.administrator.langues.MainActivity;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMCallStateChangeListener;
@@ -51,6 +52,7 @@ public class EMHelp {
 
 
     public void registered(String phone,String pwd,RegisterCallback callback){
+
         RequestParams params=new RequestParams(Url.ROOT+Url.REGISTER);
         params.addBodyParameter("phone",phone);
         params.addBodyParameter("pwd",pwd);
@@ -210,12 +212,14 @@ public class EMHelp {
 
         }
     }
+
     //拨打电话
     public void voiceCall(String username){
         try{
             EMClient.getInstance().callManager().makeVoiceCall(username);
          }catch(EMServiceNotReadyException e){
             e.printStackTrace();
+
         }
     }
     //监听呼入通话
