@@ -128,6 +128,9 @@ public class EMHelp {
                     }
                 });
     }
+    public void logout(){
+        EMClient.getInstance().logout(true);
+    }
     public void autologin(String phone,AutoLoginCallback callback){
         RequestParams params=new RequestParams(Url.ROOT+Url.AUTOLOGIN);
         params.addBodyParameter("phone",phone);

@@ -46,8 +46,7 @@ import entry.User;
 import util.core.DynamicOperation;
 
 public class Deliver_textActivity extends AppCompatActivity implements View.OnClickListener {
-
-    public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
+    public static final int PHOTO_PICKER = 1001;
     private FloatingActionButton btn2;
     private Button send_btn;
     private ImageButton deliver_return;
@@ -167,7 +166,6 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
                                 Log.i("testex","f");
                             }
                         }).requestPermission();
-
                 isMultiSelect = true;
                 Bundle bundle = new Bundle();
                 bundle.putBoolean(PhotoPickerActivity.IS_MULTI_SELECT, true);
@@ -178,42 +176,33 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
                 bundle.putInt(PhotoPickerActivity.MAX_SELECT_SIZE, defaultMaxCount);
                 bundle.putInt("current_select_count",current_select_count);
                 intent.putExtras(bundle);
-                startActivityForResult(intent,1001);
+                startActivityForResult(intent,PHOTO_PICKER);
                 break;
             case R.id.deliver_btn:
                 DynamicOperation dynamicOperation=new DynamicOperation();
                 String user_text=autoCompleteTextView.getText().toString();
 
-                dynamicOperation.publishDynamic(user_text, ready_to_publish, new DynamicOperation.DynamicPublishCallback() {
-                    @Override
-                    public void publishDynamicData(String s) {
-                        if(s.equals("1")){
-                            //成功
-
-                            Toast.makeText(getApplicationContext(),"发布成功",Toast.LENGTH_LONG).show();
-
-
-                        }
-                        else {
-                            Toast.makeText(getApplicationContext(),"发布失败",Toast.LENGTH_LONG).show();
-                        }
+                dynamicOperation.publishDynamic(user_text, ready_to_publish, s -> {
+                    if(s.equals("1")){
+                        //成功
+                        Toast.makeText(getApplicationContext(),"发布成功",Toast.LENGTH_LONG).show();
+                        setResult(RESULT_OK);
+                        finish();
+                    }else {
+                        Toast.makeText(getApplicationContext(),"发布失败",Toast.LENGTH_LONG).show();
                     }
                 });
                 Toast.makeText(getApplicationContext(),"发布中,请稍后",Toast.LENGTH_LONG).show();
-                startActivity(new Intent(getApplicationContext(),SquareFragment.class));
+//                startActivity(new Intent(getApplicationContext(),SquareFragment.class));
                 break;
-
-
         }
 
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-
         try {
-        if (requestCode == 1001 && resultCode == RESULT_OK) {
+        if (requestCode == PHOTO_PICKER && resultCode == RESULT_OK) {
             if (isMultiSelect) {
                 //多选
                 results = data.getStringArrayListExtra(PhotoPickerActivity.SELECT_RESULTS_ARRAY);

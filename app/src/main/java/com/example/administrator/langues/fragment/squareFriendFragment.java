@@ -1,6 +1,7 @@
 package com.example.administrator.langues.fragment;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 
 import com.example.administrator.langues.GridView_Img_Adapter;
 import com.example.administrator.langues.R;
+import com.example.administrator.langues.view.RefreshListView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,71 +37,70 @@ import util.core.DynamicOperation;
  * A simple {@link Fragment} subclass.
  */
 public class squareFriendFragment extends Fragment {
-    ListView square_friend_listview;
-    GridView gridView;
+
+    private static final int GET_DYNAMIC=0;
+
+    private RefreshListView square_friend_listview;
+    private GridView gridView;
     private GridView_Img_Adapter gridView_img_adapter;
     private ArrayList<String[]> datas;
-    List<Map<String,Object>> mData=new ArrayList<>();
-    squareFindAdapter squareFindAdapter;
-    Handler mHandler=new Handler(){
-    @Override
-    public void handleMessage(Message msg) {
-        switch (msg.what){
-            case 2:
-                break;
-            case 1:
-                squareFindAdapter=new squareFindAdapter(getContext());
-                square_friend_listview.setAdapter(squareFindAdapter);
-                square_friend_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                    }
-                });
-                mData.addAll((List<Map<String,Object>>)msg.obj);
-                squareFindAdapter.notifyDataSetChanged();
-                break;
-        }
-    }
-};
+    private List<Map<String,Object>> mData=new ArrayList<>();
+    private squareFindAdapter squareFindAdapter;
+    private Handler mHandler;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_square_friend, container, false);
-       square_friend_listview=view.findViewById(R.id.square_friend_listview);
-        gridView=view.findViewById(R.id.square_gridview);
-        datas=new ArrayList<>();
-        gridView_img_adapter=new GridView_Img_Adapter(getContext());
+        init(view);
+        listener();
         getData();
         return view;
     }
-    private void getData(){
-        User.getInstance().updateFriends(new User.UpdateFriendsCallback() {
-            @Override
-            public void updateFriends(ArrayList<Friend> f) {
-                if(f==null){
-                    Log.i("cwk","完蛋");
-                }
-                DynamicOperation dynamicOperation=new DynamicOperation();
-                dynamicOperation.getDynamic(0, 10, new DynamicOperation.DynamicGetCallback() {
-                    @Override
-                    public void getDynamicData(ArrayList<Dynamic> res) {
-                        List<Map<String,Object>> list=new ArrayList<Map<String, Object>>();
-                        for(Dynamic dynamic:res) {
-                            Map<String, Object> map = new HashMap<String, Object>();
-                            map.put("square_name", dynamic.getName());
-                            map.put("square_introduce", dynamic.getText());
-                            datas.add(dynamic.getImg());
-                            list.add(map);
-                        }
-                        Message tmp=mHandler.obtainMessage();
-                        tmp.what=1;
-                        tmp.obj=list;
-                        mHandler.sendMessage(tmp);
-                    }
-                });
+    @SuppressLint("HandlerLeak")
+    private void init(View view){
+        square_friend_listview=view.findViewById(R.id.square_friend_listview);
+        gridView=view.findViewById(R.id.square_gridview);
+        datas=new ArrayList<>();
+        gridView_img_adapter=new GridView_Img_Adapter(getContext());
 
+        mHandler=new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what){
+                    case GET_DYNAMIC:
+                        squareFindAdapter=new squareFindAdapter(getContext());
+                        square_friend_listview.setAdapter(squareFindAdapter);
+                        mData.addAll((List<Map<String,Object>>)msg.obj);
+                        squareFindAdapter.notifyDataSetChanged();
+                        break;
+                }
             }
+        };
+    }
+    private void listener(){
+        square_friend_listview.setOnRefreshListener(this::getData);
+    }
+    private void getData(){
+        User.getInstance().updateFriends(f -> {
+            if(f==null){
+                Log.i("cwk","完蛋");
+                return ;
+            }
+            DynamicOperation dynamicOperation=new DynamicOperation();
+            dynamicOperation.getDynamic(0, 10, res -> {
+                List<Map<String,Object>> list= new ArrayList<>();
+                for(Dynamic dynamic:res) {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("square_name", dynamic.getName());
+                    map.put("square_introduce", dynamic.getText());
+                    datas.add(dynamic.getImg());
+                    list.add(map);
+                }
+                Message msg=mHandler.obtainMessage();
+                msg.what=GET_DYNAMIC;
+                msg.obj=list;
+                mHandler.sendMessage(msg);
+            });
         });
     }
     public final class ViewHolder{

@@ -3,11 +3,11 @@ package entry;
 import java.util.Arrays;
 
 public class Dynamic {
-    String id;
-    String name;
-    String[] img;
-    String text;
-    String agree;
+    private String id;
+    private String name;
+    private String[] img;
+    private String text;
+    private String agree;
 
     public String getId() {
         return id;

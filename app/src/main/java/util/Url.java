@@ -26,5 +26,5 @@ public class Url {
     public static String PAIRING="pairing/pairing.html";
     public static String GET_ENEMY="pairing/getenemy.html";
     public static String DELETE_ROOM="room/deleteroom.html";
-    public static String USER_IMG="http://119.23.216.103/qianyan/public/static/images/";
+    public static String USER_IMG="http://119.23.216.103/qianyan/public/static/images/user_img";
 }

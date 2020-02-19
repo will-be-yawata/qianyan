@@ -28,8 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="10dp">
-
-            <TextView
+        <TextView
                 android:id="@+id/square_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -61,8 +60,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="15dp"
-            >
+            android:layout_marginBottom="15dp">
             <com.example.administrator.langues.MyGridView
                 android:id="@+id/square_gridview"
                 android:layout_width="wrap_content"
@@ -71,13 +69,7 @@
                 android:horizontalSpacing="1dp"
                 android:verticalSpacing="1dp"
                 android:columnWidth="90dp"
-                android:stretchMode="columnWidth"
-                >
-
-            </com.example.administrator.langues.MyGridView>
-
-
-
+                android:stretchMode="columnWidth"/>
         </RelativeLayout>
         <View
 
