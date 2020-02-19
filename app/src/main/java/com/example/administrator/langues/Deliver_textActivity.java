@@ -235,7 +235,9 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
                     }
                 });
                 Toast.makeText(getApplicationContext(),"发布中,请稍后",Toast.LENGTH_LONG).show();
-                startActivity(new Intent(getApplicationContext(),SquareFragment.class));
+//                startActivity(new Intent(getApplicationContext(),My_DeliverActivity.class));
+//                getSupportFragmentManager().beginTransaction().replace(R.id.tablayout_frame,new squareFriendFragment()).commit();
+                finish();
                 break;
 
 
