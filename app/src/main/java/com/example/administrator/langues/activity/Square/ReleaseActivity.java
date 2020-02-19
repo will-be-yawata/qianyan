@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -44,6 +45,7 @@ public class ReleaseActivity extends AppCompatActivity implements View.OnClickLi
     private ImageButton add_pho_btn;
     private ImageButton release_return;
     private ImageButton take_pho_btn;
+    private Button release_btn;
 
     private static final int REQUEST_CODE_SELECT_IMG = 1;
     private static final int MAX_SELECT_COUNT = 9;
@@ -79,6 +81,7 @@ public class ReleaseActivity extends AppCompatActivity implements View.OnClickLi
         add_pho_btn.setOnClickListener(this);
         take_pho_btn.setOnClickListener(this);
         release_return.setOnClickListener(this);
+        release_btn.setOnClickListener(this);
     }
 
     private void init() {
@@ -86,6 +89,7 @@ public class ReleaseActivity extends AppCompatActivity implements View.OnClickLi
         add_pho_btn=findViewById(R.id.add_pho_btn);
         take_pho_btn=findViewById(R.id.take_pho_btn);
         release_return=findViewById(R.id.release_return);
+        release_btn=findViewById(R.id.release_btn);
 
         gridview=findViewById(R.id.release_gridview);
     }
@@ -100,6 +104,9 @@ public class ReleaseActivity extends AppCompatActivity implements View.OnClickLi
         switch (view.getId()){
             case R.id.release_return://返回
                 finish();
+                break;
+            case R.id.release_btn://发表按钮
+                Toast.makeText(getBaseContext(),"发表中",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.add_pho_btn://打开相册
                if(listpath.size() >= 9){//判断是否满9张图片

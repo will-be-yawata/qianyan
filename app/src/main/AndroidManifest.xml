@@ -83,10 +83,10 @@
             android:name=".activity.MyPage.User_data.AccountActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.Deliver_detail_Activity"
+            android:name=".activity.Square.Deliver_detail_Activity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.My_DeliverActivity"
+            android:name=".activity.Square.My_DeliverActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.My_ConcernActivity"

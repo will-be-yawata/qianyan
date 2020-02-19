@@ -16,7 +16,7 @@ import com.example.administrator.langues.R;
 import com.example.administrator.langues.activity.MyPage.User_data.AccountActivity;
 import com.example.administrator.langues.activity.FeedbackActivity;
 import com.example.administrator.langues.activity.My_ConcernActivity;
-import com.example.administrator.langues.activity.My_DeliverActivity;
+import com.example.administrator.langues.activity.Square.My_DeliverActivity;
 import com.example.administrator.langues.activity.Square.ReleaseActivity;
 import com.example.administrator.langues.activity.SettingActivity;
 import com.example.administrator.langues.activity.Sign_In_Activity;

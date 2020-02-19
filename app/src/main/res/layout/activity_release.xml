@@ -39,6 +39,7 @@
             android:textSize="20dp" />
 
         <Button
+            android:id="@+id/release_btn"
             android:layout_width="60dp"
             android:layout_height="30dp"
             android:layout_margin="4dp"
