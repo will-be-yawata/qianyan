@@ -25,7 +25,7 @@ public class ImageSelector {
         ImageSelectorActivity.show(activity, resquestCode, maxCount);
     }
 
-    public static ArrayList<String> getImagePaths(Intent data) {
+    public static List<String> getImagePaths(Intent data) {
         return ImageSelectorActivity.getImagePaths(data);
     }
 }

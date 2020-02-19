@@ -141,8 +141,8 @@ public class ImageSelectorActivity extends AppCompatActivity implements LoaderMa
         finish();
     }
 
-    public static ArrayList<String> getImagePaths(Intent data) {
-        return data == null ? (ArrayList<String>) Collections.<String>emptyList() : data.getStringArrayListExtra(EXTRA_KEY_DATA);
+    public static List<String> getImagePaths(Intent data) {
+        return data == null ? (List<String>) Collections.<String>emptyList() : data.getStringArrayListExtra(EXTRA_KEY_DATA);
     }
 
     public void preview(View v) {
