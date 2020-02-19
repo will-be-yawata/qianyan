@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#000000"
+    tools:context=".activity.Communicate_loadingActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/com_user_img"
+            android:layout_width="201dp"
+            android:layout_height="201dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/user" />
+        <TextView
+            android:id="@+id/com_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/com_user_img"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="29dp"
+            android:text="小白"
+            android:textColor="#fff"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/cl_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/finish_btn"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="18dp"
+            android:text="00:00:00"
+            android:textColor="#fff" />
+
+
+        <ImageButton
+            android:id="@+id/finish_btn"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            android:background="@android:color/transparent"
+            android:scaleType="centerInside"
+            app:srcCompat="@mipmap/reject" />
+
+        <ImageButton
+            android:id="@+id/opensound_btn"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignBottom="@+id/finish_btn"
+            android:layout_marginStart="62dp"
+            android:layout_marginLeft="62dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_toEndOf="@+id/finish_btn"
+            android:layout_toRightOf="@+id/finish_btn"
+            android:background="@android:color/transparent"
+            android:scaleType="centerInside"
+            app:srcCompat="@mipmap/icon11" />
+
+        <ImageButton
+            android:id="@+id/closesound_btn"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignBottom="@+id/finish_btn"
+            android:layout_marginStart="62dp"
+            android:layout_marginLeft="62dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_toEndOf="@+id/finish_btn"
+            android:layout_toRightOf="@+id/finish_btn"
+            android:background="@android:color/transparent"
+            android:scaleType="centerInside"
+            android:visibility="gone"
+            app:srcCompat="@mipmap/icon12" />
+
+        <ImageButton
+            android:id="@+id/openquiet_btn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignBottom="@+id/opensound_btn"
+            android:layout_marginEnd="76dp"
+            android:layout_marginRight="76dp"
+            android:layout_marginBottom="13dp"
+            android:layout_toStartOf="@+id/finish_btn"
+            android:layout_toLeftOf="@+id/finish_btn"
+            android:background="@android:color/transparent"
+            android:scaleType="centerInside"
+            app:srcCompat="@mipmap/icon13" />
+
+        <ImageButton
+            android:id="@+id/closequiet_btn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignBottom="@+id/opensound_btn"
+            android:layout_marginEnd="76dp"
+            android:layout_marginRight="76dp"
+            android:layout_marginBottom="13dp"
+            android:layout_toStartOf="@+id/finish_btn"
+            android:layout_toLeftOf="@+id/finish_btn"
+            android:background="@android:color/transparent"
+            android:scaleType="centerInside"
+            android:visibility="gone"
+            app:srcCompat="@mipmap/icon14" />
+
+    </RelativeLayout>
+</LinearLayout>
