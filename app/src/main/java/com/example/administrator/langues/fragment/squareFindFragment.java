@@ -41,9 +41,10 @@ public class squareFindFragment extends Fragment {
         View view=inflater.inflate(R.layout.fragment_square_find, container, false);
         DynamicOperation dynamicOperation=new DynamicOperation();
         dynamicOperation.getSquare(0, 10, new DynamicOperation.DynamicGetCallback() {
-            @Override
-            public void getDynamicData(ArrayList<Dynamic> res) {
+            public void onSuccess(ArrayList<Dynamic> res) {
                 Log.i("mData",res.toString());
+            }
+            public void onError() {
             }
         });
         square_find_listview=view.findViewById(R.id.square_find_listview);

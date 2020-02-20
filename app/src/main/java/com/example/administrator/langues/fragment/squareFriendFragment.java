@@ -14,13 +14,19 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.administrator.langues.GridView_Img_Adapter;
 import com.example.administrator.langues.R;
 import com.example.administrator.langues.view.RefreshListView;
+
+import org.xutils.common.util.DensityUtil;
+import org.xutils.image.ImageOptions;
+import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,6 +36,7 @@ import java.util.Map;
 import entry.Dynamic;
 import entry.Friend;
 import entry.User;
+import util.Url;
 import util.core.DynamicOperation;
 
 
@@ -44,9 +51,12 @@ public class squareFriendFragment extends Fragment {
     private GridView gridView;
     private GridView_Img_Adapter gridView_img_adapter;
     private ArrayList<String[]> datas;
-    private List<Map<String,Object>> mData=new ArrayList<>();
+    private List<Dynamic> dynamicData=new ArrayList<>();
     private squareFindAdapter squareFindAdapter;
     private Handler mHandler;
+
+    private int limit=4;
+    private int offset=0;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -63,14 +73,14 @@ public class squareFriendFragment extends Fragment {
         datas=new ArrayList<>();
         gridView_img_adapter=new GridView_Img_Adapter(getContext());
 
+        squareFindAdapter=new squareFindAdapter(getContext());
+        square_friend_listview.setAdapter(squareFindAdapter);
+
         mHandler=new Handler(){
             @Override
             public void handleMessage(Message msg) {
                 switch (msg.what){
                     case GET_DYNAMIC:
-                        squareFindAdapter=new squareFindAdapter(getContext());
-                        square_friend_listview.setAdapter(squareFindAdapter);
-                        mData.addAll((List<Map<String,Object>>)msg.obj);
                         squareFindAdapter.notifyDataSetChanged();
                         break;
                 }
@@ -78,7 +88,17 @@ public class squareFriendFragment extends Fragment {
         };
     }
     private void listener(){
-        square_friend_listview.setOnRefreshListener(this::getData);
+        square_friend_listview.setOnRefreshAndMoreListener(new RefreshListView.OnRefreshAndMoreListener() {
+            public void onRefresh() {
+                limit=4;
+                offset=0;
+                getData();
+            }
+            public void onMore() {
+                offset=offset+limit;
+                getData();
+            }
+        });
     }
     private void getData(){
         User.getInstance().updateFriends(f -> {
@@ -87,83 +107,82 @@ public class squareFriendFragment extends Fragment {
                 return ;
             }
             DynamicOperation dynamicOperation=new DynamicOperation();
-            dynamicOperation.getDynamic(0, 10, res -> {
-                List<Map<String,Object>> list= new ArrayList<>();
-                for(Dynamic dynamic:res) {
-                    Map<String, Object> map = new HashMap<>();
-                    map.put("square_name", dynamic.getName());
-                    map.put("square_introduce", dynamic.getText());
-                    datas.add(dynamic.getImg());
-                    list.add(map);
+            dynamicOperation.getDynamic(limit, offset, new DynamicOperation.DynamicGetCallback() {
+                public void onSuccess(ArrayList<Dynamic> res) {
+                    if(offset<=0) {
+                        dynamicData.clear();
+                        dynamicData=res;
+                        square_friend_listview.onRefreshComplete();
+                    }else{
+                        if(res.size()<=0){
+                            Toast.makeText(squareFriendFragment.this.getContext(),"没有更多了哦~",Toast.LENGTH_SHORT).show();
+                            square_friend_listview.onMoreComplete();
+                            return;
+                        }
+                        dynamicData.addAll(res);
+                        square_friend_listview.onMoreComplete();
+                    }
+                    Message msg=mHandler.obtainMessage();
+                    msg.what=GET_DYNAMIC;
+                    mHandler.sendMessage(msg);
                 }
-                Message msg=mHandler.obtainMessage();
-                msg.what=GET_DYNAMIC;
-                msg.obj=list;
-                mHandler.sendMessage(msg);
+                public void onError() {
+                    if(offset<=0)
+                        square_friend_listview.onRefreshComplete();
+                    else
+                        square_friend_listview.onMoreComplete();
+                }
             });
         });
     }
     public final class ViewHolder{
-        public GridView square_friend_photo;
-        public TextView square_friend_name;
-        public TextView square_friend_introduce;
+        GridView square_friend_photo;
+        TextView square_friend_name;
+        TextView square_friend_introduce;
+        ImageView square_friend_user_img;
     }
     public class squareFindAdapter extends BaseAdapter {
         private LayoutInflater mInflater;
-        public squareFindAdapter(Context context){
+        squareFindAdapter(Context context){
             this.mInflater=LayoutInflater.from(context);
         }
-        @Override
         public int getCount() {
-//            return mData.size();
-            return mData==null?0:mData.size();
+            return dynamicData==null?0:dynamicData.size();
         }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
+        public Dynamic getItem(int position) {
+            return dynamicData.get(position);
         }
-
-        @Override
         public long getItemId(int position) {
             return 0;
         }
-
-        @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             Log.i("cwk","准备加载第"+position+"条动态");
-            ViewHolder holder=null;
+            ViewHolder holder;
             if (convertView==null){
                 holder =new ViewHolder();
                 convertView=mInflater.inflate(R.layout.fragment_square_find_item,null);
                 holder.square_friend_photo= convertView.findViewById(R.id.square_gridview);
                 holder.square_friend_name= convertView.findViewById(R.id.square_name);
                 holder.square_friend_introduce= convertView.findViewById(R.id.square_introduce);
-
+                holder.square_friend_user_img=convertView.findViewById(R.id.square_pho);
                 convertView.setTag(holder);
             }else{
                 holder= (ViewHolder) convertView.getTag();
             }
 
-//            ArrayList<HashMap<String, Object>> meumList = new ArrayList<HashMap<String, Object>>();
-//            for(int i = 1;i <6;i++) {
-//                HashMap<String, Object> map = new HashMap<String, Object>();
-//                map.put("square_photo", R.mipmap.view);
-//                meumList.add(map);
-//            }
             gridView_img_adapter=new GridView_Img_Adapter(getContext());
-
-            gridView_img_adapter.setData(datas.get(position));
+            gridView_img_adapter.setData(dynamicData.get(position).getImg());
             gridView_img_adapter.notifyDataSetChanged();
-//            SimpleAdapter squareFindItemAdapter = new SimpleAdapter(getContext(),
-//                    meumList, //数据源
-//                    R.layout.square_find_photo, //xml实现
-//                    new String[]{"square_photo"}, //对应map的Key
-//                    new int[]{R.id.square_photo});  //对应R的Id
 
             holder.square_friend_photo.setAdapter(gridView_img_adapter);
-            holder.square_friend_name.setText((String)mData.get(position).get("square_name"));
-            holder.square_friend_introduce.setText((String)mData.get(position).get("square_introduce"));
+            holder.square_friend_name.setText(dynamicData.get(position).getName());
+            holder.square_friend_introduce.setText(dynamicData.get(position).getText());
+
+            ImageOptions imageOptions = new ImageOptions.Builder()
+                    .setRadius(DensityUtil.dip2px(10))
+                    .setLoadingDrawableId(R.mipmap.ic_launcher)//正在加载时的图片
+                    .setFailureDrawableId(R.mipmap.ic_launcher).build();//加载失败时的图片
+            x.image().bind(holder.square_friend_user_img, Url.USER_IMG+dynamicData.get(position).getUser_img(),imageOptions);
             return convertView;
         }
     }

@@ -8,6 +8,7 @@ public class Dynamic {
     private String[] img;
     private String text;
     private String agree;
+    private String user_img;
 
     public String getId() {
         return id;
@@ -49,7 +50,13 @@ public class Dynamic {
         this.agree = agree;
     }
 
-    @Override
+    public String getUser_img() {
+        return user_img;
+    }
+
+    public void setUser_img(String user_img) {
+        this.user_img = user_img;
+    }
     public String toString() {
         return "Dynamic{" +
                 "id='" + id + '\'' +
@@ -57,6 +64,7 @@ public class Dynamic {
                 ", img=" + Arrays.toString(img) +
                 ", text='" + text + '\'' +
                 ", agree='" + agree + '\'' +
+                ", user_img='" + user_img + '\'' +
                 '}';
     }
 }

@@ -47,7 +47,6 @@ public class GridView_Img_Adapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-
         Log.i("cwk","这一条动态一共要加载"+datas.length+"张图片,当前是第"+i+"张图片");
         GridView_Img_Adapter.ViewHolder holder=null;
         if (view==null){
