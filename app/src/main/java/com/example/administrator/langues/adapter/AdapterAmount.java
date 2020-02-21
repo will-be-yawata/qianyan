@@ -5,11 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.administrator.langues.R;
-import com.example.administrator.langues.activity.User_data.Top_up_Amount;
+import com.example.administrator.langues.activity.MyPage.User_data.Top_up_Amount;
 
 
 import java.util.ArrayList;

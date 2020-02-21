@@ -18,11 +18,10 @@ import com.example.administrator.langues.activity.MyPage.User_data.AccountActivi
 import com.example.administrator.langues.activity.FeedbackActivity;
 import com.example.administrator.langues.activity.My_ConcernActivity;
 import com.example.administrator.langues.activity.Square.My_DeliverActivity;
-import com.example.administrator.langues.activity.Square.ReleaseActivity;
 import com.example.administrator.langues.activity.SettingActivity;
 import com.example.administrator.langues.activity.Sign_In_Activity;
-import com.example.administrator.langues.activity.User_data.Member_DataActivity;
-import com.example.administrator.langues.activity.User_data.User_DataActivity;
+import com.example.administrator.langues.activity.MyPage.User_data.Member_DataActivity;
+import com.example.administrator.langues.activity.MyPage.User_data.User_DataActivity;
 
 
 /**
