@@ -15,8 +15,11 @@ import android.widget.Toast;
 
 import com.example.administrator.langues.activity.LoginActivity;
 import com.example.administrator.langues.activity.MainActivity;
+import com.example.administrator.langues.activity.TestActivity;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechUtility;
 
 import java.util.Iterator;
 import java.util.List;
@@ -32,9 +35,10 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
         initEM();
         x.Ext.init(this);
-
+        SpeechUtility.createUtility(getApplicationContext(), SpeechConstant.APPID +"=5e4d34bb");
         listenForForeground();
         listenForScreenTurningOff();
     }
@@ -138,7 +142,7 @@ public class MyApplication extends Application {
                         new EMHelp().autologin(EMClient.getInstance().getCurrentUser(), new EMHelp.AutoLoginCallback() {
                             public void onSuccess() {
                                 FriendOperation.getInstance().friendListener();
-                                Intent intent=new Intent(activity.getApplicationContext(),MainActivity.class);
+                                Intent intent=new Intent(activity.getApplicationContext(), TestActivity.class);
                                 activity.startActivity(intent);
                                 activity.finish();
                                 Log.i("mData",User.getInstance().getPhone());

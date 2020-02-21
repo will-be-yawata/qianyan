@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.TestActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+        <Button
+            android:id="@+id/test_voice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="开始"
+            />
+        <Button
+            android:id="@+id/stop_voice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="停止"
+            />
+
+        <EditText
+            android:id="@+id/standard_answer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="输入标准答案字符串"/>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
