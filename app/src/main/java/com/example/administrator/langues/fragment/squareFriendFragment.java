@@ -2,6 +2,7 @@ package com.example.administrator.langues.fragment;
 
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.example.administrator.langues.R;
+import com.handmark.pulltorefresh.library.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +28,8 @@ import java.util.Map;
  * A simple {@link Fragment} subclass.
  */
 public class squareFriendFragment extends Fragment {
-    ListView square_friend_listview;
+    private PullToRefreshListView square_friend_listview;
+    private squareFindAdapter squareFriendAdapter;
     GridView gridView;
     List<Map<String,Object>> mData;
 
@@ -37,12 +40,38 @@ public class squareFriendFragment extends Fragment {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_square_friend, container, false);
        square_friend_listview=view.findViewById(R.id.square_friend_listview);
+        //设置可上拉刷新和下拉刷新
+        square_friend_listview.setMode(PullToRefreshBase.Mode.BOTH);
+        //设置刷新时显示的文本
+        ILoadingLayout startLayout = square_friend_listview.getLoadingLayoutProxy(true,false);
+        startLayout.setPullLabel("正在下拉刷新...");
+        startLayout.setRefreshingLabel("正在玩命加载中...");
+        startLayout.setReleaseLabel("放开以刷新");
+
+        ILoadingLayout endLayout = square_friend_listview.getLoadingLayoutProxy(false,true);
+        endLayout.setPullLabel("正在上拉刷新...");
+        endLayout.setRefreshingLabel("正在玩命加载中...");
+        endLayout.setReleaseLabel("放开以刷新");
+
+        square_friend_listview.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                new LoadDataAsyncTask(squareFriendFragment.this).execute();
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                new LoadDataAsyncTask(squareFriendFragment.this).execute();
+            }
+        });
+
+
         gridView=view.findViewById(R.id.square_gridview);
 
 
         mData=getData();
-        squareFindAdapter squareFindAdapter=new squareFindAdapter(getContext());
-        square_friend_listview.setAdapter(squareFindAdapter);
+        squareFriendAdapter=new squareFindAdapter(getContext());
+        square_friend_listview.setAdapter(squareFriendAdapter);
         square_friend_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -54,6 +83,41 @@ public class squareFriendFragment extends Fragment {
 
 
         return view;
+    }
+    /**
+     * 异步下载任务
+     */
+    private static class LoadDataAsyncTask extends AsyncTask<Void,Void,String> {
+
+        private squareFriendFragment mainActivity;
+
+        public LoadDataAsyncTask(squareFriendFragment mainActivity) {
+            this.mainActivity = mainActivity;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            try {
+                Thread.sleep(2000);
+                mainActivity.getData();
+                return "seccess";
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        /**
+         * 完成时的方法
+         */
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if (s.equals("seccess")){
+                mainActivity.squareFriendAdapter.notifyDataSetChanged();
+                mainActivity.square_friend_listview.onRefreshComplete();//刷新完成
+            }
+        }
     }
     private List<Map<String,Object>> getData(){
         List<Map<String,Object>> list=new ArrayList<Map<String, Object>>();

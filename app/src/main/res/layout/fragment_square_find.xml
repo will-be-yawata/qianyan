@@ -5,12 +5,12 @@
     android:layout_height="match_parent"
     tools:context=".fragment.squareFindFragment"
     >
-<ListView
-    android:id="@+id/square_find_listview"
-    android:layout_width="match_parent"
-    android:layout_height="fill_parent">
 
-</ListView>
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id="@+id/square_find_listview"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent">
 
+    </com.handmark.pulltorefresh.library.PullToRefreshListView>
 
 </LinearLayout>

@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.administrator.langues.R;
+import com.example.administrator.langues.activity.MyPage.MyCourse.CourseActivity;
 import com.example.administrator.langues.activity.MyPage.User_data.AccountActivity;
 import com.example.administrator.langues.activity.FeedbackActivity;
 import com.example.administrator.langues.activity.My_ConcernActivity;
@@ -95,12 +96,10 @@ public class PersonalFragment extends Fragment {
         course.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*Toast toast=Toast.makeText(getContext(),"123",Toast.LENGTH_SHORT);
-                toast.show();*/
-               /* Intent intent=new Intent(getActivity(),CourseActivity.class);
-                startActivity(intent);*/
-               Intent intent=new Intent(getActivity(),ReleaseActivity.class);
-               startActivity(intent);
+
+                Intent intent=new Intent(getActivity(),CourseActivity.class);
+                startActivity(intent);
+
             }
         });
 

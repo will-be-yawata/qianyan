@@ -1,1 +1,1 @@
-include ':app', ':selectorlibrary'
+include ':app', ':selectorlibrary', ':library'
