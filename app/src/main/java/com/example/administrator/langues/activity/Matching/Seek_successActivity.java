@@ -1,6 +1,5 @@
-package com.example.administrator.langues.activity;
+package com.example.administrator.langues.activity.Matching;
 
-import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
@@ -13,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.example.administrator.langues.R;
+import com.example.administrator.langues.activity.Matching.Communicate_loadingActivity;
 
 import java.util.Timer;
 import java.util.TimerTask;

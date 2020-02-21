@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#d2f1ff"
-    tools:context=".activity.Seek_successActivity">
+    tools:context=".activity.Matching.Seek_successActivity">
     <RelativeLayout
         android:id="@+id/red_user"
         android:layout_width="wrap_content"

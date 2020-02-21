@@ -1,4 +1,4 @@
-package com.example.administrator.langues.activity;
+package com.example.administrator.langues.activity.MyPage;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;

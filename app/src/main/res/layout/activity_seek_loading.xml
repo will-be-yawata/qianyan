@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.Seek_loadingActivity"
+    tools:context=".activity.Matching.Seek_loadingActivity"
     android:background="#d2f1ff">
 
 

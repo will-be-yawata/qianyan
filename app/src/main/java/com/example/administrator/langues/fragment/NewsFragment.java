@@ -40,7 +40,7 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.administrator.langues.R;
-//import com.example.administrator.langues.activity.Friends_chatActivity;
+//import com.example.administrator.langues.activity.Chat.Friends_chatActivity;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;

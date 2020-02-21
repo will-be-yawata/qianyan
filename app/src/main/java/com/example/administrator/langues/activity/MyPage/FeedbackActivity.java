@@ -1,4 +1,4 @@
-package com.example.administrator.langues.activity;
+package com.example.administrator.langues.activity.MyPage;
 
 import android.app.Dialog;
 import android.content.DialogInterface;

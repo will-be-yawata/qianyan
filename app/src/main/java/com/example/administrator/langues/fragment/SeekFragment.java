@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.administrator.langues.R;
-import com.example.administrator.langues.activity.Seek_loadingActivity;
+import com.example.administrator.langues.activity.Matching.Seek_loadingActivity;
 
 import java.util.Timer;
 import java.util.TimerTask;

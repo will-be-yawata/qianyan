@@ -8,14 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.SimpleAdapter;
 
 import com.example.administrator.langues.R;
-import com.example.administrator.langues.activity.Friends_chatActivity;
+import com.example.administrator.langues.activity.Chat.Friends_chatActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
