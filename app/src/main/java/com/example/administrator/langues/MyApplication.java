@@ -1,5 +1,6 @@
 package com.example.administrator.langues;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
@@ -20,6 +21,7 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
+import com.zyq.easypermission.EasyPermission;
 
 import java.util.Iterator;
 import java.util.List;

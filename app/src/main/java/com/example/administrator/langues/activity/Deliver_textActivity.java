@@ -72,6 +72,30 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deliver_text);
+        EasyPermission.build()
+                        .mRequestCode(2)
+                        .mContext(Deliver_textActivity.this)
+                        .mPerms(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        .mPerms(Manifest.permission.READ_EXTERNAL_STORAGE)
+                        .mPerms(Manifest.permission.CAMERA)
+                        .mResult(new EasyPermissionResult() {
+                            @Override
+                            public void onPermissionsAccess(int requestCode) {
+                                super.onPermissionsAccess(requestCode);
+                                Log.i("testex","获取成功");
+                                initViews();
+                            }
+
+                            @Override
+                            public void onPermissionsDismiss(int requestCode, @NonNull List<String> permissions) {
+                                super.onPermissionsDismiss(requestCode, permissions);
+                                Toast.makeText(Deliver_textActivity.this,"只有授权了才能选择图片哦.",Toast.LENGTH_LONG).show();
+                            }
+                        }).requestPermission();
+
+    }
+
+    public void initViews(){
         hidBar();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         autoCompleteTextView=(AutoCompleteTextView)findViewById(R.id.autoCompleteTextView2);
@@ -87,7 +111,7 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
         btn2.setOnClickListener(this);
         gridview=findViewById(R.id.gridview);
         listpath = new ArrayList<>();
-/*获取屏幕宽度*/
+        /*获取屏幕宽度*/
         Display display = getWindowManager().getDefaultDisplay();
         mScreenHeight= display.getHeight();
         mScreenWidth = display.getWidth();
@@ -149,24 +173,26 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
         switch (v.getId()) {
             case R.id.btn2://多选
 //                EasyPermission.build().requestPermission(Deliver_textActivity.this, Manifest.permission.CALL_PHONE);
-                EasyPermission.build()
-                        .mRequestCode(2)
-                        .mContext(Deliver_textActivity.this)
-                        .mPerms(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        .mPerms(Manifest.permission.READ_EXTERNAL_STORAGE)
-                        .mResult(new EasyPermissionResult() {
-                            @Override
-                            public void onPermissionsAccess(int requestCode) {
-                                super.onPermissionsAccess(requestCode);
-                                Log.i("testex","获取成功");
-                            }
-
-                            @Override
-                            public void onPermissionsDismiss(int requestCode, @NonNull List<String> permissions) {
-                                super.onPermissionsDismiss(requestCode, permissions);
-                                Log.i("testex","f");
-                            }
-                        }).requestPermission();
+//                EasyPermission.build()
+//                        .mRequestCode(2)
+//                        .mContext(Deliver_textActivity.this)
+//                        .mPerms(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//                        .mPerms(Manifest.permission.READ_EXTERNAL_STORAGE)
+//                        .mResult(new EasyPermissionResult() {
+//                            @Override
+//                            public void onPermissionsAccess(int requestCode) {
+//                                super.onPermissionsAccess(requestCode);
+//                                Log.i("testex","获取成功");
+//                            }
+//
+//                            @Override
+//                            public void onPermissionsDismiss(int requestCode, @NonNull List<String> permissions) {
+//                                super.onPermissionsDismiss(requestCode, permissions);
+//                                Log.i("testex","f");
+//                            }
+//                        }).requestPermission();
+//                EasyPermission.build().requestPermission(Deliver_textActivity.this,Manifest.permission.READ_EXTERNAL_STORAGE);
+//                EasyPermission.build().requestPermission(Deliver_textActivity.this,Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
                 isMultiSelect = true;
                 Bundle bundle = new Bundle();

@@ -115,8 +115,36 @@ public class PhotoPickerActivity extends AppCompatActivity implements LoaderMana
             }
         }
 
+//        check_permission();
+//        EasyPermission.build().requestPermission(PhotoPickerActivity.this,Manifest.permission.WRITE_EXTERNAL_STORAGE);
+//        EasyPermission.build().requestPermission(PhotoPickerActivity.this,Manifest.permission.READ_EXTERNAL_STORAGE);
+//        EasyPermission.build()
+//                .mRequestCode(2)
+//                .mContext(PhotoPickerActivity.this)
+//                .mPerms(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//                .mPerms(Manifest.permission.READ_EXTERNAL_STORAGE)
+//                .mPerms(Manifest.permission.CAMERA)
+//                .mResult(new EasyPermissionResult() {
+//                    @Override
+//                    public void onPermissionsAccess(int requestCode) {
+//                        super.onPermissionsAccess(requestCode);
+//                        initView();
+//                    }
+//
+//                    @Override
+//                    public void onPermissionsDismiss(int requestCode, @NonNull List<String> permissions) {
+//                        super.onPermissionsDismiss(requestCode, permissions);
+//                        Log.i("testex", "f");
+//                    }
+//                }).requestPermission();
+
+        initView();
+
+    }
+
+    public void initView(){
         setContentView(R.layout.photo_picker_activity);
-        check_permission();
+
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
@@ -159,6 +187,8 @@ public class PhotoPickerActivity extends AppCompatActivity implements LoaderMana
     }
 
     public void check_permission() {
+        EasyPermission.build().requestPermission(PhotoPickerActivity.this,Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        EasyPermission.build().requestPermission(PhotoPickerActivity.this,Manifest.permission.READ_EXTERNAL_STORAGE);
         EasyPermission.build()
                 .mRequestCode(2)
                 .mContext(PhotoPickerActivity.this)
@@ -260,12 +290,36 @@ public class PhotoPickerActivity extends AppCompatActivity implements LoaderMana
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             takePhotoFile = createImageFile();
             // Continue only if the File was successfully created
-            check_permission();
+//            check_permission();
             try {
                 if (takePhotoFile != null) {
                     Uri tmp = FileProvider.getUriForFile(getApplicationContext(), "com.example.administrator.langues", takePhotoFile);
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, tmp);
                     startActivityForResult(takePictureIntent, TAKE_PHOTO);
+//                    EasyPermission.build()
+//                            .mRequestCode(2)
+//                            .mContext(PhotoPickerActivity.this)
+//                            .mPerms(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//                            .mPerms(Manifest.permission.READ_EXTERNAL_STORAGE)
+//                            .mPerms(Manifest.permission.CAMERA)
+//                            .mResult(new EasyPermissionResult() {
+//                                @Override
+//                                public void onPermissionsAccess(int requestCode) {
+//                                    super.onPermissionsAccess(requestCode);
+////                                    Log.i("testex", "获取成功");
+//                                    Uri tmp = FileProvider.getUriForFile(getApplicationContext(), "com.example.administrator.langues", takePhotoFile);
+//                                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, tmp);
+//                                    startActivityForResult(takePictureIntent, TAKE_PHOTO);
+//                                }
+//
+//
+//                                @Override
+//                                public void onPermissionsDismiss(int requestCode, @NonNull List<String> permissions) {
+//                                    super.onPermissionsDismiss(requestCode, permissions);
+//                                    Log.i("testex", "f");
+//                                }
+//                            }).requestPermission();
                 } else {
                     showSnackBar(getString(R.string.open_camera_fail));
                 }
