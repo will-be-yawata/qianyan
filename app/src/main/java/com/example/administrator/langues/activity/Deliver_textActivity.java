@@ -42,6 +42,11 @@ import com.zyq.easypermission.EasyPermissionResult;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.finalteam.rxgalleryfinal.RxGalleryFinalApi;
+import cn.finalteam.rxgalleryfinal.bean.MediaBean;
+import cn.finalteam.rxgalleryfinal.rxbus.RxBusResultDisposable;
+import cn.finalteam.rxgalleryfinal.rxbus.event.ImageMultipleResultEvent;
+import cn.finalteam.rxgalleryfinal.rxbus.event.ImageRadioResultEvent;
 import entry.User;
 import util.core.DynamicOperation;
 
@@ -172,6 +177,21 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
         Intent intent = new Intent(Deliver_textActivity.this, PhotoPickerActivity.class);
         switch (v.getId()) {
             case R.id.btn2://多选
+                RxGalleryFinalApi
+                        .getInstance(Deliver_textActivity.this)
+                        .setType(RxGalleryFinalApi.SelectRXType.TYPE_IMAGE, RxGalleryFinalApi.SelectRXType.TYPE_SELECT_MULTI)
+                        .setImageMultipleResultEvent(new RxBusResultDisposable<ImageMultipleResultEvent>() {
+                            @Override
+                            protected void onEvent(ImageMultipleResultEvent imageMultipleResultEvent) throws Exception {
+                                List<MediaBean> result = imageMultipleResultEvent.getResult();
+                                for (int i = 0; i < result.size(); i++) {
+                                    System.out.println("多选图片的回调" + result.get(i).getOriginalPath());
+                                    Toast.makeText(Deliver_textActivity.this, "多选图片的回调" + result.get(i).getOriginalPath(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }).open();
+
+
 //                EasyPermission.build().requestPermission(Deliver_textActivity.this, Manifest.permission.CALL_PHONE);
 //                EasyPermission.build()
 //                        .mRequestCode(2)
@@ -204,7 +224,7 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
                 bundle.putInt(PhotoPickerActivity.MAX_SELECT_SIZE, defaultMaxCount);
                 bundle.putInt("current_select_count",current_select_count);
                 intent.putExtras(bundle);
-                startActivityForResult(intent,1001);
+//                startActivityForResult(intent,1001);
                 break;
             case R.id.deliver_btn:
                 DynamicOperation dynamicOperation=new DynamicOperation();
