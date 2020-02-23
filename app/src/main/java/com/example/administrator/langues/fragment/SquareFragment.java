@@ -16,7 +16,8 @@ import android.widget.ImageButton;
 
 
 import com.example.administrator.langues.R;
-import com.example.administrator.langues.activity.Deliver_textActivity;
+
+import com.example.administrator.langues.activity.Square.ReleaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +45,15 @@ public class SquareFragment extends Fragment {
     }
     private void init(View view){
         deliver=view.findViewById(R.id.deliver);
+        deliver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent=new Intent(getContext(),ReleaseActivity.class);
+                startActivity(intent);
+
+            }
+        });
         square_tab=view.findViewById(R.id.square_tab);
         square_viewpager=view.findViewById(R.id.square_viewpager);
         initFragments();
@@ -64,10 +74,10 @@ public class SquareFragment extends Fragment {
         square_viewpager.setCurrentItem(0);
     }
     private void listener(){
-        deliver.setOnClickListener(v -> {
-            Intent intent=new Intent(getContext(),Deliver_textActivity.class);
-            startActivityForResult(intent,PUBLISH_DYNAMIC);
-        });
+//        deliver.setOnClickListener(v -> {
+//            Intent intent=new Intent(getContext(),Deliver_textActivity.class);
+//            startActivityForResult(intent,PUBLISH_DYNAMIC);
+//        });
     }
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

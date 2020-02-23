@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal">
+    <ProgressBar
+        android:id="@+id/more_loading"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:visibility="invisible"
+        android:layout_marginEnd="20dp"
+        android:indeterminateDrawable="@drawable/refresh"
+        android:layout_gravity="center" />
+    <TextView
+        android:id="@+id/more_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="正在加载..."
+        android:textSize="18sp"/>
+</LinearLayout>

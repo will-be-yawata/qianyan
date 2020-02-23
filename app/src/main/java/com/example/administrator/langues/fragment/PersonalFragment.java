@@ -14,13 +14,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.administrator.langues.R;
-import com.example.administrator.langues.activity.AccountActivity;
-import com.example.administrator.langues.activity.Deliver_detail_Activity;
+import com.example.administrator.langues.activity.MyPage.MyCourse.CourseActivity;
+import com.example.administrator.langues.activity.MyPage.User_data.AccountActivity;
 import com.example.administrator.langues.activity.FeedbackActivity;
 import com.example.administrator.langues.activity.My_ConcernActivity;
-import com.example.administrator.langues.activity.My_DeliverActivity;
+import com.example.administrator.langues.activity.Square.Deliver_detail_Activity;
+import com.example.administrator.langues.activity.Square.My_DeliverActivity;
+import com.example.administrator.langues.activity.Square.ReleaseActivity;
 import com.example.administrator.langues.activity.SettingActivity;
 import com.example.administrator.langues.activity.Sign_In_Activity;
+import com.example.administrator.langues.activity.User_data.Member_DataActivity;
+import com.example.administrator.langues.activity.User_data.User_DataActivity;
 
 import org.xutils.x;
 
@@ -39,8 +43,11 @@ import util.Url;
 public class PersonalFragment extends Fragment {
     ImageButton report;//签到按钮
     TextView reportText;//文字“签到”
+    TextView memberText;//用户属性
     ImageButton dope;//消息按钮
+    ImageButton user_data;//资料按钮
     RelativeLayout account;//我的账户
+    RelativeLayout course;//我的课程
     RelativeLayout sign_in;//我的签到
     RelativeLayout conver;//兑换中心
     RelativeLayout my_deliver;//我的发布
@@ -53,8 +60,26 @@ public class PersonalFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_personal, container, false);
-        userimg=view.findViewById(R.id.imageView2);
+        userimg=view.findViewById(R.id.Per_user_pho);
         x.image().bind(userimg, Url.USER_IMG+ User.getInstance().getImg());
+        //个人资料
+        user_data=view.findViewById(R.id.Per_user_pho);
+        user_data.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getActivity(),User_DataActivity.class);
+                startActivity(intent);
+                            }
+        });
+        //用户属性
+        memberText=view.findViewById(R.id.member);
+        memberText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getContext(),Member_DataActivity.class);
+                startActivity(intent);
+            }
+        });
         //签到
         report= view.findViewById(R.id.report);
         reportText= view.findViewById(R.id.reportText);
@@ -68,6 +93,17 @@ public class PersonalFragment extends Fragment {
                 ((ImageButton)v).setImageDrawable(getResources().getDrawable(R.mipmap.report1));
             }*/
             return false;
+        });
+        //我的课程
+        course=view.findViewById(R.id.my_course);
+        course.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent=new Intent(getActivity(),CourseActivity.class);
+                startActivity(intent);
+
+            }
         });
         //消息
         dope= view.findViewById(R.id.dope);

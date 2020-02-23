@@ -1,6 +1,5 @@
 package com.example.administrator.langues.fragment;
 
-
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
