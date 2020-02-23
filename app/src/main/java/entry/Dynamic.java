@@ -9,6 +9,7 @@ public class Dynamic {
     private String text;
     private String agree;
     private String user_img;
+    private String like;
 
     public String getId() {
         return id;
@@ -54,6 +55,14 @@ public class Dynamic {
         return user_img;
     }
 
+    public String getLike() {
+        return like;
+    }
+
+    public void setLike(String like) {
+        this.like = like;
+    }
+
     public void setUser_img(String user_img) {
         this.user_img = user_img;
     }
@@ -65,6 +74,7 @@ public class Dynamic {
                 ", text='" + text + '\'' +
                 ", agree='" + agree + '\'' +
                 ", user_img='" + user_img + '\'' +
+                ", like='" + like + '\'' +
                 '}';
     }
 }

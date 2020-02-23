@@ -9,18 +9,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.ListAdapter;
 
 
 import com.example.administrator.langues.R;
 import com.example.administrator.langues.activity.Deliver_textActivity;
-import com.example.administrator.langues.view.BackgroundForSquare;
-
-import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,22 +34,27 @@ public class SquareFragment extends Fragment {
     private List<String> titles;
     private List<Fragment> fragments;
     private ImageButton deliver;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_square, container, false);
+        init(view);
+        listener();
+        return view;
+    }
+    private void init(View view){
         deliver=view.findViewById(R.id.deliver);
-        deliver.setOnClickListener(v -> {
-            Intent intent=new Intent(getContext(),Deliver_textActivity.class);
-            startActivityForResult(intent,PUBLISH_DYNAMIC);
-        });
         square_tab=view.findViewById(R.id.square_tab);
         square_viewpager=view.findViewById(R.id.square_viewpager);
+        initFragments();
+    }
 
+    private void initFragments(){
         fragments = new ArrayList<>();
-        squareFriendFragment squareFriendFragment=new squareFriendFragment();
-        fragments.add(squareFriendFragment);
-        squareFindFragment squareFindFragment=new squareFindFragment();
-        fragments.add(squareFindFragment);
+        SquareFriendFragment SquareFriendFragment =new SquareFriendFragment();
+        fragments.add(SquareFriendFragment);
+        SquareFindFragment SquareFindFragment =new SquareFindFragment();
+        fragments.add(SquareFindFragment);
         titles = new ArrayList<>();
         titles.add("动态");
         titles.add("广场");
@@ -61,7 +62,12 @@ public class SquareFragment extends Fragment {
         square_viewpager.setAdapter(adapter);
         square_tab.setupWithViewPager(square_viewpager);
         square_viewpager.setCurrentItem(0);
-        return view;
+    }
+    private void listener(){
+        deliver.setOnClickListener(v -> {
+            Intent intent=new Intent(getContext(),Deliver_textActivity.class);
+            startActivityForResult(intent,PUBLISH_DYNAMIC);
+        });
     }
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -77,15 +83,12 @@ public class SquareFragment extends Fragment {
             this.fragments = fragments;
             this.titles = titles;
         }
-        @Override
         public Fragment getItem(int position) {
             return fragments.get(position);
         }
-        @Override
         public int getCount() {
             return fragments.size();
         }
-        @Override
         public CharSequence getPageTitle(int position) {
             return titles.get(position);
         }

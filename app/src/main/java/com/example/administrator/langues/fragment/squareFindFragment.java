@@ -1,8 +1,12 @@
 package com.example.administrator.langues.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +16,12 @@ import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.administrator.langues.R;
+import com.example.administrator.langues.adapter.SquareFindAdapter;
+import com.example.administrator.langues.adapter.SquareFriendAdapter;
+import com.example.administrator.langues.view.RefreshListView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,100 +35,74 @@ import util.core.DynamicOperation;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class squareFindFragment extends Fragment {
-    ListView square_find_listview;
-    GridView gridView;
+public class SquareFindFragment extends Fragment {
+    private static final int GET_SQUARE=0;
+    private SquareFriendAdapter adapter;
+    private RefreshListView listView;
+    private Handler mHandler;
+    int limit=4;
+    int offset=0;
 
-
-    private List<Map<String,Object>> mData;
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_square_find, container, false);
-        DynamicOperation dynamicOperation=new DynamicOperation();
-        dynamicOperation.getSquare(0, 10, new DynamicOperation.DynamicGetCallback() {
-            public void onSuccess(ArrayList<Dynamic> res) {
-                Log.i("mData",res.toString());
-            }
-            public void onError() {
-            }
-        });
-        square_find_listview=view.findViewById(R.id.square_find_listview);
-        gridView=view.findViewById(R.id.square_gridview);
-
-        mData=getData();
-        squareFindAdapter squareFindAdapter=new squareFindAdapter(getContext());
-        square_find_listview.setAdapter(squareFindAdapter);
-        square_find_listview.setOnItemClickListener((adapterView, view1, i, l) -> { });
+        init(view);
+        listener();
+        getData();
         return view;
     }
-    private List<Map<String,Object>>getData(){
-        List<Map<String,Object>> list= new ArrayList<>();
-            for(int i=0;i<10;i++) {
-                Map<String, Object> map = new HashMap<>();
-                map.put("square_name", "渣渣辉");
-                map.put("square_introduce", "有天才有地，有情才有意，有国才有家，有家才有你，有你我才有最好的朋友。国庆佳节，用真心将一份情意揉进金秋的阳光里，用思念把一句祝福装在多情的电波中：衷心祝你节日快乐，合家幸福，一生安康。");
-                list.add(map);
+    @SuppressLint("HandlerLeak")
+    private void init(View view){
+        listView=view.findViewById(R.id.square_find_listview);
+        adapter=new SquareFriendAdapter(this.getContext());
+        listView.setAdapter(adapter);
+        mHandler=new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what){
+                    case GET_SQUARE:
+                        adapter.notifyDataSetChanged();
+                        break;
+                }
             }
-        return list;
+        };
     }
-
-
-    public final class ViewHolder{
-        public GridView square_find_photo;
-        public TextView square_find_name;
-        public TextView square_find_introduce;
+    private void listener(){
+        listView.setOnRefreshAndMoreListener(new RefreshListView.OnRefreshAndMoreListener() {
+            public void onRefresh() {
+                offset=0;
+                getData();
+            }
+            public void onMore() {
+                offset+=limit;
+                getData();
+            }
+        });
     }
-    public class squareFindAdapter extends BaseAdapter{
-        private LayoutInflater mInflater;
-        public squareFindAdapter(Context context){
-            this.mInflater=LayoutInflater.from(context);
-        }
-        @Override
-        public int getCount() {
-            return mData.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
-            if (convertView==null){
-                holder =new ViewHolder();
-                convertView=mInflater.inflate(R.layout.fragment_square_find_item,null);
-                holder.square_find_photo= convertView.findViewById(R.id.square_gridview);
-                holder.square_find_name= convertView.findViewById(R.id.square_name);
-                holder.square_find_introduce= convertView.findViewById(R.id.square_introduce);
-                convertView.setTag(holder);
-            }else{
-                holder= (ViewHolder) convertView.getTag();
+    private void getData(){
+        DynamicOperation dynamicOperation=new DynamicOperation();
+        dynamicOperation.getSquare(limit, offset, new DynamicOperation.DynamicGetCallback() {
+            public void onSuccess(ArrayList<Dynamic> res) {
+                if(offset<=0) {
+                    adapter.setData(res);
+                    listView.onRefreshComplete();
+                }else{
+                    if(res.size()<=0){
+                        Toast.makeText(SquareFindFragment.this.getContext(),"没有更多了哦~",Toast.LENGTH_SHORT).show();
+                        listView.onMoreComplete();
+                        return;
+                    }
+                    adapter.addData(res);
+                    listView.onMoreComplete();
+                }
+                Message msg=mHandler.obtainMessage();
+                msg.what=GET_SQUARE;
+                mHandler.sendMessage(msg);
             }
-            ArrayList<HashMap<String, Object>> meumList = new ArrayList<HashMap<String, Object>>();
-            for(int i = 1;i <5;i++) {
-                HashMap<String, Object> map = new HashMap<String, Object>();
-                map.put("square_photo", R.mipmap.m);
-                meumList.add(map);
-            }
-            SimpleAdapter squareFindItemAdapter = new SimpleAdapter(getContext(),
-                    meumList, //数据源
-                    R.layout.square_find_photo, //xml实现
-                    new String[]{"square_photo"}, //对应map的Key
-                    new int[]{R.id.square_photo});  //对应R的Id
-            holder.square_find_photo.setAdapter(squareFindItemAdapter);
-            holder.square_find_name.setText((String)mData.get(position).get("square_name"));
-            holder.square_find_introduce.setText((String)mData.get(position).get("square_introduce"));
-            return convertView;
-        }
+            public void onError() {
+                if(offset<=0)
+                    listView.onRefreshComplete();
+                else
+                    listView.onMoreComplete();}
+        });
     }
 }
