@@ -47,6 +47,8 @@ import cn.finalteam.rxgalleryfinal.bean.MediaBean;
 import cn.finalteam.rxgalleryfinal.rxbus.RxBusResultDisposable;
 import cn.finalteam.rxgalleryfinal.rxbus.event.ImageMultipleResultEvent;
 import cn.finalteam.rxgalleryfinal.rxbus.event.ImageRadioResultEvent;
+import cn.finalteam.rxgalleryfinal.ui.activity.MediaActivity;
+import cn.finalteam.rxgalleryfinal.utils.PermissionCheckUtils;
 import entry.User;
 import util.core.DynamicOperation;
 
@@ -177,48 +179,29 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
         Intent intent = new Intent(Deliver_textActivity.this, PhotoPickerActivity.class);
         switch (v.getId()) {
             case R.id.btn2://多选
+//                EasyPermission.build().requestPermission(Deliver_textActivity.this,Manifest.permission.CAMERA);
+//                if(PermissionCheckUtils.checkPermission(Deliver_textActivity.this,"想即",MediaActivity.CAMERA_SERVICE,2)){
+
                 RxGalleryFinalApi
-                        .getInstance(Deliver_textActivity.this)
-                        .setType(RxGalleryFinalApi.SelectRXType.TYPE_IMAGE, RxGalleryFinalApi.SelectRXType.TYPE_SELECT_MULTI)
-                        .setImageMultipleResultEvent(new RxBusResultDisposable<ImageMultipleResultEvent>() {
-                            @Override
-                            protected void onEvent(ImageMultipleResultEvent imageMultipleResultEvent) throws Exception {
-                                List<MediaBean> result = imageMultipleResultEvent.getResult();
-                                for (int i = 0; i < result.size(); i++) {
-                                    System.out.println("多选图片的回调" + result.get(i).getOriginalPath());
-                                    Toast.makeText(Deliver_textActivity.this, "多选图片的回调" + result.get(i).getOriginalPath(), Toast.LENGTH_SHORT).show();
+                            .getInstance(Deliver_textActivity.this)
+                            .setType(RxGalleryFinalApi.SelectRXType.TYPE_IMAGE, RxGalleryFinalApi.SelectRXType.TYPE_SELECT_MULTI)
+                            .setImageMultipleResultEvent(new RxBusResultDisposable<ImageMultipleResultEvent>() {
+                                @Override
+                                protected void onEvent(ImageMultipleResultEvent imageMultipleResultEvent) throws Exception {
+                                    List<MediaBean> result = imageMultipleResultEvent.getResult();
+                                    for (int i = 0; i < result.size(); i++) {
+                                        System.out.println("多选图片的回调" + result.get(i).getOriginalPath());
+                                        Toast.makeText(Deliver_textActivity.this, "多选图片的回调" + result.get(i).getOriginalPath(), Toast.LENGTH_SHORT).show();
+                                    }
                                 }
-                            }
-                        }).open();
+                            }).open();
+//                }
 
-
-//                EasyPermission.build().requestPermission(Deliver_textActivity.this, Manifest.permission.CALL_PHONE);
-//                EasyPermission.build()
-//                        .mRequestCode(2)
-//                        .mContext(Deliver_textActivity.this)
-//                        .mPerms(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-//                        .mPerms(Manifest.permission.READ_EXTERNAL_STORAGE)
-//                        .mResult(new EasyPermissionResult() {
-//                            @Override
-//                            public void onPermissionsAccess(int requestCode) {
-//                                super.onPermissionsAccess(requestCode);
-//                                Log.i("testex","获取成功");
-//                            }
-//
-//                            @Override
-//                            public void onPermissionsDismiss(int requestCode, @NonNull List<String> permissions) {
-//                                super.onPermissionsDismiss(requestCode, permissions);
-//                                Log.i("testex","f");
-//                            }
-//                        }).requestPermission();
-//                EasyPermission.build().requestPermission(Deliver_textActivity.this,Manifest.permission.READ_EXTERNAL_STORAGE);
-//                EasyPermission.build().requestPermission(Deliver_textActivity.this,Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
                 isMultiSelect = true;
                 Bundle bundle = new Bundle();
                 bundle.putBoolean(PhotoPickerActivity.IS_MULTI_SELECT, true);
-//
-//
+
                 defaultMaxCount = 9;
 //
                 bundle.putInt(PhotoPickerActivity.MAX_SELECT_SIZE, defaultMaxCount);
@@ -246,8 +229,6 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
                     }
                 });
                 Toast.makeText(getApplicationContext(),"发布中,请稍后",Toast.LENGTH_LONG).show();
-//                startActivity(new Intent(getApplicationContext(),My_DeliverActivity.class));
-//                getSupportFragmentManager().beginTransaction().replace(R.id.tablayout_frame,new squareFriendFragment()).commit();
                 finish();
                 break;
 
