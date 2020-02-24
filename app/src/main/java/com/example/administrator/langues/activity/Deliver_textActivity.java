@@ -42,9 +42,12 @@ import com.zyq.easypermission.EasyPermissionResult;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.finalteam.rxgalleryfinal.RxGalleryFinal;
 import cn.finalteam.rxgalleryfinal.RxGalleryFinalApi;
 import cn.finalteam.rxgalleryfinal.bean.MediaBean;
+import cn.finalteam.rxgalleryfinal.imageloader.ImageLoaderType;
 import cn.finalteam.rxgalleryfinal.rxbus.RxBusResultDisposable;
+import cn.finalteam.rxgalleryfinal.rxbus.event.BaseResultEvent;
 import cn.finalteam.rxgalleryfinal.rxbus.event.ImageMultipleResultEvent;
 import cn.finalteam.rxgalleryfinal.rxbus.event.ImageRadioResultEvent;
 import cn.finalteam.rxgalleryfinal.ui.activity.MediaActivity;
@@ -58,12 +61,35 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
     private FloatingActionButton btn2;
     private Button send_btn;
     private ImageButton deliver_return;
+    private List<MediaBean> selected_item;
     private ArrayList ready_to_publish;//准备发布的图片集合
     private AutoCompleteTextView autoCompleteTextView;
     private boolean isMultiSelect;
     private int defaultMaxCount = 9;
     private int current_select_count;
     private ArrayList<String> results;
+    private RxGalleryFinal rxGalleryFinal;
+//    RxBusResultSubscriber rxBusResultSubscriber;
+
+//    private RxBusResultDisposable<ImageMultipleResultEvent> rxBusResultDisposable= new RxBusResultDisposable<ImageMultipleResultEvent>() {
+//        @Override
+//        protected void onEvent(ImageMultipleResultEvent imageMultipleResultEvent) throws Exception {
+//            Log.i("select_result","选择了"+imageMultipleResultEvent.getResult().size()+"张图片");
+//            selected_item.addAll(imageMultipleResultEvent.getResult());
+//            for (int i=0;i<selected_item.size();++i){
+//
+//                Log.i("select_result","当前已经选择的图片为"+selected_item.get(i).getOriginalPath());
+//            }
+//
+//
+//        }
+//
+//        @Override
+//        public void onComplete(){
+//            int i;
+//            Log.i("h","d");
+//        }
+//    };
     /**显示图片的GridView*/
     private GridView gridview;
     /**文件夹下所有图片的bitmap*/
@@ -79,26 +105,15 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deliver_text);
-        EasyPermission.build()
-                        .mRequestCode(2)
-                        .mContext(Deliver_textActivity.this)
-                        .mPerms(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        .mPerms(Manifest.permission.READ_EXTERNAL_STORAGE)
-                        .mPerms(Manifest.permission.CAMERA)
-                        .mResult(new EasyPermissionResult() {
-                            @Override
-                            public void onPermissionsAccess(int requestCode) {
-                                super.onPermissionsAccess(requestCode);
-                                Log.i("testex","获取成功");
-                                initViews();
-                            }
 
-                            @Override
-                            public void onPermissionsDismiss(int requestCode, @NonNull List<String> permissions) {
-                                super.onPermissionsDismiss(requestCode, permissions);
-                                Toast.makeText(Deliver_textActivity.this,"只有授权了才能选择图片哦.",Toast.LENGTH_LONG).show();
-                            }
-                        }).requestPermission();
+        selected_item=new ArrayList<>();
+//        rxGalleryFinal=RxGalleryFinal.with(Deliver_textActivity.this);
+//        rxGalleryFinal.maxSize(defaultMaxCount).multiple()
+//                .selected(selected_item)
+//                .imageLoader(ImageLoaderType.GLIDE)
+//                .subscribe(rxBusResultDisposable);
+        initViews();
+
 
     }
 
@@ -179,25 +194,7 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
         Intent intent = new Intent(Deliver_textActivity.this, PhotoPickerActivity.class);
         switch (v.getId()) {
             case R.id.btn2://多选
-//                EasyPermission.build().requestPermission(Deliver_textActivity.this,Manifest.permission.CAMERA);
-//                if(PermissionCheckUtils.checkPermission(Deliver_textActivity.this,"想即",MediaActivity.CAMERA_SERVICE,2)){
-
-                RxGalleryFinalApi
-                            .getInstance(Deliver_textActivity.this)
-                            .setType(RxGalleryFinalApi.SelectRXType.TYPE_IMAGE, RxGalleryFinalApi.SelectRXType.TYPE_SELECT_MULTI)
-                            .setImageMultipleResultEvent(new RxBusResultDisposable<ImageMultipleResultEvent>() {
-                                @Override
-                                protected void onEvent(ImageMultipleResultEvent imageMultipleResultEvent) throws Exception {
-                                    List<MediaBean> result = imageMultipleResultEvent.getResult();
-                                    for (int i = 0; i < result.size(); i++) {
-                                        System.out.println("多选图片的回调" + result.get(i).getOriginalPath());
-                                        Toast.makeText(Deliver_textActivity.this, "多选图片的回调" + result.get(i).getOriginalPath(), Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            }).open();
-//                }
-
-
+                openMulti();
                 isMultiSelect = true;
                 Bundle bundle = new Bundle();
                 bundle.putBoolean(PhotoPickerActivity.IS_MULTI_SELECT, true);
@@ -212,8 +209,28 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
             case R.id.deliver_btn:
                 DynamicOperation dynamicOperation=new DynamicOperation();
                 String user_text=autoCompleteTextView.getText().toString();
+                ArrayList<String> result=new ArrayList<>();
+                for(int i=0;i<selected_item.size();++i){
+                    Log.i("send",selected_item.get(i).getOriginalPath());
+                    result.add(selected_item.get(i).getOriginalPath());
+                }
 
-                dynamicOperation.publishDynamic(user_text, ready_to_publish, new DynamicOperation.DynamicPublishCallback() {
+//                dynamicOperation.publishDynamic(user_text, ready_to_publish, new DynamicOperation.DynamicPublishCallback() {
+//                    @Override
+//                    public void publishDynamicData(String s) {
+//                        if(s.equals("1")){
+//                            //成功
+//
+//                            Toast.makeText(getApplicationContext(),"发布成功",Toast.LENGTH_LONG).show();
+//
+//
+//                        }
+//                        else {
+//                            Toast.makeText(getApplicationContext(),"发布失败",Toast.LENGTH_LONG).show();
+//                        }
+//                    }
+//                });
+                dynamicOperation.publishDynamic(user_text, result, new DynamicOperation.DynamicPublishCallback() {
                     @Override
                     public void publishDynamicData(String s) {
                         if(s.equals("1")){
@@ -236,6 +253,91 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
         }
 
     }
+
+
+    private void openMulti() {
+//        RxGalleryFinal.with(this).hidePreview();
+        RxGalleryFinal rxGalleryFinal = RxGalleryFinal
+                .with(Deliver_textActivity.this)
+                .image()
+                .multiple();
+        if (selected_item != null && !selected_item.isEmpty()) {
+            rxGalleryFinal
+                    .selected(selected_item);
+        }
+
+        rxGalleryFinal.maxSize(9)
+                .imageLoader(ImageLoaderType.GLIDE)
+                .subscribe(new RxBusResultDisposable<ImageMultipleResultEvent>() {
+
+                    @Override
+                    protected void onEvent(ImageMultipleResultEvent imageMultipleResultEvent) throws Exception {
+
+                        selected_item=imageMultipleResultEvent.getResult();
+                        process_select();
+//                                    for (int i=0;i<selected_item.size();++i){
+//
+//                Log.i("select_result","当前已经选择的图片为"+selected_item.get(i).getOriginalPath());
+//            }
+//                        Toast.makeText(getBaseContext(), "已选择" + imageMultipleResultEvent.getResult().size() + "张图片", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        super.onComplete();
+                        Toast.makeText(getBaseContext(), "OVER", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .openGallery();
+    }
+
+
+    private void process_select(){
+        listpath.clear();
+        for (int i = 0; i < selected_item.size(); i++) {
+            scanpath = selected_item.get(i).getThumbnailSmallPath();
+            try {
+                Bitmap bitmap = BitmapFactory.decodeFile(scanpath);
+//                Log.i("result_of_picker", "bitmap=" + results.get(i));
+                if (bitmap != null) {
+                    listpath.add(bitmap);
+                    Log.i("result_of_picker", "listpath=" + listpath);
+                }
+            }catch (OutOfMemoryError err){
+                BitmapFactory.Options opts = new BitmapFactory.Options();
+                opts.inSampleSize = 4;
+                Bitmap bmp = BitmapFactory.decodeFile(scanpath, opts);
+                if (bmp != null) {
+                    listpath.add(bmp);
+//                    Log.i("result_of_picker", "listpath=" + listpath);
+                }
+            }
+
+        }
+
+        adapter = new Photodaapter(listpath, this);
+        gridview.setAdapter(adapter);
+        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                if (listpath.size() >= 10) { //第一张为默认图片
+                    Toast.makeText(Deliver_textActivity.this, "图片数9张已满", Toast.LENGTH_SHORT).show();
+
+
+                } else {
+                    dialog(position);
+                    //Toast.makeText(MainActivity.this, "点击第"+(position + 1)+" 号图片",
+                    //      Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < selected_item.size(); i++) {
+            sb.append(i + 1).append('：').append(selected_item.get(i).getThumbnailSmallPath()).append("\n");
+        }
+    }
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -249,26 +351,26 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
                 ready_to_publish.addAll(results);
                 current_select_count+=results.size();
 
-                for (int i = 0; i < results.size(); i++) {
-                    scanpath = results.get(i);
-                    try {
-                        Bitmap bitmap = BitmapFactory.decodeFile(scanpath);
-                        Log.i("result_of_picker", "bitmap=" + results.get(i));
-                        if (bitmap != null) {
-                            listpath.add(bitmap);
-                            Log.i("result_of_picker", "listpath=" + listpath);
-                        }
-                    }catch (OutOfMemoryError err){
-                        BitmapFactory.Options opts = new BitmapFactory.Options();
-                        opts.inSampleSize = 4;
-                        Bitmap bmp = BitmapFactory.decodeFile(scanpath, opts);
-                        if (bmp != null) {
-                            listpath.add(bmp);
-                            Log.i("result_of_picker", "listpath=" + listpath);
-                        }
-                    }
-
-                }
+//                for (int i = 0; i < results.size(); i++) {
+//                    scanpath = results.get(i);
+//                    try {
+//                        Bitmap bitmap = BitmapFactory.decodeFile(scanpath);
+//                        Log.i("result_of_picker", "bitmap=" + results.get(i));
+//                        if (bitmap != null) {
+//                            listpath.add(bitmap);
+//                            Log.i("result_of_picker", "listpath=" + listpath);
+//                        }
+//                    }catch (OutOfMemoryError err){
+//                        BitmapFactory.Options opts = new BitmapFactory.Options();
+//                        opts.inSampleSize = 4;
+//                        Bitmap bmp = BitmapFactory.decodeFile(scanpath, opts);
+//                        if (bmp != null) {
+//                            listpath.add(bmp);
+//                            Log.i("result_of_picker", "listpath=" + listpath);
+//                        }
+//                    }
+//
+//                }
                 adapter = new Photodaapter(listpath, this);
                 gridview.setAdapter(adapter);
                 gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -310,8 +412,9 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 listpath.remove(position);
-                ready_to_publish.remove(position);
-                current_select_count--;
+                selected_item.remove(position);
+//                ready_to_publish.remove(position);
+//                current_select_count--;
                 adapter.notifyDataSetChanged();
 
             }
