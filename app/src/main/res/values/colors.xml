@@ -8,4 +8,5 @@
     <color name="colorReport">#00587e</color>
     <color name="colorMain">#b0e7ff</color>
     <color name="colorBtn">#3aaffd</color>
+    <color name="transparent">#00000000</color>
 </resources>

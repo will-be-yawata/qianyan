@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.administrator.langues.R;
+import com.example.administrator.langues.activity.Matching.Matching_Dialog;
 import com.example.administrator.langues.activity.MyPage.MyCourse.CourseActivity;
 import com.example.administrator.langues.activity.MyPage.User_data.AccountActivity;
 import com.example.administrator.langues.activity.MyPage.FeedbackActivity;
@@ -95,9 +96,9 @@ public class PersonalFragment extends Fragment {
         course.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent intent=new Intent(getActivity(),CourseActivity.class);
                 startActivity(intent);
+
 
             }
         });

@@ -16,7 +16,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.administrator.langues.R;
+import com.example.administrator.langues.activity.Matching.Matching_Dialog;
 import com.example.administrator.langues.activity.Matching.Seek_loadingActivity;
+import com.example.administrator.langues.activity.Matching.Situational_dialogueActivity;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -25,7 +27,7 @@ import java.util.TimerTask;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SeekFragment extends Fragment {
+public class SeekFragment extends Fragment implements View.OnClickListener {
     private static int START_ANIMATION=0;
     private Button seek_btn;
     ImageView image1,image2,image3,image4,image5,image6,image7,image8,image9,image10,image11;
@@ -111,15 +113,7 @@ public class SeekFragment extends Fragment {
         timer=new Timer();
         startTime();
 
-        seek_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i=new Intent(getContext(),Seek_loadingActivity.class);//跳转到匹配中页面
-                startActivity(i);
-
-            }
-        });
-
+        seek_btn.setOnClickListener(this);
 
 
         return view;
@@ -137,5 +131,27 @@ public class SeekFragment extends Fragment {
                 mHandler.sendMessage(m);
             }
         },0,4000);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.seek_btn:
+                new Matching_Dialog(getActivity()){
+
+                    @Override
+                    protected void btnsituational() {
+                            Intent intent=new Intent(getContext(),Situational_dialogueActivity.class);
+                            startActivity(intent);
+                    }
+                    @Override
+                    protected void btnseek() {
+                        Intent i=new Intent(getContext(),Seek_loadingActivity.class);//跳转到匹配中页面
+                        startActivity(i);
+                    }
+                }.show();
+                break;
+
+        }
     }
 }
