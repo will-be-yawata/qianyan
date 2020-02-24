@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.example.administrator.langues.adapter.AdapterDate;
 import com.example.administrator.langues.adapter.AdapterWeek;
+import com.example.administrator.langues.view.InnerGridView;
 
 /**
  * Created by Administrator on 2017/8/16.
@@ -37,9 +38,9 @@ public class SignDate extends LinearLayout {
 
     private void init(){
         View view = View.inflate(getContext(),R.layout.sign_data,this);
-        tvYear = (TextView) view.findViewById(R.id.tvYear);
-        gvWeek = (InnerGridView) view.findViewById(R.id.gvWeek);
-        gvDate = (InnerGridView) view.findViewById(R.id.gvDate);
+        tvYear = view.findViewById(R.id.tvYear);
+        gvWeek = view.findViewById(R.id.gvWeek);
+        gvDate = view.findViewById(R.id.gvDate);
         tvYear.setText(DateUtil.getCurrentYearAndMonth());
         gvWeek.setAdapter(new AdapterWeek(getContext()));
         adapterDate = new AdapterDate(getContext());

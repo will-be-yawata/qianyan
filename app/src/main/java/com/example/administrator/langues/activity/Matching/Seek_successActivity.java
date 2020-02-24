@@ -2,7 +2,9 @@ package com.example.administrator.langues.activity.Matching;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -10,70 +12,57 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.example.administrator.langues.R;
 import com.example.administrator.langues.activity.Matching.Communicate_loadingActivity;
 
+import org.xutils.common.util.DensityUtil;
+import org.xutils.image.ImageOptions;
+import org.xutils.x;
+
 import java.util.Timer;
 import java.util.TimerTask;
+
+import entry.User;
+import util.EMHelp;
+import util.Url;
+import util.core.PairingOperation;
 
 public class Seek_successActivity extends AppCompatActivity {
     private final static int START_ANIMATION=0;
     private final static int STOP_ANIMATION=1;
-    private ImageView seeksuccess_icon;
+    private ImageView seeksuccess_icon,red_user_img,blue_user_img;
     private RelativeLayout red_user,blue_user;
     private Timer timer;
     private int width,height;
-    private ObjectAnimator objectAnimator1=null;
-    private ObjectAnimator objectAnimator2=null;
-    private ObjectAnimator objectAnimator3=null;
-    private ObjectAnimator objectAnimator4=null;
-    private ObjectAnimator objectAnimator5=null;
-    private ObjectAnimator objectAnimator6=null;
-    private ObjectAnimator objectAnimator7=null;
-    private AnimatorSet animSet;
-    private AnimatorSet animSet1;
-    private AnimatorSet animSet2;
-    private Handler mHandler=new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what){
-                case START_ANIMATION:
-
-                    break;
-                case STOP_ANIMATION:
-
-                    break;
-            }
-        }
-    };
-
-
+    private ObjectAnimator objectAnimator1,objectAnimator2,objectAnimator3,
+            objectAnimator4,objectAnimator5,objectAnimator6,objectAnimator7;
+    private AnimatorSet animSet,animSet1,animSet2;
+    private Handler mHandler;
+    private EMHelp emHelp=new EMHelp();
+    private boolean stopAnim=false;
+    private int status=2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seek_success);
         init();
-        animation();
         getdisplay();
-        start();
-        timer=new Timer();
         startTime();
-        timer.schedule(new TimerTask() {
-            public void run() {
-                Intent i=new Intent(getBaseContext(),Communicate_loadingActivity.class);
-                finish();
-                closeTime();
-                startActivity(i);
-            }
-        }, 4000);//4秒后跳转到Communicate_loadingActivity页面
-
-
-
-
-
+        listener();
+        if(status== PairingOperation.WAIT) {
+            runOnUiThread(()->Toast.makeText(Seek_successActivity.this,"status:WAIT",Toast.LENGTH_SHORT).show());
+            emHelp.answerCall();
+        }else if(status== PairingOperation.PAIRING){
+            String enemyPhone=getIntent().getStringExtra("enemyPhone");
+            runOnUiThread(()->Toast.makeText(Seek_successActivity.this,"status:PAIRING\nenemyPhone:"+enemyPhone,Toast.LENGTH_SHORT).show());
+            emHelp.voiceCall(enemyPhone);
+        }else{
+            closeTime();
+            finish();
+        }
     }
-
     private void getdisplay() {
         // 通过WindowManager获取屏幕的宽高
         DisplayMetrics dm = new DisplayMetrics();
@@ -81,8 +70,7 @@ public class Seek_successActivity extends AppCompatActivity {
         width=dm.widthPixels;
         height=dm.heightPixels;
     }
-
-    private void start() {
+    private void startAnim() {
         animSet= new AnimatorSet();
         animSet.play(objectAnimator1).with(objectAnimator2).with(objectAnimator3);
         animSet.setDuration(3000l);
@@ -95,12 +83,29 @@ public class Seek_successActivity extends AppCompatActivity {
         animSet2.play(objectAnimator6).with(objectAnimator7);
         animSet2.setDuration(3000l);
         animSet2.start();
-
-
-
     }
+    @SuppressLint("HandlerLeak")
+    private void init() {
+        seeksuccess_icon=findViewById(R.id.seeksuccess_icon);
+        red_user=findViewById(R.id.red_user);
+        blue_user=findViewById(R.id.blue_user);
 
-    private void animation() {
+        red_user_img=findViewById(R.id.red_user_img);
+        blue_user_img=findViewById(R.id.blue_user_img);
+
+        ImageOptions imageOptions = new ImageOptions.Builder().setSize(DensityUtil.dip2px(70), DensityUtil.dip2px(70))
+                .setRadius(DensityUtil.dip2px(70))
+                .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
+                .setLoadingDrawableId(R.mipmap.ic_launcher)//正在加载时的图片
+                .setFailureDrawableId(R.mipmap.ic_launcher).build();//加载失败时的图片
+        x.image().bind(red_user_img,Url.USER_IMG+ User.getInstance().getImg(),imageOptions);
+        imageOptions = new ImageOptions.Builder().setSize(DensityUtil.dip2px(70), DensityUtil.dip2px(70))
+                .setRadius(DensityUtil.dip2px(70))
+                .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
+                .setLoadingDrawableId(R.mipmap.ic_launcher)//正在加载时的图片
+                .setFailureDrawableId(R.mipmap.ic_launcher).build();//加载失败时的图片
+        x.image().bind(blue_user_img,Url.USER_IMG+getIntent().getStringExtra("enemyImg"),imageOptions);
+
         //飞机动画
         objectAnimator1=ObjectAnimator.ofFloat(seeksuccess_icon,"scaleX",0f,20f);
         objectAnimator2=ObjectAnimator.ofFloat(seeksuccess_icon,"scaleY",0f,20f);
@@ -112,27 +117,51 @@ public class Seek_successActivity extends AppCompatActivity {
         objectAnimator6=ObjectAnimator.ofFloat(blue_user,"translationX",-600f,0f);
         objectAnimator7=ObjectAnimator.ofFloat(blue_user,"translationY",900f,-272f);
 
+        timer=new Timer();
 
-    }
+        status=getIntent().getIntExtra("status",2);
 
-
-    private void init() {
-        seeksuccess_icon=findViewById(R.id.seeksuccess_icon);
-        red_user=findViewById(R.id.red_user);
-        blue_user=findViewById(R.id.blue_user);
-    }
-    public  void startTime(){
-        timer.schedule(new TimerTask() {
+        mHandler=new Handler(){
             @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what){
+                    case START_ANIMATION:
+                        startAnim();
+                        stopAnim=true;
+                        break;
+                    case STOP_ANIMATION:
+                        closeTime();
+                        break;
+                }
+            }
+        };
+    }
+    private void listener(){
+        emHelp.addCallStateListener(new EMHelp.StateListenerCallback() {
+            public void accepted() {
+                Intent intent=new Intent(Seek_successActivity.this,Communicate_loadingActivity.class);
+                intent.putExtra("enemyPhone",getIntent().getStringExtra("enemyPhone"));
+                intent.putExtra("enemyImg",getIntent().getStringExtra("enemyImg"));
+                startActivity(intent);
+                closeTime();
+                finish();
+                emHelp.closeCallStateListener();
+            }
+            public void disconnected() {}
+        });
+    }
+    private  void startTime(){
+        timer.schedule(new TimerTask() {
             public void run() {
                 Message m=Message.obtain();
-                m.what=START_ANIMATION;
+                if(stopAnim){
+                    m.what=STOP_ANIMATION;
+                }else {
+                    m.what = START_ANIMATION;
+                }
                 mHandler.sendMessage(m);
             }
         },0,4000);
     }
-    public void closeTime(){
-        timer.cancel();
-
-    }
+    private void closeTime(){ timer.cancel(); }
 }

@@ -147,7 +147,6 @@
         android:layout_marginLeft="34dp"
         android:layout_marginBottom="33dp"
         android:src="@mipmap/photo2" />
-
     <Button
         android:id="@+id/seek_btn"
         android:layout_width="151dp"
@@ -156,5 +155,4 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="69dp"
         android:background="@mipmap/photo1" />
-
 </RelativeLayout>

@@ -36,14 +36,26 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
+
         android:name=".MyApplication"
         android:allowBackup="true"
+        android:largeHeap="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
+        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.example.administrator.langues"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
         <meta-data
             android:name="EASEMOB_APPKEY"
             android:value="1100190814148053#qianyan" />
@@ -100,6 +112,7 @@
         <activity
             android:name=".activity.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+            <!--android:windowSoftInputMode="adjustPan|stateHidden" />-->
         <activity
             android:name=".activity.RegisterActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
@@ -119,5 +132,7 @@
         <activity android:name=".activity.MyPage.MyCourse.CourseActivity"></activity>
         <activity android:name=".activity.Square.ReleaseActivity"></activity>
     </application>
+
+
 
 </manifest>

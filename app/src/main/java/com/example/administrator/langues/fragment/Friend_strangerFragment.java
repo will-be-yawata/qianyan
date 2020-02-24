@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -21,23 +21,16 @@ import java.util.HashMap;
  * A simple {@link Fragment} subclass.
  */
 public class Friend_strangerFragment extends Fragment {
+    public Friend_strangerFragment() { }
 
-
-    public Friend_strangerFragment() {
-        // Required empty public constructor
-    }
-
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_friend_stranger, container, false);
-
-        ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
+        ArrayList<HashMap<String, String>> list = new ArrayList<>();
         for(int i=0;i<40;i++){
             //定义一个临时的hashMap
-            HashMap<String,String> hashMap = new HashMap<String, String>();
+            HashMap<String,String> hashMap = new HashMap<>();
             //存入姓名键值对
             hashMap.put("contacts_name","用户"+ i);
             //存入ID
@@ -53,19 +46,12 @@ public class Friend_strangerFragment extends Fragment {
                 new int[] {R.id.contacts_name,R.id.contacts_content}
         );
         //*这个方法是ListAcrivity里面继承过来的*//*
-        ListView listView= (ListView) view.findViewById(R.id.friendstranger_listview);
+        ListView listView= view.findViewById(R.id.friendstranger_listview);
         listView.setAdapter(listAdpter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent=new Intent(getActivity(),Friends_chatActivity.class);
-                startActivity(intent);
-            }
+        listView.setOnItemClickListener((adapterView, view1, i, l) -> {
+            Intent intent=new Intent(getActivity(),Friends_chatActivity.class);
+            startActivity(intent);
         });
-
-
         return view;
-
     }
-
 }

@@ -5,32 +5,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.SquareFragment"
-    android:orientation="vertical"
-    >
-
-    <RelativeLayout
+    android:orientation="vertical">
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <ImageButton
-            android:id="@+id/imageButton29"
-            android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <com.example.administrator.langues.view.BackgroundForSquare
+            android:id="@+id/background_for_square"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@mipmap/bg" />
-
+            android:layout_gravity="bottom">
+        </com.example.administrator.langues.view.BackgroundForSquare>
         <ImageButton
             android:id="@+id/deliver"
             android:layout_width="33dp"
             android:layout_height="38dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
             android:layout_marginTop="0dp"
             android:layout_marginEnd="0dp"
             android:background="@android:color/transparent"
             android:scaleType="centerInside"
+            android:layout_gravity="end"
             android:src="@mipmap/deliver" />
-    </RelativeLayout>
+    </FrameLayout>
     <android.support.design.widget.TabLayout
         android:id="@+id/square_tab"
         style="@style/Animation.AppCompat.Dialog"
