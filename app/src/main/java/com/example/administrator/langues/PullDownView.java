@@ -25,22 +25,22 @@ import java.util.TimerTask;
  * ScrollOverListView只是提供触摸的事件等
  */
 public class PullDownView extends LinearLayout implements ScrollOverListView.OnScrollOverListener {
-	
+
 	private static final int START_PULL_DEVIATION = 50;	// 移动误差
 	private static final int AUTO_INCREMENTAL = 10;		// 自增量，用于回弹
-	
+
 	private static final int WHAT_DID_LOAD_DATA = 1;	// Handler what 数据加载完毕
 	private static final int WHAT_ON_REFRESH = 2;		// Handler what 刷新中
 	private static final int WHAT_DID_REFRESH = 3;		// Handler what 已经刷新完
 	private static final int WHAT_SET_HEADER_HEIGHT = 4;// Handler what 设置高度
 	private static final int WHAT_DID_MORE = 5;			// Handler what 已经获取完更多
-	
+
 	private static final int DEFAULT_HEADER_VIEW_HEIGHT = 105;	// 头部文件原本的高度
-	
+
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd HH:mm");
-	
+
 	private View mHeaderView;
-	private LayoutParams mHeaderViewParams;	
+	private LayoutParams mHeaderViewParams;
 	private TextView mHeaderViewDateView;
 	private TextView mHeaderTextView;
 	private ImageView mHeaderArrowView;
@@ -49,20 +49,20 @@ public class PullDownView extends LinearLayout implements ScrollOverListView.OnS
 	private TextView mFooterTextView;
 	private View mFooterLoadingView;
 	private ScrollOverListView mListView;
-	
+
 	private OnPullDownListener mOnPullDownListener;
 	private RotateAnimation mRotateOTo180Animation;
 	private RotateAnimation mRotate180To0Animation;
-	
+
 	private int mHeaderIncremental;	// 增量
 	private float mMotionDownLastY;	// 按下时候的Y轴坐标
-	
+
 	private boolean mIsDown;			// 是否按下
 	private boolean mIsRefreshing;		// 是否下拉刷新中
 	private boolean mIsFetchMoreing;	// 是否获取更多中
 	private boolean mIsPullUpDone;		// 是否回推完成
 	private boolean mEnableAutoFetchMore;	// 是否允许自动获取更多
-	
+
 	// 头部文件的状态
 	private static final int HEADER_VIEW_STATE_IDLE = 0;			// 空闲
 	private static final int HEADER_VIEW_STATE_NOT_OVER_HEIGHT = 1;	// 没有超过默认高度
@@ -79,15 +79,15 @@ public class PullDownView extends LinearLayout implements ScrollOverListView.OnS
 		super(context);
 		initHeaderViewAndFooterViewAndListView(context);
 	}
-	
+
 	/*
 	 * ==================================
 	 * Public method
 	 * 外部使用，具体就是用这几个就可以了
-	 * 
+	 *
 	 * ==================================
 	 */
-	
+
 	/**
 	 * 刷新事件接口
 	 */
@@ -95,7 +95,7 @@ public class PullDownView extends LinearLayout implements ScrollOverListView.OnS
 		void onRefresh();
 		void onMore();
 	}
-	
+
 	/**
 	 * 通知加载完了数据，要放在Adapter.notifyDataSetChanged后面
 	 * 当你加载完数据的时候，调用这个notifyDidLoad()
@@ -104,7 +104,7 @@ public class PullDownView extends LinearLayout implements ScrollOverListView.OnS
 	public void notifyDidLoad() {
 		mUIHandler.sendEmptyMessage(WHAT_DID_LOAD_DATA);
 	}
-	
+
 	/**
 	 * 通知已经刷新完了，要放在Adapter.notifyDataSetChanged后面
 	 * 当你执行完刷新任务之后，调用这个notifyDidRefresh()
@@ -113,7 +113,7 @@ public class PullDownView extends LinearLayout implements ScrollOverListView.OnS
 	public void notifyDidRefresh() {
 		mUIHandler.sendEmptyMessage(WHAT_DID_REFRESH);
 	}
-	
+
 	/**
 	 * 通知已经获取完更多了，要放在Adapter.notifyDataSetChanged后面
 	 * 当你执行完更多任务之后，调用这个notyfyDidMore()
@@ -154,15 +154,15 @@ public class PullDownView extends LinearLayout implements ScrollOverListView.OnS
 		}
 		mEnableAutoFetchMore = enable;
 	}
-	
+
 	/*
 	 * ==================================
 	 * Private method
 	 * 具体实现下拉刷新等操作
-	 * 
+	 *
 	 * ==================================
 	 */
-	
+
 	/**
 	 * 初始化界面
 	 */
@@ -177,24 +177,24 @@ public class PullDownView extends LinearLayout implements ScrollOverListView.OnS
 		mHeaderView = LayoutInflater.from(context).inflate(R.layout.pulldown_header, null);
 		mHeaderViewParams = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
 		addView(mHeaderView, 0, mHeaderViewParams);
-		
+
 		mHeaderTextView = (TextView) mHeaderView.findViewById(R.id.pulldown_header_text);
 		mHeaderArrowView = (ImageView) mHeaderView.findViewById(R.id.pulldown_header_arrow);
 		mHeaderLoadingView = mHeaderView.findViewById(R.id.pulldown_header_loading);
-		
+
 		// 注意，图片旋转之后，再执行旋转，坐标会重新开始计算
-		mRotateOTo180Animation = new RotateAnimation(0, 180, 
-				Animation.RELATIVE_TO_SELF, 0.5f, 
+		mRotateOTo180Animation = new RotateAnimation(0, 180,
+				Animation.RELATIVE_TO_SELF, 0.5f,
 				Animation.RELATIVE_TO_SELF, 0.5f);
 		mRotateOTo180Animation.setDuration(250);
 		mRotateOTo180Animation.setFillAfter(true);
-		
-		mRotate180To0Animation = new RotateAnimation(180, 0, 
-				Animation.RELATIVE_TO_SELF, 0.5f, 
+
+		mRotate180To0Animation = new RotateAnimation(180, 0,
+				Animation.RELATIVE_TO_SELF, 0.5f,
 				Animation.RELATIVE_TO_SELF, 0.5f);
 		mRotate180To0Animation.setDuration(250);
 		mRotate180To0Animation.setFillAfter(true);
-		
+
 		/**
 		 * 自定义脚部文件
 		 */
@@ -211,7 +211,7 @@ public class PullDownView extends LinearLayout implements ScrollOverListView.OnS
 				}
 			}
 		});
-		
+
 		/*
 		 * ScrollOverListView 同样是考虑到都是使用，所以放在这里
 		 * 同时因为，需要它的监听事件
@@ -220,7 +220,7 @@ public class PullDownView extends LinearLayout implements ScrollOverListView.OnS
 		mListView.setOnScrollOverListener(this);
 		mListView.setCacheColorHint(0);
 		addView(mListView, LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
-		
+
 		// 空的listener
 		mOnPullDownListener = new OnPullDownListener() {
 			@Override
@@ -229,7 +229,7 @@ public class PullDownView extends LinearLayout implements ScrollOverListView.OnS
 			public void onMore() {}
 		};
 	}
-	
+
 	/**
 	 * 在下拉和回推的时候检查头部文件的状态</br>
 	 * 如果超过了默认高度，就显示松开可以刷新，
@@ -249,13 +249,13 @@ public class PullDownView extends LinearLayout implements ScrollOverListView.OnS
 			mHeaderArrowView.startAnimation(mRotate180To0Animation);
 		}
 	}
-	
+
 	private void setHeaderHeight(final int height){
 		mHeaderIncremental = height;
 		mHeaderViewParams.height = height;
 		mHeaderView.setLayoutParams(mHeaderViewParams);
 	}
-	
+
 	/**
 	 * 自动隐藏动画
 	 */
@@ -276,7 +276,7 @@ public class PullDownView extends LinearLayout implements ScrollOverListView.OnS
 			}
 		}
 	}
-	
+
 	/**
 	 * 自动显示动画
 	 */
@@ -320,16 +320,16 @@ public class PullDownView extends LinearLayout implements ScrollOverListView.OnS
 					showFooterView();
 					return;
 				}
-			
+
 				case WHAT_ON_REFRESH:{
 					// 要清除掉动画，否则无法隐藏
 					mHeaderArrowView.clearAnimation();
 					mHeaderArrowView.setVisibility(View.INVISIBLE);
 					mHeaderLoadingView.setVisibility(View.VISIBLE);
-					mOnPullDownListener.onRefresh();					
+					mOnPullDownListener.onRefresh();
 					return;
 				}
-				
+
 				case WHAT_DID_REFRESH :{
 					mIsRefreshing = false;
 					mHeaderViewState = HEADER_VIEW_STATE_IDLE;
@@ -340,12 +340,12 @@ public class PullDownView extends LinearLayout implements ScrollOverListView.OnS
 					showFooterView();
 					return;
 				}
-				
+
 				case WHAT_SET_HEADER_HEIGHT :{
 					setHeaderHeight(mHeaderIncremental);
 					return;
 				}
-				
+
 				case WHAT_DID_MORE :{
 					mIsFetchMoreing = false;
 					mFooterTextView.setText("更多");
@@ -353,9 +353,9 @@ public class PullDownView extends LinearLayout implements ScrollOverListView.OnS
 				}
 			}
 		}
-		
+
 	};
-	
+
 	/**
 	 * 显示脚步脚部文件
 	 */
@@ -365,7 +365,7 @@ public class PullDownView extends LinearLayout implements ScrollOverListView.OnS
 			mListView.setAdapter(mListView.getAdapter());
 		}
 	}
-	
+
 	/**
 	 * 条目是否填满整个屏幕
 	 */
@@ -374,26 +374,26 @@ public class PullDownView extends LinearLayout implements ScrollOverListView.OnS
 		final int lastVisiblePostion = mListView.getLastVisiblePosition() - mListView.getFooterViewsCount();
 		final int visibleItemCount = lastVisiblePostion - firstVisiblePosition + 1;
 		final int totalItemCount = mListView.getCount() - mListView.getFooterViewsCount();
-		
+
 		if(visibleItemCount < totalItemCount) return true;
 		return false;
 	}
-	
+
 	/*
 	 * ==================================
 	 * 实现 OnScrollOverListener接口
-	 * 
-	 * 
+	 *
+	 *
 	 * ==================================
 	 */
 
 	@Override
 	public boolean onListViewTopAndPullDown(int delta) {
 		if(mIsRefreshing || mListView.getCount() - mListView.getFooterViewsCount() == 0) return false;
-		
+
 		int absDelta = Math.abs(delta);
 		final int i = (int) Math.ceil((double)absDelta / 2);
-		
+
 		mHeaderIncremental += i;
 		if(mHeaderIncremental >= 0){ // && mIncremental <= mMaxHeight
 			setHeaderHeight(mHeaderIncremental);
@@ -428,14 +428,14 @@ public class PullDownView extends LinearLayout implements ScrollOverListView.OnS
 	public boolean onMotionMove(MotionEvent ev, int delta) {
 		//当头部文件回推消失的时候，不允许滚动
 		if(mIsPullUpDone) return true;
-		
+
 		// 如果开始按下到滑动距离不超过误差值，则不滑动
 		final int absMotionY = (int) Math.abs(ev.getRawY() - mMotionDownLastY);
 		if(absMotionY < START_PULL_DEVIATION) return true;
-		
+
 		final int absDelta = Math.abs(delta);
 		final int i = (int) Math.ceil((double)absDelta / 2);
-		
+
 		// onTopDown在顶部，并上回推和onTopUp相对
 		if(mHeaderViewParams.height > 0 && delta < 0){
 			mHeaderIncremental -= i;

@@ -48,9 +48,21 @@ public class SeekFragment extends Fragment implements View.OnClickListener {
 
     private void listener() {
         seek_btn.setOnClickListener(view1 -> {
-            closeTime();
-            Intent i=new Intent(getContext(),Seek_loadingActivity.class);
-            startActivity(i);
+
+            new Matching_Dialog(getActivity()){
+
+                @Override
+                protected void btnsituational() {
+                    Intent intent=new Intent(getContext(),Situational_dialogueActivity.class);
+                    startActivity(intent);
+                }
+                @Override
+                protected void btnseek() {
+                     closeTime();
+                    Intent i=new Intent(getContext(),Seek_loadingActivity.class);
+                    startActivity(i);
+                }
+            }.show();
         });
     }
     @SuppressLint("HandlerLeak")
@@ -82,7 +94,7 @@ public class SeekFragment extends Fragment implements View.OnClickListener {
         animation11 = AnimationUtils.loadAnimation(getContext(), R.anim.anim_translate_bounce);
         timer=new Timer();
 
-      
+
 
 
 
@@ -133,19 +145,7 @@ public class SeekFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.seek_btn:
-                new Matching_Dialog(getActivity()){
 
-                    @Override
-                    protected void btnsituational() {
-                            Intent intent=new Intent(getContext(),Situational_dialogueActivity.class);
-                            startActivity(intent);
-                    }
-                    @Override
-                    protected void btnseek() {
-                        Intent i=new Intent(getContext(),Seek_loadingActivity.class);//跳转到匹配中页面
-                        startActivity(i);
-                    }
-                }.show();
                 break;
 
         }

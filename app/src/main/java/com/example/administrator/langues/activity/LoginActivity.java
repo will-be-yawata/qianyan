@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
                 this.finish();
                 }
                 else{
-                    Toast.makeText(getBaseContext(),"登录失败,请检查用户名和密码",Toast.LENGTH_SHORT).show();
+                    runOnUiThread( ()->Toast.makeText(getBaseContext(),"登录失败,请检查用户名和密码",Toast.LENGTH_SHORT).show());
                 }
             });
     }
