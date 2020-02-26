@@ -34,7 +34,7 @@
             android:textSize="20dp" />
 
         <ImageView
-            android:id="@+id/imageView8"
+            android:id="@+id/friend_setting_btn"
             android:layout_width="43dp"
             android:layout_height="30dp"
             android:layout_alignParentTop="true"
@@ -65,13 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.1">
-            <!--<ImageButton
-            android:id="@+id/voice_btn"
-            android:layout_width="10dp"
-            android:layout_height="50dp"
-            android:padding="6dp"
 
-            app:srcCompat="@mipmap/keyboard" />-->
 
             <ImageButton
                 android:id="@+id/voice_btn"
@@ -92,6 +86,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="4dp"
+                android:layout_marginLeft="4dp"
                 android:background="@android:color/transparent"
                 android:scaleType="centerInside"
                 android:visibility="gone"
