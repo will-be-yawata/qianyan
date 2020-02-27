@@ -11,7 +11,7 @@ import android.widget.RelativeLayout;
 import com.example.administrator.langues.R;
 
 import entry.User;
-import util.EMHelp;
+import util.core.LoginOperation;
 
 public class SettingActivity extends AppCompatActivity {
     ImageButton setting_return;
@@ -35,7 +35,7 @@ public class SettingActivity extends AppCompatActivity {
         AlertDialog.Builder dialog = new AlertDialog.Builder (this);
         dialog.setTitle ("注销").setMessage ("确定退出账号？");
         dialog.setPositiveButton ("确定", (dialog1, which) -> {
-            (new EMHelp()).logout();
+            (new LoginOperation()).logout();
             User.getInstance().release();
             Intent intent = new Intent(SettingActivity.this,LoginActivity.class);
             SettingActivity.this.startActivity(intent);

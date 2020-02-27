@@ -29,8 +29,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import entry.User;
-import util.EMHelp;
 import util.Url;
+import util.core.ChatOperation;
 import util.core.PairingOperation;
 
 
@@ -150,10 +150,10 @@ public class Seek_loadingActivity extends AppCompatActivity {
     private void startPairing(){
          cancelPairing= pairingOperation.pairing(new PairingOperation.PairingCallback() {
                     public void onSuccess(int status, HashMap<String, String> data) {
-                        EMHelp emHelp=new EMHelp();
+                        ChatOperation chatOperation=new ChatOperation();
                         if(status==PairingOperation.WAIT){
                             runOnUiThread(()-> Toast.makeText(Seek_loadingActivity.this,"if(status==pairingop...)",Toast.LENGTH_SHORT).show());
-                            emHelp.receiveListener(Seek_loadingActivity.this, from ->{
+                            chatOperation.receiveListener(Seek_loadingActivity.this, from ->{
                                 runOnUiThread(()-> Toast.makeText(Seek_loadingActivity.this,"get from...",Toast.LENGTH_LONG).show());
                                     pairingOperation.getEnemy(from, new PairingOperation.GetEnemyCallback() {
                                 public void onSuccess(HashMap<String, String> data) {

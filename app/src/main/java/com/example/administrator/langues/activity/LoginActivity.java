@@ -9,20 +9,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.administrator.langues.R;
-import util.EMHelp;
+
+import util.core.LoginOperation;
 
 public class LoginActivity extends AppCompatActivity {
     private Button login_button;
     private EditText usertext,pwdtext;
     private TextView resign_text;
-    private EMHelp emHelp;
+    private LoginOperation loginOperation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initViews();
-        emHelp=new EMHelp();
-        emHelp.init(this);
+        loginOperation=new LoginOperation();
 //        emHelp.login("15728283805","1");
         login_button.setOnClickListener(view -> {
             String phone=usertext.getText().toString();
@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         resign_text= findViewById(R.id.textView33);
     }
     public void user_login(String phone,String pwd){
-            emHelp.login(phone, pwd, (isLogin, message) -> {
+            loginOperation.login(phone, pwd, (isLogin, message) -> {
                 if(isLogin){
                 Intent intent=new Intent(LoginActivity.this,MainActivity.class);
                 startActivity(intent);

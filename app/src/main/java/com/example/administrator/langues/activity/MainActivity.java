@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entry.User;
+import util.core.FriendOperation;
+import util.core.LoginOperation;
 
 public class MainActivity extends AppCompatActivity {
     private FragmentManager fm;
@@ -22,11 +24,29 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        (new LoginOperation()).autoLogin(MainActivity.this);
         if(User.getInstance().getPhone()==null){
             Intent intent=new Intent(MainActivity.this,LoginActivity.class);
             startActivity(intent);
         }
         setContentView(R.layout.activity_main);
+        FriendOperation.getInstance().setContactListener(new FriendOperation.ContactVallback() {
+            public void onBeInvited() {
+                //收到好友邀请
+            }
+            public void onBeAccepted() {
+                //好友请求被同意
+            }
+            public void onBeDeclined() {
+                //好友请求被拒绝
+            }
+            public void onBeAdded() {
+                //增加了联系人时回调此方法
+            }
+            public void onBeDeleted() {
+                //被删除时回调
+            }
+        });
         fragments= new ArrayList<>();
         fm=super.getSupportFragmentManager();
         initFragments();
