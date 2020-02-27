@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.Friends_chatActivity">
+    tools:context=".activity.Chat.Friends_chatActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -46,15 +46,94 @@
             android:src="@mipmap/dot" />
 
     </RelativeLayout>
-    <RelativeLayout
+    <ListView
+        android:id="@+id/chat_listview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:listSelector="@android:color/transparent"
+        android:divider="#0000">
 
-    </RelativeLayout>
-    <RelativeLayout
+    </ListView>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:background="#e6e6e6">
 
-    </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1">
+            <!--<ImageButton
+            android:id="@+id/voice_btn"
+            android:layout_width="10dp"
+            android:layout_height="50dp"
+            android:padding="6dp"
+
+            app:srcCompat="@mipmap/keyboard" />-->
+
+            <ImageButton
+                android:id="@+id/voice_btn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"
+                android:layout_marginLeft="4dp"
+                android:background="@android:color/transparent"
+                android:scaleType="centerInside"
+                app:srcCompat="@mipmap/voice" />
+
+            <ImageButton
+                android:id="@+id/keyboard_btn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"
+                android:background="@android:color/transparent"
+                android:scaleType="centerInside"
+                android:visibility="gone"
+                app:srcCompat="@mipmap/keyboard" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <EditText
+                android:id="@+id/input_text"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:maxLines="2"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:background="#fff"/>
+            <Button
+                android:id="@+id/voice_say"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="2dp"
+                android:text="点击 说话"
+                android:scaleType="centerInside"
+                android:visibility="gone"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp">
+            <Button
+            android:id="@+id/chat_send"
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+
+            android:background="#1296db"
+            android:text="发送" /></RelativeLayout>
+
+
+    </LinearLayout>
 
 </LinearLayout>

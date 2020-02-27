@@ -15,7 +15,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.administrator.langues.R;
-import com.example.administrator.langues.activity.Seek_loadingActivity;
+import com.example.administrator.langues.activity.Matching.Matching_Dialog;
+import com.example.administrator.langues.activity.Matching.Seek_loadingActivity;
+import com.example.administrator.langues.activity.Matching.Situational_dialogueActivity;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -24,7 +26,7 @@ import java.util.TimerTask;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SeekFragment extends Fragment {
+public class SeekFragment extends Fragment implements View.OnClickListener {
     private static int START_ANIMATION=0;
     private Button seek_btn;
     private ImageView image1,image2,image3,image4,image5,image6,image7,image8,image9,image10,image11;
@@ -46,9 +48,21 @@ public class SeekFragment extends Fragment {
 
     private void listener() {
         seek_btn.setOnClickListener(view1 -> {
-            closeTime();
-            Intent i=new Intent(getContext(),Seek_loadingActivity.class);
-            startActivity(i);
+
+            new Matching_Dialog(getActivity()){
+
+                @Override
+                protected void btnsituational() {
+                    Intent intent=new Intent(getContext(),Situational_dialogueActivity.class);
+                    startActivity(intent);
+                }
+                @Override
+                protected void btnseek() {
+                     closeTime();
+                    Intent i=new Intent(getContext(),Seek_loadingActivity.class);
+                    startActivity(i);
+                }
+            }.show();
         });
     }
     @SuppressLint("HandlerLeak")
@@ -80,6 +94,10 @@ public class SeekFragment extends Fragment {
         animation11 = AnimationUtils.loadAnimation(getContext(), R.anim.anim_translate_bounce);
         timer=new Timer();
 
+
+
+
+
         mHandler=new Handler(){
             public void handleMessage(Message msg) {
                 if(msg.what==START_ANIMATION){
@@ -109,6 +127,7 @@ public class SeekFragment extends Fragment {
                 }
             }
         };
+
     }
     public void closeTime(){ timer.cancel(); }
     private  void startTime(){
@@ -120,5 +139,15 @@ public class SeekFragment extends Fragment {
                 mHandler.sendMessage(m);
             }
         },0,4000);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.seek_btn:
+
+                break;
+
+        }
     }
 }

@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -61,9 +60,9 @@ public class SquareFragment extends Fragment {
 
     private void initFragments(){
         fragments = new ArrayList<>();
-        SquareFriendFragment SquareFriendFragment =new SquareFriendFragment();
+        squareFriendFragment SquareFriendFragment =new squareFriendFragment();
         fragments.add(SquareFriendFragment);
-        SquareFindFragment SquareFindFragment =new SquareFindFragment();
+        squareFindFragment SquareFindFragment =new squareFindFragment();
         fragments.add(SquareFindFragment);
         titles = new ArrayList<>();
         titles.add("动态");

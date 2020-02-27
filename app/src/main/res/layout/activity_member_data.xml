@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.User_data.Member_DataActivity">
+    tools:context=".activity.MyPage.User_data.Member_DataActivity">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="300dp"

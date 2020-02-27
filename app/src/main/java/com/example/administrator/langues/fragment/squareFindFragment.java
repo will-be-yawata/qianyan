@@ -36,7 +36,7 @@ import util.core.DynamicOperation;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SquareFindFragment extends Fragment {
+public class squareFindFragment extends Fragment {
     private static final int GET_SQUARE=0;
     private SquareFriendAdapter adapter;
     private RefreshListView listView;
@@ -88,7 +88,7 @@ public class SquareFindFragment extends Fragment {
                     listView.onRefreshComplete();
                 }else{
                     if(res.size()<=0){
-                        Toast.makeText(SquareFindFragment.this.getContext(),"没有更多了哦~",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(squareFindFragment.this.getContext(),"没有更多了哦~",Toast.LENGTH_SHORT).show();
                         listView.onMoreComplete();
                         return;
                     }

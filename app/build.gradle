@@ -3,6 +3,9 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 28
+    //处理.9图片冲突问题
+    aaptOptions.cruncherEnabled = false
+    aaptOptions.useNewCruncher = false
 
     lintOptions {
         checkReleaseBuilds false

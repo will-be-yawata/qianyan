@@ -14,17 +14,21 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.administrator.langues.R;
+import com.example.administrator.langues.activity.Matching.Matching_Dialog;
 import com.example.administrator.langues.activity.MyPage.MyCourse.CourseActivity;
 import com.example.administrator.langues.activity.MyPage.User_data.AccountActivity;
-import com.example.administrator.langues.activity.FeedbackActivity;
-import com.example.administrator.langues.activity.My_ConcernActivity;
+
+import com.example.administrator.langues.activity.MyPage.FeedbackActivity;
+import com.example.administrator.langues.activity.MyPage.My_ConcernActivity;
+
+
 import com.example.administrator.langues.activity.Square.Deliver_detail_Activity;
+
 import com.example.administrator.langues.activity.Square.My_DeliverActivity;
-import com.example.administrator.langues.activity.Square.ReleaseActivity;
-import com.example.administrator.langues.activity.SettingActivity;
+import com.example.administrator.langues.activity.MyPage.SettingActivity;
 import com.example.administrator.langues.activity.Sign_In_Activity;
-import com.example.administrator.langues.activity.User_data.Member_DataActivity;
-import com.example.administrator.langues.activity.User_data.User_DataActivity;
+import com.example.administrator.langues.activity.MyPage.User_data.Member_DataActivity;
+import com.example.administrator.langues.activity.MyPage.User_data.User_DataActivity;
 
 import org.xutils.x;
 
@@ -99,9 +103,9 @@ public class PersonalFragment extends Fragment {
         course.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent intent=new Intent(getActivity(),CourseActivity.class);
                 startActivity(intent);
+
 
             }
         });
