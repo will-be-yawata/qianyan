@@ -26,15 +26,12 @@ public class TabFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         final View view=inflater.inflate(R.layout.fragment_tab, container, false);
         tabLayout = view.findViewById(R.id.tabs);
 
         fragments = new ArrayList<>();
         SeekFragment seekPersonFragment=new SeekFragment();
         fragments.add(seekPersonFragment);
-        //squareFindItemFragment squareFindItemFragment=new squareFindItemFragment();
-        //fragments.add(squareFindItemFragment);
 
         SquareFragment squareFragment=new SquareFragment();
         fragments.add(squareFragment);

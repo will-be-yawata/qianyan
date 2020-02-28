@@ -6,6 +6,12 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_seek_person">seekPerson</string>
     <drawable name="color2">#4bb1e7</drawable>
+    <drawable name="gvcolor1">#fb9a7a</drawable>
+    <drawable name="gvcolor2">#f5c394</drawable>
+
+    <string name="image_selector_select_image">Select Image</string>
+    <string name="image_selector_select_none">No image selected</string>
+
 
     <!-- 请替换成在语音云官网申请的appid -->
     <string name="app_id">5e4d34bb</string>

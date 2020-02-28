@@ -34,12 +34,12 @@ public class DynamicOperation {
                 for (int i = 0; i < res.size(); i++) {
                     Log.i("zjq","success:"+res.get(i).toString());
                 }
-                callback.getDynamicData(res);
-
+                callback.onSuccess(res);
             }
             @Override
             public void onError(Throwable throwable, boolean b) {
                 Log.i("zjq","onError:"+throwable.getMessage());
+                callback.onError();
             }
 
             @Override
@@ -65,11 +65,12 @@ public class DynamicOperation {
                 for (int i = 0; i < res.size(); i++) {
                     Log.i("zjq","success:"+res.get(i).toString());
                 }
-                callback.getDynamicData(res);
+                callback.onSuccess(res);
             }
             @Override
             public void onError(Throwable throwable, boolean b) {
                 Log.i("zjq","onError:"+throwable.getMessage());
+                callback.onError();
             }
 
             @Override
@@ -178,7 +179,8 @@ public class DynamicOperation {
     }
     public interface DynamicGetCallback{
         //TODO 返回好友发表的动态，按时间倒序
-        void getDynamicData(ArrayList<Dynamic> res);
+        void onSuccess(ArrayList<Dynamic> res);
+        void onError();
     }
     public interface  DynamicPublishCallback{
         //TODO 返回影响条数 1表示成功，0表示失败

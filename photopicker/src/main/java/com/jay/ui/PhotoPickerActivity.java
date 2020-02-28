@@ -335,11 +335,16 @@ public class PhotoPickerActivity extends AppCompatActivity implements LoaderMana
                 subMenu.add(Menu.NONE, Menu.FIRST + 1, 0, text);
             }
         } else {
-            String menuTitle = item.getTitle().toString();
-            List<Photo> photos = photoDirMap.get(menuTitle);
+            String menuTitle=null;
+            List<Photo> photos=null;
+            if(item.getTitle()!=null) {
+                menuTitle = item.getTitle().toString();
+                photos = photoDirMap.get(menuTitle);
+            }
             if (photos != null) {
                 notifyChangePhotoList(menuTitle, photos);
             }
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }

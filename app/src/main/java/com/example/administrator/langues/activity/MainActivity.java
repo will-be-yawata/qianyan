@@ -10,11 +10,13 @@ import android.view.MenuItem;
 
 import com.example.administrator.langues.R;
 import com.example.administrator.langues.fragment.TabFragment;
+import com.hyphenate.chat.EMClient;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import entry.User;
+import util.EMHelp;
 
 public class MainActivity extends AppCompatActivity {
     private FragmentManager fm;
@@ -22,10 +24,24 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(User.getInstance().getPhone()==null){
-            Intent intent=new Intent(MainActivity.this,LoginActivity.class);
-            startActivity(intent);
-        }
+
+        EMHelp emHelp=new EMHelp();
+        emHelp.init(this);
+        emHelp.autologin(EMClient.getInstance().getCurrentUser(), new EMHelp.AutoLoginCallback() {
+            @Override
+            public void onSuccess() {
+                initActi();
+            }
+
+            @Override
+            public void onError() {
+                startActivity(new Intent(MainActivity.this,LoginActivity.class));
+            }
+        });
+
+    }
+
+    public void initActi(){
         setContentView(R.layout.activity_main);
         fragments= new ArrayList<>();
         fm=super.getSupportFragmentManager();
