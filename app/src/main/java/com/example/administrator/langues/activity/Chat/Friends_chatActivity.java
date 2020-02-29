@@ -1,5 +1,7 @@
 package com.example.administrator.langues.activity.Chat;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -9,9 +11,11 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.administrator.langues.R;
 import com.example.administrator.langues.activity.Chat.adapter.ChatAdapter;
+import com.example.administrator.langues.activity.Square.My_DeliverActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +28,7 @@ public class Friends_chatActivity extends AppCompatActivity implements View.OnCl
     private ImageButton voice_btn;
     private ImageButton keyboard_btn;
     private ImageButton friend_chat_return;
+    private ImageButton friend_setting_btn;
 
     private Button voice_say;
 
@@ -50,6 +55,7 @@ public class Friends_chatActivity extends AppCompatActivity implements View.OnCl
         keyboard_btn.setOnClickListener(this);
         voice_say.setOnClickListener(this);
         friend_chat_return.setOnClickListener(this);
+        friend_setting_btn.setOnClickListener(this);
     }
 
     private void initView() {
@@ -60,6 +66,7 @@ public class Friends_chatActivity extends AppCompatActivity implements View.OnCl
         send = (Button)findViewById(R.id.chat_send);
         msgListView = (ListView)findViewById(R.id.chat_listview);
         friend_chat_return=findViewById(R.id.friend_chat_return);
+        friend_setting_btn=findViewById(R.id.friend_setting_btn);
     }
 
     private void initMsgs() {
@@ -75,7 +82,7 @@ public class Friends_chatActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.chat_send:
+            case R.id.chat_send://发送文字
                 String content = inputText.getText().toString();
                 if(!"".equals(content)) {
                     chat msg = new chat(content, chat.TYPE_SEND);
@@ -88,7 +95,6 @@ public class Friends_chatActivity extends AppCompatActivity implements View.OnCl
             case R.id.voice_btn://转为语音
                 voice_btn.setVisibility(View.GONE);
                 keyboard_btn.setVisibility(View.VISIBLE);
-
                 voice_say.setVisibility(View.VISIBLE);
                 inputText.setVisibility(View.GONE);
                 //关闭系统软键盘
@@ -111,6 +117,11 @@ public class Friends_chatActivity extends AppCompatActivity implements View.OnCl
                 break;
             case  R.id.friend_chat_return://返回
                 finish();
+                break;
+            case  R.id.friend_setting_btn://好友设置
+                //Toast.makeText(getBaseContext(),"123",Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(getBaseContext(),Friends_settingActivity.class);
+                startActivity(intent);
                 break;
         }
 
