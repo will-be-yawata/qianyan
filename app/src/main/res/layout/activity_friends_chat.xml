@@ -53,7 +53,7 @@
         android:layout_weight="1"
         android:listSelector="@android:color/transparent"
         android:divider="#0000"
-        android:scrollbars="none">
+       >
 
     </ListView>
 

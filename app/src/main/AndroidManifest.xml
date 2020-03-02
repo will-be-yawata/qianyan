@@ -133,7 +133,8 @@
         <activity android:name=".activity.MyPage.User_data.Member_DataActivity" />
         <activity android:name=".activity.MyPage.MyCourse.CourseActivity" />
         <activity android:name=".activity.Square.ReleaseActivity" />
-        <activity android:name=".activity.Chat.Friends_settingActivity"></activity>
+        <activity android:name=".activity.Chat.Friends_settingActivity" />
+        <activity android:name=".activity.MyPage.User_data.Personal_cardActivity"></activity>
     </application>
 
 </manifest>

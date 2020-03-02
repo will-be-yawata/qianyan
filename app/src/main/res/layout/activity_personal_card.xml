@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    tools:context=".activity.MyPage.User_data.Personal_cardActivity">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        android:background="#ffa54f">
+        <ImageButton
+            android:id="@+id/personal_return"
+            android:layout_width="31dp"
+            android:layout_height="31dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="2dp"
+            android:background="@android:color/transparent"
+            android:scaleType="centerInside"
+            android:src="@mipmap/return_btn" />
+
+        <ImageButton
+            android:id="@+id/imageButton22"
+            android:layout_width="31dp"
+            android:layout_height="31dp"
+            android:layout_alignTop="@+id/friend_setting_return"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="0dp"
+            android:background="@android:color/transparent"
+            android:scaleType="centerInside"
+            app:srcCompat="@mipmap/dot" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/personal_pho"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="35dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:src="@mipmap/user" />
+
+        <TextView
+            android:id="@+id/textView26"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/personal_pho"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="6dp"
+            android:textSize="20dp"
+            android:text="大白" />
+
+        <ImageButton
+            android:id="@+id/imageButton25"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_above="@+id/textView26"
+            android:layout_marginStart="0dp"
+            android:layout_marginBottom="-19dp"
+            android:layout_toEndOf="@+id/textView26"
+            android:background="@android:color/transparent"
+            android:scaleType="centerInside"
+            app:srcCompat="@mipmap/unmember" />
+        <RelativeLayout
+            android:id="@+id/per_member"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/textView26"
+            android:layout_marginStart="0dp"
+            android:layout_marginBottom="-1dp"
+            android:layout_toEndOf="@+id/textView26">
+            <ImageView
+                android:id="@+id/imageButton26"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+
+                android:background="@android:color/transparent"
+                android:scaleType="centerInside"
+                app:srcCompat="@mipmap/lv" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imageButton26"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="-19dp"
+                android:textColor="#f4ea2a"
+                android:layout_toEndOf="@+id/imageButton26"
+                android:text="1" />
+        </RelativeLayout>
+
+
+
+        <TextView
+            android:id="@+id/textView46"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView26"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="3dp"
+            android:text="今天天气真好o~" />
+
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="0dp"
+        android:background="#e1e1e1" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/permissions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="14dp"
+            android:text="权限设置"
+            android:textSize="16dp" />
+
+        <ImageButton
+            android:id="@+id/imageButton29"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignTop="@+id/permissions"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="7dp"
+            android:background="@android:color/transparent"
+            android:scaleType="centerInside"
+            app:srcCompat="@mipmap/angle_brackets" />
+
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="0dp"
+        android:background="#e1e1e1" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/per_square"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="14dp"
+            android:text="广场"
+            android:textSize="16dp" />
+
+        <ImageButton
+            android:id="@+id/imageButton28"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignTop="@+id/per_square"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="7dp"
+            android:background="@android:color/transparent"
+            android:scaleType="centerInside"
+            app:srcCompat="@mipmap/angle_brackets" />
+
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="0dp"
+        android:background="#e1e1e1" />
+
+
+
+
+
+
+</LinearLayout>
