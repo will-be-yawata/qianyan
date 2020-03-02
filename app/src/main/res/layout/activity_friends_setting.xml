@@ -130,7 +130,7 @@
                         android:text="置顶聊天" />
 
                     <ImageButton
-                        android:id="@+id/top_chat"
+                        android:id="@+id/top_chat_close"
                         android:layout_width="40dp"
                         android:layout_height="30dp"
                         android:layout_alignParentTop="true"
@@ -140,6 +140,18 @@
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="18dp"
                         android:src="@mipmap/close" />
+                    <ImageButton
+                        android:id="@+id/top_chat_open"
+                        android:layout_width="40dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:scaleType="centerInside"
+                        android:background="@android:color/transparent"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="18dp"
+                        android:visibility="gone"
+                        android:src="@mipmap/open" />
 
                 </RelativeLayout>
 
@@ -169,7 +181,7 @@
                         android:text="消息免打扰" />
 
                     <ImageButton
-                        android:id="@+id/not_disturb"
+                        android:id="@+id/not_disturb_close"
                         android:layout_width="40dp"
                         android:layout_height="30dp"
                         android:layout_alignParentTop="true"
@@ -179,6 +191,18 @@
                         android:scaleType="centerInside"
                         android:background="@android:color/transparent"
                         android:src="@mipmap/close" />
+                    <ImageButton
+                        android:id="@+id/not_disturb_open"
+                        android:layout_width="40dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="18dp"
+                        android:scaleType="centerInside"
+                        android:background="@android:color/transparent"
+                        android:visibility="gone"
+                        android:src="@mipmap/open" />
 
                 </RelativeLayout>
 
@@ -243,6 +267,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginTop="5dp">
                     <Button
+                        android:id="@+id/delete_friend"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="删除好友"
