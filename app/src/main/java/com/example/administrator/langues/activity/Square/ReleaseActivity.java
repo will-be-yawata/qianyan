@@ -32,7 +32,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.administrator.langues.R;
-import com.scrat.app.selectorlibrary.ImageSelector;
+//import com.scrat.app.selectorlibrary.ImageSelector;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -112,7 +112,7 @@ public class ReleaseActivity extends AppCompatActivity implements View.OnClickLi
                if(listpath.size() >= 9){//判断是否满9张图片
                    Toast.makeText(ReleaseActivity.this, "图片数9张已满", Toast.LENGTH_SHORT).show();
                }else{
-                   ImageSelector.show(this, REQUEST_CODE_SELECT_IMG, MAX_SELECT_COUNT);
+//                   ImageSelector.show(this, REQUEST_CODE_SELECT_IMG, MAX_SELECT_COUNT);
                }
                 break;
 //            case R.id.take_pho_btn://打开相机
@@ -186,24 +186,24 @@ public class ReleaseActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void showContent(Intent data) {
-        List<String> paths = ImageSelector.getImagePaths(data);
-        if (paths.isEmpty()) {
-            //mContentTv.setText(R.string.image_selector_select_none);
-            Toast.makeText(getBaseContext(),"尚未选择图片",Toast.LENGTH_SHORT).show();
-            return;
-        }else {
-            results = ImageSelector.getImagePaths(data);
-            for (int i = 0; i < results.size(); i++) {
-                scanpath = results.get(i);
-                Bitmap bitmap = BitmapFactory.decodeFile(scanpath);
-                //Log.i("bitmap","bitmap="+results.get(i));
-                if (bitmap != null) {
-                    listpath.add(bitmap);
-                }
-            }
-           showView();
-
-        }
+//        List<String> paths = ImageSelector.getImagePaths(data);
+//        if (paths.isEmpty()) {
+//            //mContentTv.setText(R.string.image_selector_select_none);
+//            Toast.makeText(getBaseContext(),"尚未选择图片",Toast.LENGTH_SHORT).show();
+//            return;
+//        }else {
+//            results = ImageSelector.getImagePaths(data);
+//            for (int i = 0; i < results.size(); i++) {
+//                scanpath = results.get(i);
+//                Bitmap bitmap = BitmapFactory.decodeFile(scanpath);
+//                //Log.i("bitmap","bitmap="+results.get(i));
+//                if (bitmap != null) {
+//                    listpath.add(bitmap);
+//                }
+//            }
+//           showView();
+//
+//        }
     }
 
     public void dialog(final int position) {//点击删除图片

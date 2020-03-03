@@ -28,6 +28,7 @@ import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -58,12 +59,12 @@ import util.core.DynamicOperation;
 public class Deliver_textActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
-    private FloatingActionButton btn2;
+    private ImageButton btn2;
     private Button send_btn;
     private ImageButton deliver_return;
     private List<MediaBean> selected_item;
     private ArrayList ready_to_publish;//准备发布的图片集合
-    private AutoCompleteTextView autoCompleteTextView;
+    private EditText editText_content;
     private boolean isMultiSelect;
     private int defaultMaxCount = 9;
     private int current_select_count;
@@ -104,7 +105,7 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_deliver_text);
+        setContentView(R.layout.activity_release);
 
         selected_item=new ArrayList<>();
 //        rxGalleryFinal=RxGalleryFinal.with(Deliver_textActivity.this);
@@ -120,18 +121,18 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
     public void initViews(){
         hidBar();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        autoCompleteTextView=(AutoCompleteTextView)findViewById(R.id.autoCompleteTextView2);
+        editText_content=(EditText)findViewById(R.id.EditText02);
         ready_to_publish=new ArrayList();
-        send_btn=(Button)findViewById(R.id.deliver_btn);
+        send_btn=(Button)findViewById(R.id.release_btn);
         send_btn.setOnClickListener(this);
         setSupportActionBar(toolbar);
         current_select_count=0;
         //返回按钮
-        deliver_return=findViewById(R.id.deliver_return);
+        deliver_return=findViewById(R.id.release_return);
         deliver_return.setOnClickListener(v -> finish());
-        btn2 = findViewById(R.id.btn2);
+        btn2 = findViewById(R.id.add_pho_btn);
         btn2.setOnClickListener(this);
-        gridview=findViewById(R.id.gridview);
+        gridview=findViewById(R.id.release_gridview);
         listpath = new ArrayList<>();
         /*获取屏幕宽度*/
         Display display = getWindowManager().getDefaultDisplay();
@@ -193,7 +194,7 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View v) {
         Intent intent = new Intent(Deliver_textActivity.this, PhotoPickerActivity.class);
         switch (v.getId()) {
-            case R.id.btn2://多选
+            case R.id.add_pho_btn://多选
                 openMulti();
                 isMultiSelect = true;
                 Bundle bundle = new Bundle();
@@ -206,9 +207,9 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
                 intent.putExtras(bundle);
 //                startActivityForResult(intent,1001);
                 break;
-            case R.id.deliver_btn:
+            case R.id.release_btn:
                 DynamicOperation dynamicOperation=new DynamicOperation();
-                String user_text=autoCompleteTextView.getText().toString();
+                String user_text=editText_content.getText().toString();
                 ArrayList<String> result=new ArrayList<>();
                 for(int i=0;i<selected_item.size();++i){
                     Log.i("send",selected_item.get(i).getOriginalPath());

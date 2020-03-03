@@ -18,7 +18,7 @@ import android.widget.ImageButton;
 import com.example.administrator.langues.R;
 
 import com.example.administrator.langues.activity.Deliver_textActivity;
-import com.example.administrator.langues.activity.Square.ReleaseActivity;
+//import com.example.administrator.langues.activity.Square.ReleaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
