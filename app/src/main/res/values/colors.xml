@@ -10,7 +10,7 @@
     <color name="colorBtn">#3aaffd</color>
 
     <color name="transparent">#00000000</color>
-
+    <color name="colorAlert">#c60718</color>
     <color name="logout">#E02433</color>
     <color name="logoutPress">#BA0916</color>
 

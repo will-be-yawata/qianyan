@@ -13,6 +13,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.administrator.langues.R;
 import com.example.administrator.langues.activity.Matching.Matching_Dialog;
@@ -26,7 +27,7 @@ import java.util.TimerTask;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SeekFragment extends Fragment implements View.OnClickListener {
+public class SeekFragment extends Fragment {
     private static int START_ANIMATION=0;
     private Button seek_btn;
     private ImageView image1,image2,image3,image4,image5,image6,image7,image8,image9,image10,image11;
@@ -52,12 +53,14 @@ public class SeekFragment extends Fragment implements View.OnClickListener {
             new Matching_Dialog(getActivity()){
 
                 @Override
-                protected void btnsituational() {
-                    Intent intent=new Intent(getContext(),Situational_dialogueActivity.class);
-                    startActivity(intent);
+                protected void btnsituational() {//情景对话
+                    closeTime();
+                    Intent i=new Intent(getActivity(),Situational_dialogueActivity.class);
+                    startActivity(i);
+
                 }
                 @Override
-                protected void btnseek() {
+                protected void btnseek() {//人机匹配
                      closeTime();
                     Intent i=new Intent(getContext(),Seek_loadingActivity.class);
                     startActivity(i);
@@ -130,7 +133,7 @@ public class SeekFragment extends Fragment implements View.OnClickListener {
 
     }
     public void closeTime(){ timer.cancel(); }
-    private  void startTime(){
+    public   void startTime(){
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -141,13 +144,6 @@ public class SeekFragment extends Fragment implements View.OnClickListener {
         },0,4000);
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.seek_btn:
 
-                break;
 
-        }
-    }
 }
