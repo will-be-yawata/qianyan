@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.administrator.langues.R;
+import com.example.administrator.langues.activity.Matching.Dialogue_listActivity;
 import com.example.administrator.langues.activity.Matching.Matching_Dialog;
 import com.example.administrator.langues.activity.Matching.Seek_loadingActivity;
 import com.example.administrator.langues.activity.Matching.Situational_dialogueActivity;
@@ -55,8 +56,10 @@ public class SeekFragment extends Fragment {
                 @Override
                 protected void btnsituational() {//情景对话
                     closeTime();
-                    Intent i=new Intent(getActivity(),Situational_dialogueActivity.class);
+                    Intent i=new Intent(getActivity(),Dialogue_listActivity.class);
                     startActivity(i);
+                   /* Intent i=new Intent(getActivity(),Situational_dialogueActivity.class);
+                    startActivity(i);*/
 
                 }
                 @Override
@@ -133,7 +136,7 @@ public class SeekFragment extends Fragment {
 
     }
     public void closeTime(){ timer.cancel(); }
-    public   void startTime(){
+    public void startTime(){
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
