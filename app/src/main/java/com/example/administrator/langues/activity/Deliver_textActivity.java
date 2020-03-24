@@ -32,6 +32,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.administrator.langues.R;
@@ -66,31 +67,13 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
     private ArrayList ready_to_publish;//准备发布的图片集合
     private EditText editText_content;
     private boolean isMultiSelect;
+    private String kind;//动态的类型
     private int defaultMaxCount = 9;
     private int current_select_count;
     private ArrayList<String> results;
     private RxGalleryFinal rxGalleryFinal;
-//    RxBusResultSubscriber rxBusResultSubscriber;
+    private RadioGroup group;
 
-//    private RxBusResultDisposable<ImageMultipleResultEvent> rxBusResultDisposable= new RxBusResultDisposable<ImageMultipleResultEvent>() {
-//        @Override
-//        protected void onEvent(ImageMultipleResultEvent imageMultipleResultEvent) throws Exception {
-//            Log.i("select_result","选择了"+imageMultipleResultEvent.getResult().size()+"张图片");
-//            selected_item.addAll(imageMultipleResultEvent.getResult());
-//            for (int i=0;i<selected_item.size();++i){
-//
-//                Log.i("select_result","当前已经选择的图片为"+selected_item.get(i).getOriginalPath());
-//            }
-//
-//
-//        }
-//
-//        @Override
-//        public void onComplete(){
-//            int i;
-//            Log.i("h","d");
-//        }
-//    };
     /**显示图片的GridView*/
     private GridView gridview;
     /**文件夹下所有图片的bitmap*/
@@ -123,6 +106,20 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         editText_content=(EditText)findViewById(R.id.EditText02);
         ready_to_publish=new ArrayList();
+        group=(RadioGroup)findViewById(R.id.area_btn);
+        group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                switch (i){
+                    case R.id.friend_area:
+                        kind="friend";
+                        break;
+                    case R.id.square_area:
+                        kind="square";
+                        break;
+                }
+            }
+        });
         send_btn=(Button)findViewById(R.id.release_btn);
         send_btn.setOnClickListener(this);
         setSupportActionBar(toolbar);
@@ -196,16 +193,6 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
         switch (v.getId()) {
             case R.id.add_pho_btn://多选
                 openMulti();
-                isMultiSelect = true;
-                Bundle bundle = new Bundle();
-                bundle.putBoolean(PhotoPickerActivity.IS_MULTI_SELECT, true);
-
-                defaultMaxCount = 9;
-//
-                bundle.putInt(PhotoPickerActivity.MAX_SELECT_SIZE, defaultMaxCount);
-                bundle.putInt("current_select_count",current_select_count);
-                intent.putExtras(bundle);
-//                startActivityForResult(intent,1001);
                 break;
             case R.id.release_btn:
                 DynamicOperation dynamicOperation=new DynamicOperation();
@@ -216,30 +203,13 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
                     result.add(selected_item.get(i).getOriginalPath());
                 }
 
-//                dynamicOperation.publishDynamic(user_text, ready_to_publish, new DynamicOperation.DynamicPublishCallback() {
-//                    @Override
-//                    public void publishDynamicData(String s) {
-//                        if(s.equals("1")){
-//                            //成功
-//
-//                            Toast.makeText(getApplicationContext(),"发布成功",Toast.LENGTH_LONG).show();
-//
-//
-//                        }
-//                        else {
-//                            Toast.makeText(getApplicationContext(),"发布失败",Toast.LENGTH_LONG).show();
-//                        }
-//                    }
-//                });
+
                 dynamicOperation.publishDynamic(user_text, result, new DynamicOperation.DynamicPublishCallback() {
                     @Override
                     public void publishDynamicData(String s) {
                         if(s.equals("1")){
                             //成功
-
                             Toast.makeText(getApplicationContext(),"发布成功",Toast.LENGTH_LONG).show();
-
-
                         }
                         else {
                             Toast.makeText(getApplicationContext(),"发布失败",Toast.LENGTH_LONG).show();
@@ -257,7 +227,6 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
 
 
     private void openMulti() {
-//        RxGalleryFinal.with(this).hidePreview();
         RxGalleryFinal rxGalleryFinal = RxGalleryFinal
                 .with(Deliver_textActivity.this)
                 .image()
@@ -276,11 +245,6 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
 
                         selected_item=imageMultipleResultEvent.getResult();
                         process_select();
-//                                    for (int i=0;i<selected_item.size();++i){
-//
-//                Log.i("select_result","当前已经选择的图片为"+selected_item.get(i).getOriginalPath());
-//            }
-//                        Toast.makeText(getBaseContext(), "已选择" + imageMultipleResultEvent.getResult().size() + "张图片", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -352,26 +316,6 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
                 ready_to_publish.addAll(results);
                 current_select_count+=results.size();
 
-//                for (int i = 0; i < results.size(); i++) {
-//                    scanpath = results.get(i);
-//                    try {
-//                        Bitmap bitmap = BitmapFactory.decodeFile(scanpath);
-//                        Log.i("result_of_picker", "bitmap=" + results.get(i));
-//                        if (bitmap != null) {
-//                            listpath.add(bitmap);
-//                            Log.i("result_of_picker", "listpath=" + listpath);
-//                        }
-//                    }catch (OutOfMemoryError err){
-//                        BitmapFactory.Options opts = new BitmapFactory.Options();
-//                        opts.inSampleSize = 4;
-//                        Bitmap bmp = BitmapFactory.decodeFile(scanpath, opts);
-//                        if (bmp != null) {
-//                            listpath.add(bmp);
-//                            Log.i("result_of_picker", "listpath=" + listpath);
-//                        }
-//                    }
-//
-//                }
                 adapter = new Photodaapter(listpath, this);
                 gridview.setAdapter(adapter);
                 gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -383,8 +327,6 @@ public class Deliver_textActivity extends AppCompatActivity implements View.OnCl
 
                         } else {
                             dialog(position);
-                            //Toast.makeText(MainActivity.this, "点击第"+(position + 1)+" 号图片",
-                            //      Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

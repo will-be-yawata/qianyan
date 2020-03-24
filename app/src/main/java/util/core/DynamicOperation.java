@@ -107,37 +107,6 @@ public class DynamicOperation {
         sendPublishDynamic(text,results,callback);
     }
     public void sendPublishDynamic(String text,ArrayList<String> results,DynamicPublishCallback callback){
-//        RequestParams params=new RequestParams(Url.ROOT+Url.PUBLISH_DYNAMIC);
-//        if(text!=null && !text.equals("")){
-//            params.addBodyParameter("text",text);
-//        }
-//        if(results!=null && results.size()>0){
-//            params.setMultipart(true);
-//            for (int i = 0; i < results.size(); i++) {
-////                params.addBodyParameter("img"+i,new File(results.get(i)),"multipart/form-data");
-//                params.addBodyParameter("img"+i,new File(results.get(i)),"multipart/form-data","img"+i);
-//            }
-//
-//
-//        }
-//        params.addBodyParameter("phone", User.getInstance().getPhone());
-//        params.addBodyParameter("img",new File("url"),null,"文件名");
-        //-------------------------------------------------
-//        RequestParams params=new RequestParams(Url.ROOT+Url.PUBLISH_DYNAMIC);
-//        List<KeyValue> list = new ArrayList<>();
-//        if(text!=null && !text.equals("")){
-//            list.add(new KeyValue("text",text));
-//        }
-//        if(results!=null && results.size()>0){
-//            params.setMultipart(true);
-//            for (int i = 0; i < results.size(); i++) {
-//                list.add(new KeyValue("img"+i,new File(results.get(i))));
-//            }
-//        }
-//        list.add(new KeyValue("phone",User.getInstance().getPhone()));
-//        MultipartBody body = new MultipartBody(list, "UTF-8");
-//        params.setRequestBody(body);
-        //-------------------------------------------------
         RequestParams params=new RequestParams(Url.ROOT+Url.PUBLISH_DYNAMIC);
         params.setMultipart(true);
         List<KeyValue> list=new ArrayList<>();
@@ -152,7 +121,6 @@ public class DynamicOperation {
         }
         MultipartBody body=new MultipartBody(list,"UTF-8");
         params.setRequestBody(body);
-        //-------------------------------------------------
 
 
 
