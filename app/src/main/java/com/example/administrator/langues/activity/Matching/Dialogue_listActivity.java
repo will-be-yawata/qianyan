@@ -51,12 +51,12 @@ public class Dialogue_listActivity extends AppCompatActivity implements View.OnC
                 "红猫蓝兔七侠传"
         };
         images=new int[]{
-          R.mipmap.bg,
-          R.mipmap.bg,
-          R.mipmap.bg,
-          R.mipmap.bg,
-          R.mipmap.bg,
-          R.mipmap.bg
+          R.mipmap.lu,
+          R.mipmap.datou,
+          R.mipmap.xiyangyang,
+          R.mipmap.xiaoyang,
+          R.mipmap.xiongchumo,
+          R.mipmap.hongmao
         };
         nums =new String[]{
           "121312",

@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "F:\\qianyan\\qianyan\\library\\build\\intermediates\\res\\merged\\release\\drawable-xhdpi-v4\\default_ptr_flip.png",
+        "source": "F:\\qianyan\\qianyan\\library\\src\\main\\res\\drawable-xhdpi\\default_ptr_flip.png"
+    },
+    {
+        "merged": "F:\\qianyan\\qianyan\\library\\build\\intermediates\\res\\merged\\release\\drawable-xhdpi-v4\\indicator_arrow.png",
+        "source": "F:\\qianyan\\qianyan\\library\\src\\main\\res\\drawable-xhdpi\\indicator_arrow.png"
+    },
+    {
+        "merged": "F:\\qianyan\\qianyan\\library\\build\\intermediates\\res\\merged\\release\\drawable-xhdpi-v4\\default_ptr_rotate.png",
+        "source": "F:\\qianyan\\qianyan\\library\\src\\main\\res\\drawable-xhdpi\\default_ptr_rotate.png"
+    }
+]

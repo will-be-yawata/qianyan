@@ -19,6 +19,9 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+        ndk{
+            abiFilters 'armeabi', 'x86','armeabi-v7a'
+        }
     }
     buildTypes {
         release {
@@ -55,4 +58,5 @@ dependencies {
     implementation project(':photopicker')
     implementation files('libs/fastjson-1.2.5.jar')
     implementation project(':selectorlibrary')
+    implementation project(':vitamio')
 }

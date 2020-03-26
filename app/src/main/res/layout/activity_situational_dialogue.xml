@@ -5,10 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:keepScreenOn="true"
     tools:context=".activity.Matching.Situational_dialogueActivity">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="#77d4f8">
         <ImageButton
             android:id="@+id/sit_return"
             android:layout_width="40dp"
@@ -71,11 +73,69 @@
         android:layout_weight="1.3"
         android:background="#e67"
         >
-        <VideoView
-            android:id="@+id/videoview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+        <io.vov.vitamio.widget.VideoView
+            android:id="@+id/mvideoview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+    <!--标题-->
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/iv_back"
+                    android:src="@mipmap/ic_launcher"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:text="--"
+                    android:id="@+id/tv_video_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
+
+            </LinearLayout>
+       
+
+        <!--控制-->
+        <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_alignParentBottom="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+            <SeekBar
+                        android:thumb="@drawable/seekbar"
+                        android:id="@+id/mSeekBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                        android:gravity="center_vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+            <ImageView
+                        android:id="@+id/iv_control"
+                        android:src="@mipmap/ic_launcher"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+            <TextView
+                        android:text="--"
+                        android:id="@+id/tv_video_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </RelativeLayout>
     <RelativeLayout
@@ -117,6 +177,7 @@
             android:padding="6dp"
             android:background="@drawable/phone_bg"
             android:src="@mipmap/phone"/>
+
     </RelativeLayout>
 
 </LinearLayout>
