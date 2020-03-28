@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.administrator.langues.activity.LoginActivity;
 import com.example.administrator.langues.activity.MainActivity;
 import com.example.administrator.langues.activity.TestActivity;
+import com.example.administrator.langues.activity.TestVideo;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
 import com.iflytek.cloud.SpeechConstant;
@@ -144,14 +145,14 @@ public class MyApplication extends Application {
                         new EMHelp().autologin(EMClient.getInstance().getCurrentUser(), new EMHelp.AutoLoginCallback() {
                             public void onSuccess() {
                                 FriendOperation.getInstance().friendListener();
-                                Intent intent=new Intent(activity.getApplicationContext(), MainActivity.class);
+                                Intent intent=new Intent(activity.getApplicationContext(), TestVideo.class);
                                 activity.startActivity(intent);
                                 activity.finish();
                                 Log.i("mData",User.getInstance().getPhone());
                             }
                             public void onError() {
                                 Toast.makeText(activity,"自动登录失败",Toast.LENGTH_LONG).show();
-                                Intent intent=new Intent(activity.getApplicationContext(),LoginActivity.class);
+                                Intent intent=new Intent(activity.getApplicationContext(), TestVideo.class);
                                 activity.startActivity(intent);
                                 activity.finish();
                             }
