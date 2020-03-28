@@ -74,7 +74,7 @@ public class Situational_dialogueActivity extends AppCompatActivity implements V
         videoPath = intent.getStringExtra("path");*/
         //Test
         videoName = "Test";
-        videoPath = Environment.getDataDirectory()+"/芒种.mp4";
+        videoPath = "android.resource://" + getPackageName() + "/raw/" + R.raw.video;
         Log.i("videoPath:",videoPath);
         sit_return=findViewById(R.id.sit_return);
         mvideoView=findViewById(R.id.mvideoview);
@@ -83,11 +83,7 @@ public class Situational_dialogueActivity extends AppCompatActivity implements V
         tv_video_time = (TextView) findViewById(R.id.tv_video_time);
         iv_back = (ImageView) findViewById(R.id.iv_back);
         iv_control = (ImageView) findViewById(R.id.iv_control);
-
-
-
         tv_video_name.setText(videoName);
-
         initVideo();
 
     }
@@ -95,16 +91,16 @@ public class Situational_dialogueActivity extends AppCompatActivity implements V
         mVideoManager = new VideoManager(mvideoView);
 
 
-       // mVideoManager.setVideoURI(uri);//通过uri网络播放
-        //mVideoManager.setVideoPath(videoPath);//通过文件路径播放
-
+       // mVideoManager.setVideoURI(Uri.parse("android.resource://" + this.getPackageName() + "/raw/" + R.raw.video));//通过uri网络播放
+        mVideoManager.setVideoPath("http://47.106.76.8/resource/video/Japan/unnature.mp4");//通过文件路径播放
+        Log.i("test11","1");
         mVideoManager.setOnPreparedListener(new io.vov.vitamio.MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(io.vov.vitamio.MediaPlayer mp) {
                 mVideoManager.setPlaybackSpeed(mp,1.0f);
-                //long allDuration = mVideoManager.getDuration();
-               // videoAllDuration = CommonUtils.formatDuring(allDuration);
-                //mSeekBar.setMax((int) allDuration);
+                long allDuration = mVideoManager.getDuration();
+               videoAllDuration = CommonUtils.formatDuring(allDuration);
+                mSeekBar.setMax((int) allDuration);
                 mVideoManager.start();
             }
         });
@@ -118,8 +114,8 @@ public class Situational_dialogueActivity extends AppCompatActivity implements V
         mVideoManager.setOnVideoProgress(new VideoManager.OnVideoProgressListener() {
             @Override
             public void onProgress(long progress) {
-               // mSeekBar.setProgress((int) progress);
-                ///tv_video_time.setText(CommonUtils.formatDuring(progress) + "/" + videoAllDuration);
+               mSeekBar.setProgress((int) progress);
+                tv_video_time.setText(CommonUtils.formatDuring(progress) + "/" + videoAllDuration);
             }
         });
 

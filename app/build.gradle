@@ -15,8 +15,8 @@ android {
     }
     defaultConfig {
         applicationId "com.example.administrator.langues"
-        minSdkVersion 22
-        targetSdkVersion 28
+        minSdkVersion 19
+        targetSdkVersion 21
         versionCode 1
         versionName "1.0"
         ndk{
@@ -29,6 +29,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets{
+        mian{
+            jniLibs.srcDirs = ['libs']        }
+    }
+
     useLibrary 'org.apache.http.legacy'
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
