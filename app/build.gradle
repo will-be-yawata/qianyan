@@ -16,7 +16,7 @@ android {
     defaultConfig {
         applicationId "com.example.administrator.langues"
         minSdkVersion 19
-        targetSdkVersion 21
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         ndk{
@@ -64,4 +64,6 @@ dependencies {
     implementation files('libs/fastjson-1.2.5.jar')
     implementation project(':selectorlibrary')
     implementation project(':vitamio')
+    implementation 'com.shuyu:GSYVideoPlayer:6.0.2'
+    implementation 'com.jaeger.statusbarutil:library:1.5.1'
 }
