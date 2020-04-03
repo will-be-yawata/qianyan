@@ -6,14 +6,19 @@ import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,23 +37,65 @@ import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
 import java.io.File;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class Situational_dialogueActivity extends AppCompatActivity implements View.OnClickListener {
+    //动画
+    private static int START_ANIMATION=0;
+    private static int CLOSE_ANIMATION=1;
+    private Animation animation1;
+    private Timer animTimer;
+    private RelativeLayout text_tip;
+    private Handler mHandler;
+
+
     private OrientationUtils orientationUtils;
     private boolean isPlay,isPause;
     private StandardGSYVideoPlayer videoPlayer;
-    private String url2 = "http://47.106.76.8/resource/video/Japan/unnature.mp4";
+    private String url2 = "http://47.106.76.8/resource/video/English/dream.m3u8";//http://47.106.76.8/resource/video/Japan/unnature.mp4
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_situational_dialogue);
         initView();
+        //videoListener();
+        startAnimTime();
     }
+
+   /* private void videoListener() {
+        //获取得到video所暂停的秒数
+
+        //当视频暂停，则显示提示文字和动画
+        text_tip.setVisibility(View.VISIBLE);
+        startAnimTime();
+        //当视频播放，则隐藏提示文字和动画
+        text_tip.setVisibility(View.GONE);
+        closeAnimTime();
+    }*/
+
+    //文字提示动画
+    private void startAnimation(){
+        text_tip.startAnimation(animation1);
+    }
+    //开始动画
+    private  void startAnimTime(){
+        animTimer.schedule(new TimerTask() {
+            public void run() {
+                Message m=Message.obtain();
+                m.what=START_ANIMATION;
+                mHandler.sendMessage(m);
+            }
+        },0,4000);
+    }
+    //停止动画
+    private void closeAnimTime(){  animTimer.cancel();}
+
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.sit_return:
+           /* case 返回按钮id://当点击放回，即退出时，将弹出警告对话框。
                 new Alert_Dialog(Situational_dialogueActivity.this) {
                     @Override
                     public void btncancel() {
@@ -61,12 +108,24 @@ public class Situational_dialogueActivity extends AppCompatActivity implements V
 
                     }
                 }.show();
-                break;
+                break;*/
         }
     }
     private void initView() {
+        //文字提示
+        animTimer=new Timer();
+        text_tip=findViewById(R.id.tip_text);
+        animation1 = AnimationUtils.loadAnimation(getBaseContext(), R.anim.anim_text_tips);
+        mHandler=new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                if(msg.what==START_ANIMATION){
+                    startAnimation();
+                }
+            }
+        };
+        //视频播放
         videoPlayer = (StandardGSYVideoPlayer) findViewById(R.id.videoPlayer);
-        resolveNormalVideoUI();
         orientationUtils = new OrientationUtils(this, videoPlayer);
         GSYVideoOptionBuilder gsyVideoOptionBuilder = new GSYVideoOptionBuilder();
         gsyVideoOptionBuilder
@@ -79,22 +138,6 @@ public class Situational_dialogueActivity extends AppCompatActivity implements V
                 .setCacheWithPlay(false)
                 .setUrl(url2)
                 .setVideoTitle("title")
-                //        new GSYSampleCallBack() {
-                //            @Override
-                //            public void onPrepared(String url, Object… objects) {
-                //                super.onPrepared(url, objects);
-                ////开始播放了才能旋转和全屏
-                //                orientationUtils.setEnable(true);
-                //                isPlay = true;
-                //            }
-                //            @Override
-                //            public void onQuitFullscreen(String url, Object… objects) {
-                //                super.onQuitFullscreen(url, objects);
-                //                if (orientationUtils != null) {
-                //                    orientationUtils.backToProtVideo();
-                //                }
-                //            }
-                //        }
                 .setVideoAllCallBack(new GSYSampleCallBack(){
                     @Override
                     public void onPrepared(String url, Object... objects) {
@@ -143,7 +186,6 @@ public class Situational_dialogueActivity extends AppCompatActivity implements V
         mPrgress.setVisibility(View.INVISIBLE);
         videoPlayer.getTitleTextView().setVisibility(View.GONE);
         videoPlayer.getBackButton().setVisibility(View.GONE);
-        //        videoPlayerTest.setBottomProgressBarDrawable(getResources().getDrawable(R.color.black));
     }
 
     @Override

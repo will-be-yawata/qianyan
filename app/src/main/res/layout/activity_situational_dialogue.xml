@@ -7,66 +7,7 @@
     android:orientation="vertical"
     android:keepScreenOn="true"
     tools:context=".activity.Matching.Situational_dialogueActivity">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#77d4f8">
-        <ImageButton
-            android:id="@+id/sit_return"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:backgroundTint="@android:color/transparent"
-            android:scaleType="centerInside"
-            app:srcCompat="@mipmap/return_btn" />
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp">
-
-
-            <TextView
-                android:id="@+id/s_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="0dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginTop="0dp"
-                android:text="正在与" />
-
-            <TextView
-                android:id="@+id/s_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/s_text"
-                android:layout_marginStart="0dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginTop="0dp"
-                android:layout_toEndOf="@+id/s_text"
-                android:layout_toRightOf="@+id/s_text"
-                android:text="某某某" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/s_name"
-                android:layout_marginStart="0dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginTop="0dp"
-                android:layout_toEndOf="@+id/s_name"
-                android:layout_toRightOf="@+id/s_name"
-                android:text="匹配中...." />
-
-        </RelativeLayout>
-    </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -88,7 +29,71 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="#77d4f8">
+        android:background="#fff">
+
+        <RelativeLayout
+            android:id="@+id/tip_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
+            <TextView
+                android:id="@+id/gai"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="该"
+                android:textColor="#000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/ni"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/gai"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="-24dp"
+                android:layout_toEndOf="@+id/gai"
+                android:text="你"
+                android:textColor="#000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/shuo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ni"
+                android:layout_marginStart="11dp"
+                android:layout_marginTop="4dp"
+                android:layout_toEndOf="@+id/ni"
+                android:text="说"
+                android:textColor="#000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/hua"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/shuo"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="-31dp"
+                android:layout_toEndOf="@+id/shuo"
+                android:text="话"
+                android:textColor="#000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/la"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/hua"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="18dp"
+                android:layout_toEndOf="@+id/hua"
+                android:text="啦"
+                android:textColor="#000"
+                android:textSize="20dp" />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/text6"
@@ -98,7 +103,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="14dp"
             android:text="您扮演的角色"
-            android:textColor="#fff"/>
+            android:textColor="#000"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -110,7 +115,7 @@
             android:paddingTop="5dp"
             android:paddingRight="20dp"
             android:paddingBottom="5dp"
-            android:background="#fff"
+            android:background="#90f8f7"
             android:text="小强" />
 
         <ImageButton
