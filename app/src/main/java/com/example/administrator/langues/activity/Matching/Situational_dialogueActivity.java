@@ -25,8 +25,7 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.example.administrator.langues.R;
-import com.example.administrator.langues.activity.Matching.video.CommonUtils;
-import com.example.administrator.langues.activity.Matching.video.VideoManager;
+
 import com.example.administrator.langues.fragment.SeekFragment;
 import com.jaeger.library.StatusBarUtil;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;

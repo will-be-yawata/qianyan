@@ -63,7 +63,6 @@ dependencies {
     implementation project(':photopicker')
     implementation files('libs/fastjson-1.2.5.jar')
     implementation project(':selectorlibrary')
-    implementation project(':vitamio')
     implementation 'com.shuyu:GSYVideoPlayer:6.0.2'
     implementation 'com.jaeger.statusbarutil:library:1.5.1'
 }
