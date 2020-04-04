@@ -27,4 +27,6 @@ public class Url {
     public static String GET_ENEMY="pairing/getenemy.html";
     public static String DELETE_ROOM="room/deleteroom.html";
     public static String USER_IMG="http://119.23.216.103/qianyan/public/static/images/user_img/";
+    public static String SCENCE_LIST="scence/getscence.html";
+    public static String GET_SCENCE="scence/getscencebyid.html";
 }

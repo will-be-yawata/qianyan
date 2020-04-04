@@ -145,14 +145,14 @@ public class MyApplication extends Application {
                         new EMHelp().autologin(EMClient.getInstance().getCurrentUser(), new EMHelp.AutoLoginCallback() {
                             public void onSuccess() {
                                 FriendOperation.getInstance().friendListener();
-                                Intent intent=new Intent(activity.getApplicationContext(), TestVideo.class);
+                                Intent intent=new Intent(activity.getApplicationContext(), MainActivity.class);
                                 activity.startActivity(intent);
                                 activity.finish();
                                 Log.i("mData",User.getInstance().getPhone());
                             }
                             public void onError() {
                                 Toast.makeText(activity,"自动登录失败",Toast.LENGTH_LONG).show();
-                                Intent intent=new Intent(activity.getApplicationContext(), TestVideo.class);
+                                Intent intent=new Intent(activity.getApplicationContext(), MainActivity.class);
                                 activity.startActivity(intent);
                                 activity.finish();
                             }
