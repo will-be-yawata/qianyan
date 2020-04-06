@@ -43,7 +43,7 @@ public class GridView_Img_Adapter extends BaseAdapter {
             ImageOptions imageOptions=new ImageOptions.Builder()
                     .setUseMemCache(true)
                     .build();
-            x.image().bind(holder.imageView_holder,Url.UPLOAD+datas[i],imageOptions);
+            x.image().bind(holder.imageView_holder,Url.UPLOAD_DYNAMIC+datas[i],imageOptions);
             view.setTag(holder);
         }else{
             holder= (GridView_Img_Adapter.ViewHolder) view.getTag();

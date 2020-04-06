@@ -5,11 +5,9 @@
     android:layout_height="match_parent"
     tools:context=".fragment.FriendFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <ListView
+    <com.example.administrator.langues.view.FriendListView
         android:id="@+id/friend_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
-
 </FrameLayout>

@@ -26,7 +26,7 @@ import java.util.TimerTask;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SeekFragment extends Fragment implements View.OnClickListener {
+public class SeekFragment extends Fragment{
     private static int START_ANIMATION=0;
     private Button seek_btn;
     private ImageView image1,image2,image3,image4,image5,image6,image7,image8,image9,image10,image11;
@@ -47,23 +47,17 @@ public class SeekFragment extends Fragment implements View.OnClickListener {
     }
 
     private void listener() {
-        seek_btn.setOnClickListener(view1 -> {
-
-            new Matching_Dialog(getActivity()){
-
-                @Override
-                protected void btnsituational() {
-                    Intent intent=new Intent(getContext(),Situational_dialogueActivity.class);
-                    startActivity(intent);
-                }
-                @Override
-                protected void btnseek() {
-                     closeTime();
-                    Intent i=new Intent(getContext(),Seek_loadingActivity.class);
-                    startActivity(i);
-                }
-            }.show();
-        });
+        seek_btn.setOnClickListener(view1 -> new Matching_Dialog(getActivity()){
+            protected void btnsituational() {
+                Intent intent=new Intent(getContext(),Situational_dialogueActivity.class);
+                startActivity(intent);
+            }
+            protected void btnseek() {
+                closeTime();
+                Intent i=new Intent(getContext(),Seek_loadingActivity.class);
+                startActivity(i);
+            }
+        }.show());
     }
     @SuppressLint("HandlerLeak")
     private void init(View view){
@@ -139,15 +133,5 @@ public class SeekFragment extends Fragment implements View.OnClickListener {
                 mHandler.sendMessage(m);
             }
         },0,4000);
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.seek_btn:
-
-                break;
-
-        }
     }
 }

@@ -10,18 +10,20 @@ import android.view.MenuItem;
 
 import com.example.administrator.langues.R;
 import com.example.administrator.langues.fragment.TabFragment;
+import com.hyphenate.EMMessageListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import entry.User;
+import util.core.ChatOperation;
 import util.core.FriendOperation;
 import util.core.LoginOperation;
 
 public class MainActivity extends AppCompatActivity {
     private FragmentManager fm;
     private List<Fragment> fragments;
-    @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         (new LoginOperation()).autoLogin(MainActivity.this);

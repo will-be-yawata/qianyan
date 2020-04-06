@@ -10,9 +10,6 @@ import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
-import java.util.ArrayList;
-
-import entry.Friend;
 import entry.User;
 import util.Url;
 

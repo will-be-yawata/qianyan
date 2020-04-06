@@ -60,10 +60,10 @@ public class SquareFragment extends Fragment {
 
     private void initFragments(){
         fragments = new ArrayList<>();
-        squareFriendFragment SquareFriendFragment =new squareFriendFragment();
-        fragments.add(SquareFriendFragment);
-        squareFindFragment SquareFindFragment =new squareFindFragment();
-        fragments.add(SquareFindFragment);
+        SquareFriendFragment squareFriendFragment =new SquareFriendFragment();
+        fragments.add(squareFriendFragment);
+        SquareFindFragment squareFindFragment =new SquareFindFragment();
+        fragments.add(squareFindFragment);
         titles = new ArrayList<>();
         titles.add("动态");
         titles.add("广场");

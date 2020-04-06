@@ -15,45 +15,61 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import com.example.administrator.langues.R;
 
-//import com.example.administrator.langues.activity.chat.Friends_chatActivity;
+import com.example.administrator.langues.R;
+import com.hyphenate.EMMessageListener;
 
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import util.core.ChatOperation;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NewsFragment extends Fragment {
+public class ContactsFragment extends Fragment {
     ImageButton insert;
     private TabLayout news_tab;
     private ViewPager news_viewpager;
     private List<String> titles;
     private List<Fragment> fragments;
+    private FriendFragment friendFragment;
+    private ChatOperation chatOperation=new ChatOperation();
+    private EMMessageListener onCountReceivedListener=null;
 
     private String[] datas = {"选项1", "选项2", "选项3", "选项4", "选项5"};
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_news, container, false);
+        initView(view);
+        initFragment();
+        listener();
+        return view;
+    }
+    private void initView(View view){
         news_tab=view.findViewById(R.id.news_tab);
         news_viewpager=view.findViewById(R.id.news_viewpager);
+        insert= view.findViewById(R.id.insert);
+    }
+    private void initFragment(){
         fragments=new ArrayList<>();
+        friendFragment=new FriendFragment();
+        fragments.add(friendFragment);
         Friend_strangerFragment friend_strangerFragment=new Friend_strangerFragment();
         fragments.add(friend_strangerFragment);
-        FriendFragment friendFragment=new FriendFragment();
-        fragments.add(friendFragment);
         titles=new ArrayList<>();
-        titles.add("最近聊天");
         titles.add("好友");
+        titles.add("最近聊天");
         FriendAdapter friendAdapter=new FriendAdapter(getChildFragmentManager(),fragments,titles);
         news_viewpager.setAdapter(friendAdapter);
         news_tab.setupWithViewPager(news_viewpager);
         news_viewpager.setCurrentItem(0);
+    }
+    private void listener(){
         ///下拉菜单
-        insert= view.findViewById(R.id.insert);
         insert.setOnClickListener(v -> {
             // TODO: 2016/5/17 构建一个popupwindow的布局
             View popupView = LayoutInflater.from(getContext()).inflate(R.layout.deliver_popupwindow, null);
@@ -75,8 +91,35 @@ public class NewsFragment extends Fragment {
             // TODO: 2016/5/17 以下拉的方式显示，并且可以设置显示的位置
             window.showAsDropDown(insert, 0, 20);
         });
-        return view;
     }
+    public void onResume() {
+        if(onCountReceivedListener==null) {
+            onCountReceivedListener=chatOperation.addOnCountReceivedListener(list -> Objects.requireNonNull(getActivity()).runOnUiThread(() -> {
+                for (int i = 0; i < list.size(); i++) {
+                    String phone = (String) list.get(i).get("phone");
+                    int num = (int) list.get(i).get("num");
+                    if (friendFragment != null) {
+                        friendFragment.messageCountChange(phone, num);
+                    }
+                }
+            }));
+        }
+        super.onResume();
+    }
+
+//    public void onDestroy() {
+//        chatOperation.removeMessageListener(onCountReceivedListener);
+//        onCountReceivedListener=null;
+//        super.onDestroy();
+//    }
+
+    @Override
+    public void onDetach() {
+        chatOperation.removeMessageListener(onCountReceivedListener);
+        onCountReceivedListener=null;
+        super.onDetach();
+    }
+
     public class FriendAdapter extends FragmentPagerAdapter{
         private List<Fragment> fragments;
         private List<String> titles;
