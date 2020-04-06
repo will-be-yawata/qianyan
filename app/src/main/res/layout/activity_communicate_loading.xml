@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#000000"
-    tools:context=".activity.Communicate_loadingActivity">
+    tools:context=".activity.Matching.Communicate_loadingActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"

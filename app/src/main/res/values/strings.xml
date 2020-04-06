@@ -11,7 +11,7 @@
 
     <string name="image_selector_select_image">Select Image</string>
     <string name="image_selector_select_none">No image selected</string>
-
+    <string name="tts_toast_format" formatted="false">缓冲进度为%d%%，播放进度为%d%%</string>
 
     <!-- 请替换成在语音云官网申请的appid -->
     <string name="app_id">5e4d34bb</string>

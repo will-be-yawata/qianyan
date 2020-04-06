@@ -11,7 +11,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import com.example.administrator.langues.R;
-import com.example.administrator.langues.activity.Friends_chatActivity;
+import com.example.administrator.langues.activity.Chat.Friends_chatActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;

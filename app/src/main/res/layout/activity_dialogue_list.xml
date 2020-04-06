@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.Matching.Dialogue_listActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <ImageButton
+            android:id="@+id/dialogue_return"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:backgroundTint="@android:color/transparent"
+            android:scaleType="centerInside"
+            app:srcCompat="@mipmap/return_btn" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="情景对话"
+            android:textSize="20dp" />
+    </RelativeLayout>
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="0dp"
+        android:background="#e1e1e1" />
+    <ListView
+        android:id="@+id/dialogue_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </ListView>
+</LinearLayout>

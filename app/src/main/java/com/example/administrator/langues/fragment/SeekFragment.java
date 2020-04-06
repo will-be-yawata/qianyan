@@ -13,9 +13,13 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.administrator.langues.R;
-import com.example.administrator.langues.activity.Seek_loadingActivity;
+import com.example.administrator.langues.activity.Matching.Dialogue_listActivity;
+import com.example.administrator.langues.activity.Matching.Matching_Dialog;
+import com.example.administrator.langues.activity.Matching.Seek_loadingActivity;
+import com.example.administrator.langues.activity.Matching.Situational_dialogueActivity;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -46,9 +50,25 @@ public class SeekFragment extends Fragment {
 
     private void listener() {
         seek_btn.setOnClickListener(view1 -> {
-            closeTime();
-            Intent i=new Intent(getContext(),Seek_loadingActivity.class);
-            startActivity(i);
+
+            new Matching_Dialog(getActivity()){
+
+                @Override
+                protected void btnsituational() {//情景对话
+                    closeTime();
+                    Intent i=new Intent(getActivity(),Dialogue_listActivity.class);
+                    startActivity(i);
+                   /* Intent i=new Intent(getActivity(),Situational_dialogueActivity.class);
+                    startActivity(i);*/
+
+                }
+                @Override
+                protected void btnseek() {//人机匹配
+                     closeTime();
+                    Intent i=new Intent(getContext(),Seek_loadingActivity.class);
+                    startActivity(i);
+                }
+            }.show();
         });
     }
     @SuppressLint("HandlerLeak")
@@ -80,6 +100,10 @@ public class SeekFragment extends Fragment {
         animation11 = AnimationUtils.loadAnimation(getContext(), R.anim.anim_translate_bounce);
         timer=new Timer();
 
+
+
+
+
         mHandler=new Handler(){
             public void handleMessage(Message msg) {
                 if(msg.what==START_ANIMATION){
@@ -109,9 +133,10 @@ public class SeekFragment extends Fragment {
                 }
             }
         };
+
     }
     public void closeTime(){ timer.cancel(); }
-    private  void startTime(){
+    public void startTime(){
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -121,4 +146,7 @@ public class SeekFragment extends Fragment {
             }
         },0,4000);
     }
+
+
+
 }

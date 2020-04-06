@@ -1,13 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#d2f1ff"
-    tools:context=".activity.Seek_successActivity">
+
+    tools:context=".activity.Matching.Seek_successActivity">
+
+
 
     <!--红方(我方)-->
+
     <RelativeLayout
         android:id="@+id/red_user"
         android:layout_width="wrap_content"

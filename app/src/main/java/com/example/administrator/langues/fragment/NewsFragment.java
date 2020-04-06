@@ -17,6 +17,9 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import com.example.administrator.langues.R;
 
+//import com.example.administrator.langues.activity.chat.Friends_chatActivity;
+
+
 import java.util.ArrayList;
 import java.util.List;
 

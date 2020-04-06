@@ -24,7 +24,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.GET_TASKS" />
@@ -34,7 +33,12 @@
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
 
     <application
         android:name=".MyApplication"
@@ -48,6 +52,9 @@
         tools:ignore="GoogleAppIndexingWarning">
         <uses-library android:name="android.test.runner"/>
         <activity android:name=".activity.TestVideo"></activity>
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -118,26 +125,40 @@
             android:name=".activity.My_DeliverActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.My_ConcernActivity"
+            android:name=".activity.MyPage.My_ConcernActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.SettingActivity"
+            android:name=".activity.MyPage.SettingActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.Sign_In_Activity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar" /> <!-- android:windowSoftInputMode="adjustPan|stateHidden" /> -->
+            android:theme="@style/AppTheme.NoActionBar" />
+        <!-- android:windowSoftInputMode="adjustPan|stateHidden" /> -->
         <activity
             android:name=".activity.RegisterActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
-            android:name=".activity.FeedbackActivity"
+            android:name=".activity.MyPage.FeedbackActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.Deliver_textActivity" />
+        <activity android:name=".activity.Chat.Friends_chatActivity" />
+        <activity android:name=".activity.Matching.Seek_loadingActivity" />
+        <activity android:name=".activity.Matching.Seek_successActivity" />
+        <activity android:name=".activity.Matching.Communicate_loadingActivity" />
+        <activity android:name=".activity.MyPage.User_data.User_DataActivity" />
+        <activity android:name=".activity.MyPage.User_data.Uesr_exitActivity" />
+        <activity android:name=".activity.MyPage.User_data.Member_DataActivity" />
+        <activity android:name=".activity.MyPage.MyCourse.CourseActivity" />
+        <activity android:name=".activity.Square.ReleaseActivity" />
+        <activity android:name=".activity.Chat.Friends_settingActivity" />
+        <activity android:name=".activity.MyPage.User_data.Personal_cardActivity" />
+        <activity android:name=".activity.Matching.Situational_dialogueActivity" />
+        <activity android:name=".activity.Matching.Dialogue_listActivity"></activity>
+        <activity android:name=".activity.Matching.adapter.dialogueAdapter" />
         <activity
             android:name="com.jay.ui.PhotoPickerActivity"
             android:theme="@style/AppTheme" />

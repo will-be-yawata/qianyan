@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.administrator.langues.R;
+import com.example.administrator.langues.activity.Matching.Matching_Dialog;
 
 import java.util.Calendar;
 
@@ -94,6 +95,7 @@ public class User_DataActivity extends AppCompatActivity implements View.OnClick
                 finish();
                 break;
             case R.id.name_dialog://修改昵称
+
                 new Name_Dialog(User_DataActivity.this){
 
                     @Override

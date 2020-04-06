@@ -3,6 +3,9 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 28
+    //处理.9图片冲突问题
+    aaptOptions.cruncherEnabled = false
+    aaptOptions.useNewCruncher = false
 
     lintOptions {
         checkReleaseBuilds false
@@ -20,8 +23,13 @@ android {
         minSdkVersion 22
         targetSdkVersion 25
         multiDexEnabled true
+        //minSdkVersion 19
+        //targetSdkVersion 26
         versionCode 1
         versionName "1.0"
+        ndk{
+            abiFilters 'armeabi', 'x86','armeabi-v7a'
+        }
     }
     buildTypes {
         release {
@@ -29,6 +37,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets{
+        mian{
+            jniLibs.srcDirs = ['libs']        }
+    }
+
     useLibrary 'org.apache.http.legacy'
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -69,4 +82,7 @@ dependencies {
 //    implementation files('libs\\fastjson-1.2.5.jar')
     implementation files('libs\\Msc.jar')
 //    implementation files('libs\\Msc.jar')
+    //implementation project(':selectorlibrary')
+    //implementation 'com.shuyu:GSYVideoPlayer:6.0.2'
+    implementation 'com.jaeger.statusbarutil:library:1.5.1'
 }
