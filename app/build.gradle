@@ -19,8 +19,8 @@ android {
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
-        ndk{
-            abiFilters 'armeabi', 'x86','armeabi-v7a'
+        ndk {
+            abiFilters 'armeabi', 'x86', 'armeabi-v7a'
         }
     }
     buildTypes {
@@ -29,9 +29,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    sourceSets{
-        mian{
-            jniLibs.srcDirs = ['libs']        }
+    sourceSets {
+        mian {
+            jniLibs.srcDirs = ['libs']
+        }
     }
 
     useLibrary 'org.apache.http.legacy'
