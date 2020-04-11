@@ -27,6 +27,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import entry.Scence;
 import util.core.CalculateTool;
 import util.core.LanguageTool;
 
@@ -35,6 +36,7 @@ import util.core.LanguageTool;
  */
 public class VoiceTool {
     private SpeechRecognizer mIat;
+    private Scence current_scence;
     private GetVoiceCallback callback;
     private static String TAG = VoiceTool.class.getSimpleName();
     private RecognizerDialog mIatDialog;
@@ -48,8 +50,9 @@ public class VoiceTool {
     private Context context;
     int ret = 0;
 
-    public VoiceTool(Context context){
+    public VoiceTool(Context context, Scence s){
         this.context=context;
+        this.current_scence=s;
         mToast = Toast.makeText(this.context, "", Toast.LENGTH_SHORT);
         mIat = SpeechRecognizer.createRecognizer(context, mInitListener);
     }
@@ -89,8 +92,9 @@ public class VoiceTool {
 
         @Override
         public void onResult(RecognizerResult recognizerResult, boolean b) {
+                String res=getVoiceResult(recognizerResult);
+            callback.onResult(res);
 
-            callback.onResult(getVoiceResult(recognizerResult));
         }
 
         @Override
@@ -175,6 +179,11 @@ public class VoiceTool {
         return res;
     }
 
+    public float getScore(String str, String target){
+        float score=(float)getSimilarityRatio(str,target)*100;
+        return score;
+    }
+
     private void showTip(final String str) {
         mToast.setText(str);
         mToast.show();
@@ -194,7 +203,7 @@ public class VoiceTool {
         /**
          * 获得用户说话结果时调用
          */
-        void onResult(String s);
+        void onResult(String res);
 
         /**
          * 错误时调用
@@ -206,5 +215,6 @@ public class VoiceTool {
          */
         void onVol(int i, byte[] bytes);
     }
+
 
 }

@@ -25,7 +25,7 @@ import util.core.DynamicOperation;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class squareFriendFragment extends Fragment {
+public class SquareFriendFragment extends Fragment {
 
     private static final int GET_DYNAMIC=0;
 
@@ -87,7 +87,7 @@ public class squareFriendFragment extends Fragment {
                         listView.onRefreshComplete();
                     }else{
                         if(res.size()<=0){
-                            Toast.makeText(squareFriendFragment.this.getContext(),"没有更多了哦~",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SquareFriendFragment.this.getContext(),"没有更多了哦~",Toast.LENGTH_SHORT).show();
                             listView.onMoreComplete();
                             return;
                         }

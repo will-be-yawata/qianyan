@@ -9,8 +9,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
+
 
 import com.example.administrator.langues.R;
 import com.example.administrator.langues.activity.Matching.adapter.dialogueAdapter;
@@ -19,22 +18,44 @@ import com.example.administrator.langues.fragment.SeekFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import entry.Scence;
+import util.Scence_Talk_Tool;
+
 public class Dialogue_listActivity extends AppCompatActivity implements View.OnClickListener {
     private ListView dialogue_list;
     private ArrayList<ListItem> mlist;
-    private String[] list_names;
+    private ArrayList<String> list_names=new ArrayList<>();
     private int[] images;
-    private String[] nums;
+    private ArrayList<String> nums=new ArrayList<>();
     private ImageButton dialogue_return;
+    private Scence_Talk_Tool scence_talk_tool;
+    private ArrayList<Scence> scences_list;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
+        scence_talk_tool=new Scence_Talk_Tool();
+
+        scence_talk_tool.getScence(0, 10, new Scence_Talk_Tool.getScenceCallback() {
+            @Override
+            public void onSuccess(ArrayList<Scence> scences) {
+                scences_list=scences;
+                init();
+                initListView();
+                clickListener();
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
         setContentView(R.layout.activity_dialogue_list);
-        init();
-        initListView();
-        clickListener();
+
     }
 
     private void clickListener() {
@@ -42,14 +63,21 @@ public class Dialogue_listActivity extends AppCompatActivity implements View.OnC
     }
 
     private void initListView() {
-        list_names =new String[]{
-                "鲁滨逊漂流",
-                "大头儿子小头爸爸",
-                "喜羊羊与灰太狼",
-                "小羊肖恩",
-                "熊出没",
-                "红猫蓝兔七侠传"
-        };
+
+//        list_names =new String[]{
+//                "鲁滨逊漂流",
+//                "大头儿子小头爸爸",
+//                "喜羊羊与灰太狼",
+//                "小羊肖恩",
+//                "熊出没",
+//                "红猫蓝兔七侠传"
+//        };
+
+        for(Scence s:scences_list){
+            list_names.add(s.getMedia_name());
+            nums.add(s.getMid()+"");
+        }
+
         images=new int[]{
           R.mipmap.lu,
           R.mipmap.datou,
@@ -58,20 +86,14 @@ public class Dialogue_listActivity extends AppCompatActivity implements View.OnC
           R.mipmap.xiongchumo,
           R.mipmap.hongmao
         };
-        nums =new String[]{
-          "121312",
-          "45451",
-          "46515",
-          "64114",
-          "8561",
-          "7841",
-        };
+
+
         mlist=new ArrayList<>();
-        for(int i=0;i<list_names.length;i++){
+        for(int i=0;i<list_names.size();i++){
             ListItem litem = new ListItem();
-            litem.setList_name(list_names[i]);
+            litem.setList_name(list_names.get(i));
             litem.setListImageResId(images[i]);
-            litem.setListNum(nums[i]);
+            litem.setListNum(nums.get(i));
             mlist.add(litem);
 
         }
@@ -79,7 +101,7 @@ public class Dialogue_listActivity extends AppCompatActivity implements View.OnC
         dialogue_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-
+                Log.i("scence_test",position+"");
             }
         });
     }

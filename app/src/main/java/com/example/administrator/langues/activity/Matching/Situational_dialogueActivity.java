@@ -11,6 +11,7 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -39,40 +40,69 @@ import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import entry.Scence;
+import util.QianYanPlayer;
+import util.Scence_Talk_Tool;
+import util.VoiceTool;
+import util.core.LanguageTool;
+
 
 public class Situational_dialogueActivity extends AppCompatActivity implements View.OnClickListener {
     //动画
     private static int START_ANIMATION=0;
     private static int CLOSE_ANIMATION=1;
+    private String s_id;
+    private VoiceTool voiceTool;
     private Animation animation1;
     private Timer animTimer;
     private RelativeLayout text_tip;
+    private ImageButton start_record_btn;
     private Handler mHandler;
-
+    private Scence current_scence;
+    private Scence_Talk_Tool scence_talk_tool=new Scence_Talk_Tool();
+    private QianYanPlayer qianYanPlayer;
 
     private OrientationUtils orientationUtils;
     private boolean isPlay,isPause;
     private StandardGSYVideoPlayer videoPlayer;
-    private String url2 = "http://47.106.76.8/resource/video/English/dream.m3u8";//http://47.106.76.8/resource/video/Japan/unnature.mp4
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Bundle bundle=getIntent().getBundleExtra("bundle");
+        s_id=bundle.getString("MID");
+
+
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_situational_dialogue);
-        initView();
-        //videoListener();
-        startAnimTime();
+        scence_talk_tool.getScenceById(Integer.parseInt(s_id), new Scence_Talk_Tool.getScenceByIdCallback() {
+            @Override
+            public void onSuccess(Scence s) {
+                current_scence=s;
+
+                setContentView(R.layout.activity_situational_dialogue);
+                voiceTool=new VoiceTool(getBaseContext(),s);
+                initView();
+                //videoListener();
+                startAnimTime();
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
+
     }
 
-   /* private void videoListener() {
-        //获取得到video所暂停的秒数
+    @Override
+    protected void onStop() {
+        super.onStop();
+        videoPlayer.release();
+    }
 
-        //当视频暂停，则显示提示文字和动画
-        text_tip.setVisibility(View.VISIBLE);
-        startAnimTime();
-        //当视频播放，则隐藏提示文字和动画
-        text_tip.setVisibility(View.GONE);
-        closeAnimTime();
-    }*/
+
+
+
+
 
     //文字提示动画
     private void startAnimation(){
@@ -111,6 +141,7 @@ public class Situational_dialogueActivity extends AppCompatActivity implements V
         }
     }
     private void initView() {
+        start_record_btn=findViewById(R.id.start_record_btn);
         //文字提示
         animTimer=new Timer();
         text_tip=findViewById(R.id.tip_text);
@@ -125,55 +156,109 @@ public class Situational_dialogueActivity extends AppCompatActivity implements V
         };
         //视频播放
         videoPlayer = (StandardGSYVideoPlayer) findViewById(R.id.videoPlayer);
+        qianYanPlayer=new QianYanPlayer(Situational_dialogueActivity.this,current_scence,videoPlayer);
         orientationUtils = new OrientationUtils(this, videoPlayer);
-        GSYVideoOptionBuilder gsyVideoOptionBuilder = new GSYVideoOptionBuilder();
-        gsyVideoOptionBuilder
-                .setIsTouchWiget(true)
-                .setRotateViewAuto(false)
-                .setLockLand(false)
-                .setAutoFullWithSize(true)
-                .setShowFullAnimation(false)
-                .setNeedLockFull(true)
-                .setCacheWithPlay(false)
-                .setUrl(url2)
-                .setVideoTitle("title")
-                .setVideoAllCallBack(new GSYSampleCallBack(){
-                    @Override
-                    public void onPrepared(String url, Object... objects) {
-                        super.onPrepared(url, objects);
-                        orientationUtils.setEnable(true);
-                        isPlay = true;
-                    }
-
-                    @Override
-                    public void onQuitFullscreen(String url, Object... objects) {
-                        super.onQuitFullscreen(url, objects);
-                        if (orientationUtils != null) {
-                            orientationUtils.backToProtVideo();
-                        }
-                    }
-                })
-                .setLockClickListener(new LockClickListener() {
-                    @Override
-                    public void onClick(View view, boolean lock) {
-                        if (orientationUtils != null) {
-                            // 配合下方的onConfigurationChanged
-                            orientationUtils.setEnable(!lock);
-                        }
-                    }
-                })
-                .build(videoPlayer);
-        videoPlayer.startPlayLogic();
-        videoPlayer.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
+//        GSYVideoOptionBuilder gsyVideoOptionBuilder = new GSYVideoOptionBuilder();
+//        gsyVideoOptionBuilder
+//                .setIsTouchWiget(true)
+//                .setRotateViewAuto(false)
+//                .setLockLand(false)
+//                .setAutoFullWithSize(true)
+//                .setShowFullAnimation(false)
+//                .setNeedLockFull(true)
+//                .setCacheWithPlay(false)
+//                .setUrl(current_scence.getMedia_path())
+//                .setVideoTitle(current_scence.getMedia_name())
+//                .setVideoAllCallBack(new GSYSampleCallBack(){
+//                    @Override
+//                    public void onPrepared(String url, Object... objects) {
+//                        super.onPrepared(url, objects);
+//                        orientationUtils.setEnable(true);
+//                        isPlay = true;
+//                    }
+//
+//                    @Override
+//                    public void onQuitFullscreen(String url, Object... objects) {
+//                        super.onQuitFullscreen(url, objects);
+//                        if (orientationUtils != null) {
+//                            orientationUtils.backToProtVideo();
+//                        }
+//                    }
+//                })
+//                .setLockClickListener(new LockClickListener() {
+//                    @Override
+//                    public void onClick(View view, boolean lock) {
+//                        if (orientationUtils != null) {
+//                            // 配合下方的onConfigurationChanged
+//                            orientationUtils.setEnable(!lock);
+//                        }
+//                    }
+//                })
+//                .build(videoPlayer);
+//        videoPlayer.startPlayLogic();
+        qianYanPlayer.init();
+        qianYanPlayer.play(new QianYanPlayer.TimeCallBack() {
             @Override
-            public void onClick(View v) {
-                //直接横屏
-                orientationUtils.resolveByClick();
-                //第一个true是否需要隐藏actionbar，第二个true是否需要隐藏statusbar
-                videoPlayer.startWindowFullscreen(Situational_dialogueActivity.this, true, true);
+            public void process_stop(String sentence) {
+                Log.i("test_point",sentence);
+                showTips(sentence);
+//                qianYanPlayer.pause();
+
             }
         });
+//        qianYanPlayer.startListening();
+
+
+
+       start_record_btn.setOnTouchListener(new View.OnTouchListener() {
+           @Override
+           public boolean onTouch(View view, MotionEvent motionEvent) {
+               switch (motionEvent.getAction()){
+                   case MotionEvent.ACTION_DOWN:
+                       showTips("请开始说话");
+                       voiceTool.getVoice(Situational_dialogueActivity.this, LanguageTool.ENGLISH, new VoiceTool.GetVoiceCallback() {
+                           @Override
+                           public void onEnd() {
+
+                           }
+
+                           @Override
+                           public void onStart() {
+
+                           }
+
+                           @Override
+                           public void onResult(String res) {
+//                               showTips(qianYanPlayer.getScore(res)+"");
+                               Log.i("test_score",qianYanPlayer.getScore(res)+"");
+                           }
+
+                           @Override
+                           public void onError(String err) {
+
+                           }
+
+                           @Override
+                           public void onVol(int i, byte[] bytes) {
+
+                           }
+                       });
+                       break;
+                       case MotionEvent.ACTION_UP:
+                           showTips("听到啦,稍等一下");
+                           voiceTool.stopVoice();
+
+                           break;
+
+               }
+               return false;
+           }
+       });
+
+
+
     }
+
 
     private void resolveNormalVideoUI() {
         //增加title
@@ -214,5 +299,9 @@ public class Situational_dialogueActivity extends AppCompatActivity implements V
     }
     protected void setStatusBar() {
         StatusBarUtil.setColor(this, getResources().getColor(R.color.colorPrimary),60);
+    }
+
+    private void showTips(String tip){
+        Toast.makeText(getBaseContext(),tip,Toast.LENGTH_LONG).show();
     }
 }

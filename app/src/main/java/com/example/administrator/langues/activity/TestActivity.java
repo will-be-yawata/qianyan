@@ -31,6 +31,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
+import entry.Scence;
 import util.JsonParser;
 import util.VoiceTool;
 import util.core.CalculateTool;
@@ -89,7 +90,7 @@ public class TestActivity extends AppCompatActivity {
         answer=(EditText)findViewById(R.id.standard_answer);
         test_voice_btn=(Button)findViewById(R.id.test_voice);
         stop_voice_btn=(Button)findViewById(R.id.stop_voice);
-        voiceTool=new VoiceTool(TestActivity.this);
+        voiceTool=new VoiceTool(TestActivity.this,new Scence());
         setListener();
     }
     public void setListener(){
@@ -103,34 +104,34 @@ public class TestActivity extends AppCompatActivity {
         test_voice_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    voiceTool.getVoice(TestActivity.this, LanguageTool.RIYU, new VoiceTool.GetVoiceCallback() {
-                        @Override
-                        public void onEnd() {
-                            showTip("结束" );
-                        }
-
-                        @Override
-                        public void onStart() {
-
-                        }
-
-                        @Override
-                        public void onResult(String s) {
-                            Log.i("YUYINTEST","识别结果为:"+s);
-                            Log.i("YUYINTEST","你这句话的得分为"+CalculateTool.getSimilarityRatio(s,"ありがとうございます。")+"");
-                        }
-
-                        @Override
-                        public void onError(String err) {
-                            Log.i("YUYINTEST",err);
-                        }
-
-                        @Override
-                        public void onVol(int i, byte[] bytes) {
-                            showTip("当前正在说话，音量大小：" + i);
-                            Log.d(TAG, "返回音频数据："+bytes.length);
-                        }
-                    });
+//                    voiceTool.getVoice(TestActivity.this, LanguageTool.RIYU, new VoiceTool.GetVoiceCallback() {
+//                        @Override
+//                        public void onEnd() {
+//                            showTip("结束" );
+//                        }
+//
+//                        @Override
+//                        public void onStart() {
+//
+//                        }
+//
+//                        @Override
+//                        public void onResult(float s) {
+//                            Log.i("YUYINTEST","识别结果为:"+s);
+////                            Log.i("YUYINTEST","你这句话的得分为"+CalculateTool.getSimilarityRatio(s,"ありがとうございます。")+"");
+//                        }
+//
+//                        @Override
+//                        public void onError(String err) {
+//                            Log.i("YUYINTEST",err);
+//                        }
+//
+//                        @Override
+//                        public void onVol(int i, byte[] bytes) {
+//                            showTip("当前正在说话，音量大小：" + i);
+//                            Log.d(TAG, "返回音频数据："+bytes.length);
+//                        }
+//                    });
             }
         });
     }

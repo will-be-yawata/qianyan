@@ -2,6 +2,7 @@ package com.example.administrator.langues.activity.Matching.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -100,6 +101,7 @@ public class dialogueAdapter extends BaseAdapter {
 
         @Override
         public void onClick(View view) {
+
             if(mposition == position){
                 mposition = -1;
             }else{
@@ -115,7 +117,11 @@ public class dialogueAdapter extends BaseAdapter {
             switch (view.getId()){
 
                 case R.id.list_confirm://点击开始匹配
+
                     Intent intent= new Intent(context,Situational_dialogueActivity.class);
+                    Bundle bundle=new Bundle();
+                    bundle.putString("MID",list.get(mposition).getListNum());
+                    intent.putExtra("bundle",bundle);
                     context.startActivity(intent);
                     //Toast.makeText(context,"1111",Toast.LENGTH_SHORT).show();
                     break;
