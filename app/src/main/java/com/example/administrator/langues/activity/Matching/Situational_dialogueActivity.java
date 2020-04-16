@@ -59,6 +59,7 @@ public class Situational_dialogueActivity extends AppCompatActivity implements V
     private ImageButton start_record_btn;
     private Handler mHandler;
     private Scence current_scence;
+    private String current_sentence;//当前需要说出的答案句子
     private Scence_Talk_Tool scence_talk_tool=new Scence_Talk_Tool();
     private QianYanPlayer qianYanPlayer;
 
@@ -80,6 +81,8 @@ public class Situational_dialogueActivity extends AppCompatActivity implements V
 
                 setContentView(R.layout.activity_situational_dialogue);
                 voiceTool=new VoiceTool(getBaseContext(),s);
+
+
                 initView();
                 //videoListener();
                 startAnimTime();
@@ -158,50 +161,15 @@ public class Situational_dialogueActivity extends AppCompatActivity implements V
         videoPlayer = (StandardGSYVideoPlayer) findViewById(R.id.videoPlayer);
         qianYanPlayer=new QianYanPlayer(Situational_dialogueActivity.this,current_scence,videoPlayer);
         orientationUtils = new OrientationUtils(this, videoPlayer);
-//        GSYVideoOptionBuilder gsyVideoOptionBuilder = new GSYVideoOptionBuilder();
-//        gsyVideoOptionBuilder
-//                .setIsTouchWiget(true)
-//                .setRotateViewAuto(false)
-//                .setLockLand(false)
-//                .setAutoFullWithSize(true)
-//                .setShowFullAnimation(false)
-//                .setNeedLockFull(true)
-//                .setCacheWithPlay(false)
-//                .setUrl(current_scence.getMedia_path())
-//                .setVideoTitle(current_scence.getMedia_name())
-//                .setVideoAllCallBack(new GSYSampleCallBack(){
-//                    @Override
-//                    public void onPrepared(String url, Object... objects) {
-//                        super.onPrepared(url, objects);
-//                        orientationUtils.setEnable(true);
-//                        isPlay = true;
-//                    }
-//
-//                    @Override
-//                    public void onQuitFullscreen(String url, Object... objects) {
-//                        super.onQuitFullscreen(url, objects);
-//                        if (orientationUtils != null) {
-//                            orientationUtils.backToProtVideo();
-//                        }
-//                    }
-//                })
-//                .setLockClickListener(new LockClickListener() {
-//                    @Override
-//                    public void onClick(View view, boolean lock) {
-//                        if (orientationUtils != null) {
-//                            // 配合下方的onConfigurationChanged
-//                            orientationUtils.setEnable(!lock);
-//                        }
-//                    }
-//                })
-//                .build(videoPlayer);
-//        videoPlayer.startPlayLogic();
+
         qianYanPlayer.init();
         qianYanPlayer.play(new QianYanPlayer.TimeCallBack() {
             @Override
             public void process_stop(String sentence) {
                 Log.i("test_point",sentence);
-                showTips(sentence);
+                showTips("请读出"+sentence);
+                start_record_btn.setEnabled(true);
+                current_sentence=sentence;
 //                qianYanPlayer.pause();
 
             }
@@ -216,38 +184,11 @@ public class Situational_dialogueActivity extends AppCompatActivity implements V
                switch (motionEvent.getAction()){
                    case MotionEvent.ACTION_DOWN:
                        showTips("请开始说话");
-                       voiceTool.getVoice(Situational_dialogueActivity.this, LanguageTool.ENGLISH, new VoiceTool.GetVoiceCallback() {
-                           @Override
-                           public void onEnd() {
-
-                           }
-
-                           @Override
-                           public void onStart() {
-
-                           }
-
-                           @Override
-                           public void onResult(String res) {
-//                               showTips(qianYanPlayer.getScore(res)+"");
-                               Log.i("test_score",qianYanPlayer.getScore(res)+"");
-                           }
-
-                           @Override
-                           public void onError(String err) {
-
-                           }
-
-                           @Override
-                           public void onVol(int i, byte[] bytes) {
-
-                           }
-                       });
+                        voiceTool.getVoice(Situational_dialogueActivity.this,LanguageTool.ENGLISH);
                        break;
                        case MotionEvent.ACTION_UP:
-                           showTips("听到啦,稍等一下");
+                           showTips(voiceTool.getCurrent_sentence());
                            voiceTool.stopVoice();
-
                            break;
 
                }
@@ -255,7 +196,7 @@ public class Situational_dialogueActivity extends AppCompatActivity implements V
            }
        });
 
-
+        start_record_btn.setEnabled(false);
 
     }
 

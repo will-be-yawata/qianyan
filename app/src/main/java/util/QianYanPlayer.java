@@ -7,6 +7,7 @@ import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.administrator.langues.activity.Matching.Situational_dialogueActivity;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
@@ -17,87 +18,128 @@ import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import entry.Scence;
 import entry.Stop_points;
 import util.core.CalculateTool;
 
 public class QianYanPlayer {
+    private VoiceTool voiceTool;
+
+    public void setVoiceTool(VoiceTool voiceTool) {
+        this.voiceTool = voiceTool;
+    }
+
+    public VoiceTool getVoiceTool() {
+        return voiceTool;
+    }
+
     private Scence scence;
-    private int miss=150;//由于播放器无法精确获取当前进度,故加入了误差
+    private int miss = 50;//由于播放器无法精确获取当前进度,故加入了误差,必须小于所有暂停点的差值
     private Context context;
+    private TimeCallBack timeCallBack;
+    public static final int DETECT = 1;//检测标志
+    public static final int PLAYEND = -99;//检测标志
     private int current_judge_position;//当前需要比较的时间点位置
     private StandardGSYVideoPlayer gsyPlayer;
-    private ArrayList<Integer> start_point_list=new ArrayList<>();
-    private ArrayList<Integer> stop_point_list=new ArrayList<>();
-    private ArrayList<String> sentences=new ArrayList<>();
-    private ArrayList<Float> current_scores=new ArrayList<>();
+    private String current_voice_result;//表示当前用户语音的结果
+    private ArrayList<Integer> start_point_list = new ArrayList<>();
+    private ArrayList<Integer> stop_point_list = new ArrayList<>();
+    private ArrayList<String> sentences = new ArrayList<>();
+    private ArrayList<Float> current_scores = new ArrayList<>();
     private OrientationUtils orientationUtils;
     private int total;//视频总时长
-    private boolean isPlay,isPause;
+    private boolean isPlay, isPause;
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == DETECT) {
+                int currentPosition = gsyPlayer.getCurrentPositionWhenPlaying();
+                int totalduration = gsyPlayer.getDuration();
+//                TimeCallBack timeCallBack=(TimeCallBack) msg.obj;
+                Log.i("zjq", "currentPosition:" + currentPosition);
+                String temp = judge(currentPosition);
+                if(!temp.equals("")){
+//                    Log.i("zjq", "currentPosition:" + currentPosition + ",temp:" + temp);
+                    pause();
+                    timeCallBack.process_stop(temp);
 
-    private ArrayList<Stop_points> stop_points=new ArrayList<>();
+                }
+
+                handler.sendEmptyMessageDelayed(DETECT, 1);//100毫秒重新执行一次
+            }
+            else if(msg.what==PLAYEND){
+                Toast.makeText(context,"结束",Toast.LENGTH_LONG).show();
+            }
+        }
+    };
+
+    private ArrayList<Stop_points> stop_points = new ArrayList<>();
 
 
-    public QianYanPlayer(Context context,Scence s,StandardGSYVideoPlayer gsyplayer) {
-        gsyPlayer=gsyplayer;
-        current_judge_position=0;
-        scence=s;
-        stop_points=scence.getStop_points();
-        orientationUtils=new OrientationUtils((Activity) context,gsyPlayer);
+    public QianYanPlayer(Context context, Scence s, StandardGSYVideoPlayer gsyplayer) {
+        gsyPlayer = gsyplayer;
+        this.context=context;
+        current_judge_position = 0;
+        scence = s;
+        stop_points = scence.getStop_points();
+        orientationUtils = new OrientationUtils((Activity) context, gsyPlayer);
         split();
     }
 
-    public void play(TimeCallBack callBack){
-//        total=gsyPlayer.getDuration();
 
+    private void process_stop(){
+        pause();
 
-//        gsyPlayer.setGSYVideoProgressListener(new GSYVideoProgressListener() {
-//            @Override
-//            public void onProgress(int progress, int secProgress, int currentPosition, int duration) {
-//                Log.i("test_jingdu","progress:"+progress+",duration:"+duration+",currentPosition"+currentPosition);
-//            }
-//        });
-        gsyPlayer.setGSYVideoProgressListener(new GSYVideoProgressListener() {
-            @Override
-            public void onProgress(int progress, int secProgress, int currentPosition, int duration) {
-                total=duration;
-                String temp=judge(currentPosition);
-                if(temp!=""){
-                    callBack.process_stop(temp);
-                }
-                Log.i("test_jingdu","progress:"+progress+",duration:"+duration+",currentPosition"+currentPosition);
-            }
-        });
-        gsyPlayer.startPlayLogic();
 
     }
-    public void pause(){
+
+    public void getCurrent_voice_result(String res){
+        current_voice_result=res;
+    }
+
+    public void play(TimeCallBack callBack) {
+//        total=gsyPlayer.getDuration();
+        timeCallBack=callBack;
+        Message message=new Message();
+        message.obj=callBack;
+        message.what=DETECT;
+        handler.sendMessageDelayed(message,500);
+        gsyPlayer.startPlayLogic();
+
+
+
+    }
+
+    public void pause() {
         gsyPlayer.getGSYVideoManager().pause();
     }
 
-    public float getSimilarityRatio(String str, String target){
-        float res= CalculateTool.getSimilarityRatio(str,target);
+    public float getSimilarityRatio(String str, String target) {
+        float res = CalculateTool.getSimilarityRatio(str, target);
         return res;
     }
 
-    public float getScore(String str){
-        Log.i("test_score","开始比较:用户说的是:"+str+",答案句子"+stop_points.get(current_judge_position-1).getSentence());
-        String current_sentence=stop_points.get(current_judge_position-1).getSentence();
-        float score=(float)getSimilarityRatio(str,current_sentence)*100;
-        current_scores.add(current_judge_position-1,score);
+    public float getScore(String str) {
+        Log.i("test_score", "开始比较:用户说的是:" + str + ",答案句子" + stop_points.get(current_judge_position - 1).getSentence());
+        String current_sentence = stop_points.get(current_judge_position - 1).getSentence();
+        float score = (float) getSimilarityRatio(str, current_sentence) * 100;
+        current_scores.add(current_judge_position - 1, score);
         return score;
     }
 
-    public void release(){
+    public void release() {
         gsyPlayer.release();
     }
-    public void init(){
+
+    public void init() {
         initGsyPlayer();
     }
 
 
-    public void initGsyPlayer(){
+    public void initGsyPlayer() {
 //        orientationUtils = new OrientationUtils(this, gsyPlayer);
 
         GSYVideoOptionBuilder gsyVideoOptionBuilder = new GSYVideoOptionBuilder();
@@ -111,7 +153,7 @@ public class QianYanPlayer {
                 .setCacheWithPlay(false)
                 .setUrl(scence.getMedia_path())
                 .setVideoTitle(scence.getMedia_name())
-                .setVideoAllCallBack(new GSYSampleCallBack(){
+                .setVideoAllCallBack(new GSYSampleCallBack() {
                     @Override
                     public void onPrepared(String url, Object... objects) {
                         super.onPrepared(url, objects);
@@ -148,44 +190,46 @@ public class QianYanPlayer {
         });
     }
 
-    public void startListening(TimeCallBack callBack){
+    public void startListening(TimeCallBack callBack) {
 
 
     }
 
 
-    public void split(){
+    public void split() {
 
-        for(Stop_points sp:stop_points){
+        for (Stop_points sp : stop_points) {
             start_point_list.add(sp.getStart_time());
             stop_point_list.add(sp.getEnd_time());
             sentences.add(sp.getSentence());
         }
     }
 
-    public String judge(int current){
+    public String judge(int current) {
         //判断是否是暂停点,如果是,返回该暂停点对应的句子,否则返回空句子
+        int judge_time;
+        String res = "";
+        if (current_judge_position >= stop_points.size()) {
+            current_judge_position = 0;
+            handler.sendEmptyMessage(PLAYEND);
+            return "over";
+        } else if (current_judge_position < stop_points.size()) {
+            judge_time=start_point_list.get(current_judge_position);
+            if ((Math.abs( judge_time - current) <= miss)||(judge_time<current)) {
 
-            if(Math.abs(start_point_list.get(current_judge_position)*1000-current)<=miss){
-                String res=stop_points.get(current_judge_position).getSentence();
-                if(current_judge_position<stop_points.size()){
-                    current_judge_position++;
-                }else if(current_judge_position==stop_points.size()){
-                    current_judge_position=0;
-                }
-
-                return res;
+                res = stop_points.get(current_judge_position).getSentence();
+                Log.i("test_judge", "已有输出值,结果为"+res+",current:" + current + ",start_point_list.get(current_judge_position)" + start_point_list.get(current_judge_position));
+                current_judge_position++;
             }
 
+        }
+        return res;
 
-        return "";
+
     }
 
 
-    public interface TimeCallBack{
-        //播放视频中需要处理的逻辑
-        //-----------------------
-        //视频播放到了要暂停的时候,会调用此方法
+    public interface TimeCallBack {
         public void process_stop(String sentence);
     }
 

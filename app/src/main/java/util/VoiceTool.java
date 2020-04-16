@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -37,7 +39,10 @@ import util.core.LanguageTool;
 public class VoiceTool {
     private SpeechRecognizer mIat;
     private Scence current_scence;
+    private int REQUEST_OK=99;
+    private int REQUEST_NOT_OK=89;
     private GetVoiceCallback callback;
+    private String current_sentence="";//表示用户说话识别出来的句子
     private static String TAG = VoiceTool.class.getSimpleName();
     private RecognizerDialog mIatDialog;
     private String language="zh_cn";
@@ -49,6 +54,10 @@ public class VoiceTool {
     private RecognizerResult results;
     private Context context;
     int ret = 0;
+
+    public String getCurrent_sentence() {
+        return current_sentence;
+    }
 
     public VoiceTool(Context context, Scence s){
         this.context=context;
@@ -74,32 +83,37 @@ public class VoiceTool {
 
     };
 
+    public void setListener(GetVoiceCallback callback){
+        this.callback=callback;
+    }
+
     private RecognizerListener mRecognizerListener=new RecognizerListener(){
         @Override
         public void onVolumeChanged(int i, byte[] bytes) {
-            callback.onVol(i,bytes);
+//            callback.onVol(i,bytes);
         }
 
         @Override
         public void onBeginOfSpeech() {
-            callback.onStart();
+//            callback.onBeginOfSpeech();
         }
 
         @Override
         public void onEndOfSpeech() {
-            callback.onEnd();
+            callback.onEndOfSpeech();
         }
 
         @Override
         public void onResult(RecognizerResult recognizerResult, boolean b) {
                 String res=getVoiceResult(recognizerResult);
-            callback.onResult(res);
+                current_sentence=res;
+//            callback.onResult(res);
 
         }
 
         @Override
         public void onError(SpeechError speechError) {
-            callback.onError("error"+speechError.getErrorDescription());
+//            callback.onError("error"+speechError.getErrorDescription());
         }
 
         @Override
@@ -113,10 +127,8 @@ public class VoiceTool {
      *
      * @param activity
      * @param language  选择语言,请使用LanguageTool内的静态字段
-     * @param callback  需要实现GetVoiceCallback
      */
-    public void getVoice(Activity activity,String language, GetVoiceCallback callback){
-        this.callback=callback;
+    public void getVoice(Activity activity,String language){
         try {
             Map params= LanguageTool.getParmers(language);
 
@@ -130,6 +142,7 @@ public class VoiceTool {
             }
 
             EasyPermission.build().requestPermission(activity,Manifest.permission.RECORD_AUDIO);
+
             ret = mIat.startListening(mRecognizerListener);
         } catch (Exception e) {
             e.printStackTrace();
@@ -140,6 +153,8 @@ public class VoiceTool {
     public void stopVoice(){
         mIat.stopListening();
     }
+
+
 
 
     /**
@@ -164,6 +179,7 @@ public class VoiceTool {
         for (String key : mIatResults.keySet()) {
             resultBuffer.append(mIatResults.get(key));
         }
+
         return resultBuffer.toString();
     }
 
@@ -179,8 +195,8 @@ public class VoiceTool {
         return res;
     }
 
-    public float getScore(String str, String target){
-        float score=(float)getSimilarityRatio(str,target)*100;
+    public float getScore(String str){
+        float score=(float)getSimilarityRatio(str,current_sentence)*100;
         return score;
     }
 
@@ -193,12 +209,12 @@ public class VoiceTool {
         /**
          *用户结束说话时调用
          */
-        void onEnd();
+        void onEndOfSpeech();
 
         /**
          * 用户开始说话时调用
          */
-        void onStart();
+        void onBeginOfSpeech();
 
         /**
          * 获得用户说话结果时调用
