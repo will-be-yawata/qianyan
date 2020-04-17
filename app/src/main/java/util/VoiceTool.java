@@ -42,7 +42,8 @@ public class VoiceTool {
     private int REQUEST_OK=99;
     private int REQUEST_NOT_OK=89;
     private GetVoiceCallback callback;
-    private String current_sentence="";//表示用户说话识别出来的句子
+    private String standard_sentence="";//表示标准答案
+    private String user_current_sentence="";//表示用户说话识别出来的句子
     private static String TAG = VoiceTool.class.getSimpleName();
     private RecognizerDialog mIatDialog;
     private String language="zh_cn";
@@ -55,8 +56,17 @@ public class VoiceTool {
     private Context context;
     int ret = 0;
 
-    public String getCurrent_sentence() {
-        return current_sentence;
+
+    public String getUser_current_sentence() {
+        return user_current_sentence;
+    }
+
+    public void setStandard_sentence(String standard_sentence) {
+        this.standard_sentence = standard_sentence;
+    }
+
+    public void setUser_current_sentence(String user_current_sentence) {
+        this.user_current_sentence = user_current_sentence;
     }
 
     public VoiceTool(Context context, Scence s){
@@ -83,9 +93,7 @@ public class VoiceTool {
 
     };
 
-    public void setListener(GetVoiceCallback callback){
-        this.callback=callback;
-    }
+
 
     private RecognizerListener mRecognizerListener=new RecognizerListener(){
         @Override
@@ -106,8 +114,9 @@ public class VoiceTool {
         @Override
         public void onResult(RecognizerResult recognizerResult, boolean b) {
                 String res=getVoiceResult(recognizerResult);
-                current_sentence=res;
-//            callback.onResult(res);
+                float score=getScore(res,standard_sentence);
+                callback.onResult(score);
+
 
         }
 
@@ -128,7 +137,8 @@ public class VoiceTool {
      * @param activity
      * @param language  选择语言,请使用LanguageTool内的静态字段
      */
-    public void getVoice(Activity activity,String language){
+    public void getVoice(Activity activity,String language,GetVoiceCallback callback){
+        this.callback=callback;
         try {
             Map params= LanguageTool.getParmers(language);
 
@@ -195,8 +205,8 @@ public class VoiceTool {
         return res;
     }
 
-    public float getScore(String str){
-        float score=(float)getSimilarityRatio(str,current_sentence)*100;
+    public float getScore(String str,String target){
+        float score=(float)getSimilarityRatio(str,target)*100;
         return score;
     }
 
@@ -219,7 +229,7 @@ public class VoiceTool {
         /**
          * 获得用户说话结果时调用
          */
-        void onResult(String res);
+        void onResult(float res);
 
         /**
          * 错误时调用

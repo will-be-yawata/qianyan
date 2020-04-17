@@ -52,6 +52,7 @@ public class Situational_dialogueActivity extends AppCompatActivity implements V
     private static int START_ANIMATION=0;
     private static int CLOSE_ANIMATION=1;
     private String s_id;
+    private long mills;//表示当前需要暂停的毫秒数
     private VoiceTool voiceTool;
     private Animation animation1;
     private Timer animTimer;
@@ -144,6 +145,7 @@ public class Situational_dialogueActivity extends AppCompatActivity implements V
         }
     }
     private void initView() {
+        closeAnimTime();
         start_record_btn=findViewById(R.id.start_record_btn);
         //文字提示
         animTimer=new Timer();
@@ -165,10 +167,12 @@ public class Situational_dialogueActivity extends AppCompatActivity implements V
         qianYanPlayer.init();
         qianYanPlayer.play(new QianYanPlayer.TimeCallBack() {
             @Override
-            public void process_stop(String sentence) {
+            public void process_stop(String sentence,long m) {
+                mills=m;
                 Log.i("test_point",sentence);
                 showTips("请读出"+sentence);
                 start_record_btn.setEnabled(true);
+                voiceTool.setStandard_sentence(sentence);
                 current_sentence=sentence;
 //                qianYanPlayer.pause();
 
@@ -184,10 +188,39 @@ public class Situational_dialogueActivity extends AppCompatActivity implements V
                switch (motionEvent.getAction()){
                    case MotionEvent.ACTION_DOWN:
                        showTips("请开始说话");
-                        voiceTool.getVoice(Situational_dialogueActivity.this,LanguageTool.ENGLISH);
+                        voiceTool.getVoice(Situational_dialogueActivity.this, LanguageTool.RIYU, new VoiceTool.GetVoiceCallback() {
+                            @Override
+                            public void onEndOfSpeech() {
+
+                            }
+
+                            @Override
+                            public void onBeginOfSpeech() {
+
+                            }
+
+                            @Override
+                            public void onResult(float res) {
+                                showTips(res+"");
+//                                videoPlayer.startPlayLogic();
+                                videoPlayer.setPlayPosition((int)mills);
+//                                videoPlayer.seekTo(mills);
+                                videoPlayer.onVideoResume();
+                            }
+
+                            @Override
+                            public void onError(String err) {
+
+                            }
+
+                            @Override
+                            public void onVol(int i, byte[] bytes) {
+
+                            }
+                        });
                        break;
                        case MotionEvent.ACTION_UP:
-                           showTips(voiceTool.getCurrent_sentence());
+//                           showTips(voiceTool.getCurrent_sentence());
                            voiceTool.stopVoice();
                            break;
 

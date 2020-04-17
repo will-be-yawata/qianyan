@@ -19,10 +19,13 @@ import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import entry.Scence;
 import entry.Stop_points;
 import util.core.CalculateTool;
+import util.core.LanguageTool;
 
 public class QianYanPlayer {
     private VoiceTool voiceTool;
@@ -47,7 +50,8 @@ public class QianYanPlayer {
     private ArrayList<Integer> start_point_list = new ArrayList<>();
     private ArrayList<Integer> stop_point_list = new ArrayList<>();
     private ArrayList<String> sentences = new ArrayList<>();
-    private ArrayList<Float> current_scores = new ArrayList<>();
+    private ArrayList<Boolean>  isPauses=new ArrayList<Boolean>();
+    private HashMap<String,Float> current_scence_scores=new HashMap<>();
     private OrientationUtils orientationUtils;
     private int total;//视频总时长
     private boolean isPlay, isPause;
@@ -64,7 +68,7 @@ public class QianYanPlayer {
                 if(!temp.equals("")){
 //                    Log.i("zjq", "currentPosition:" + currentPosition + ",temp:" + temp);
                     pause();
-                    timeCallBack.process_stop(temp);
+                    timeCallBack.process_stop(temp,start_point_list.get(current_judge_position));
 
                 }
 
@@ -75,6 +79,54 @@ public class QianYanPlayer {
             }
         }
     };
+
+    public void setScore(String sentence,Float score){
+        current_scence_scores.put(sentence,score);
+    }
+
+    public float getAverage(){
+        //第二种(性能比第一种好，一次取值)
+        Iterator map1it=current_scence_scores.entrySet().iterator();
+        float total=0;
+        int count=0;
+        float res=0;
+        while(map1it.hasNext())
+        {
+            Map.Entry<String, Float> entry=(Map.Entry<String, Float>) map1it.next();
+
+            total+=entry.getValue();
+            count++;
+        }
+        res=(float) (total/count);
+        return res;
+
+    }
+
+    public float getMaxScore(){
+        Iterator map1it=current_scence_scores.entrySet().iterator();
+        float max=0;
+        while(map1it.hasNext())
+        {
+            Map.Entry<String, Float> entry=(Map.Entry<String, Float>) map1it.next();
+            if(max<=entry.getValue()){
+                max=entry.getValue();
+            }
+        }
+
+        return max;
+    }
+
+    public String getMaxSentence(){
+        Iterator map1it=current_scence_scores.entrySet().iterator();
+        float max=0;
+        String sentence="";
+        for(Map.Entry<String,Float> mapEntry : current_scence_scores.entrySet()){
+            if(mapEntry.getValue().equals(getMaxScore())){
+                sentence = mapEntry.getKey();
+            } }
+
+        return sentence;
+    }
 
     private ArrayList<Stop_points> stop_points = new ArrayList<>();
 
@@ -90,11 +142,9 @@ public class QianYanPlayer {
     }
 
 
-    private void process_stop(){
-        pause();
 
 
-    }
+
 
     public void getCurrent_voice_result(String res){
         current_voice_result=res;
@@ -114,7 +164,7 @@ public class QianYanPlayer {
     }
 
     public void pause() {
-        gsyPlayer.getGSYVideoManager().pause();
+        gsyPlayer.onVideoPause();
     }
 
     public float getSimilarityRatio(String str, String target) {
@@ -122,13 +172,7 @@ public class QianYanPlayer {
         return res;
     }
 
-    public float getScore(String str) {
-        Log.i("test_score", "开始比较:用户说的是:" + str + ",答案句子" + stop_points.get(current_judge_position - 1).getSentence());
-        String current_sentence = stop_points.get(current_judge_position - 1).getSentence();
-        float score = (float) getSimilarityRatio(str, current_sentence) * 100;
-        current_scores.add(current_judge_position - 1, score);
-        return score;
-    }
+
 
     public void release() {
         gsyPlayer.release();
@@ -202,6 +246,7 @@ public class QianYanPlayer {
             start_point_list.add(sp.getStart_time());
             stop_point_list.add(sp.getEnd_time());
             sentences.add(sp.getSentence());
+            isPauses.add(false);
         }
     }
 
@@ -212,12 +257,13 @@ public class QianYanPlayer {
         if (current_judge_position >= stop_points.size()) {
             current_judge_position = 0;
             handler.sendEmptyMessage(PLAYEND);
+            isPauses.clear();
             return "over";
         } else if (current_judge_position < stop_points.size()) {
             judge_time=start_point_list.get(current_judge_position);
-            if ((Math.abs( judge_time - current) <= miss)||(judge_time<current)) {
-
+            if ((!isPauses.get(current_judge_position))&&(Math.abs( judge_time - current) <= miss)||(judge_time<current)) {
                 res = stop_points.get(current_judge_position).getSentence();
+                isPauses.set(current_judge_position,true);
                 Log.i("test_judge", "已有输出值,结果为"+res+",current:" + current + ",start_point_list.get(current_judge_position)" + start_point_list.get(current_judge_position));
                 current_judge_position++;
             }
@@ -230,7 +276,7 @@ public class QianYanPlayer {
 
 
     public interface TimeCallBack {
-        public void process_stop(String sentence);
+        public void process_stop(String sentence,long mills);
     }
 
 }
