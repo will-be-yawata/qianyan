@@ -33,12 +33,11 @@
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".MyApplication"
@@ -157,7 +156,7 @@
         <activity android:name=".activity.Chat.Friends_settingActivity" />
         <activity android:name=".activity.MyPage.User_data.Personal_cardActivity" />
         <activity android:name=".activity.Matching.Situational_dialogueActivity" />
-        <activity android:name=".activity.Matching.Dialogue_listActivity"></activity>
+        <activity android:name=".activity.Matching.Dialogue_listActivity" />
         <activity android:name=".activity.Matching.adapter.dialogueAdapter" />
         <activity
             android:name="com.jay.ui.PhotoPickerActivity"
@@ -166,6 +165,8 @@
         <activity android:name=".activity.Seek_loadingActivity" />
         <activity android:name=".activity.Seek_successActivity" />
         <activity android:name=".activity.Communicate_loadingActivity" />
+        <activity android:name=".activity.Matching.End_dialogueActivity"></activity>
+
     </application>
 
 </manifest>

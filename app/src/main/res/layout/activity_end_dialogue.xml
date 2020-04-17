@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.Matching.End_dialogueActivity">
+<RelativeLayout
+    android:id="@+id/score_display"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1.5">
+
+    <ImageButton
+        android:id="@+id/dialogue_close"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="17dp"
+        android:background="@android:color/transparent"
+        android:scaleType="centerInside"
+        app:srcCompat="@mipmap/close_btn" />
+
+    <TextView
+        android:id="@+id/textView51"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/score"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="11dp"
+        android:text="最终得分"
+        android:textSize="25dp"
+        />
+
+    <TextView
+        android:id="@+id/score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="89"
+        android:textSize="45dp"
+        />
+
+    <TextView
+        android:id="@+id/textView49"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_alignBottom="@+id/score"
+        android:layout_marginStart="12dp"
+        android:layout_toEndOf="@+id/score"
+        android:text="分"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/textView58"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/score"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="37dp"
+        android:text="最佳金句："
+        android:textColor="#f4ea29"
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/good_sentence"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textView58"
+        android:layout_marginStart="7dp"
+        android:layout_toEndOf="@+id/textView58"
+        android:textSize="18dp"
+        android:text="Hello Word！！！" />
+</RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/textView54"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="46dp"
+            android:layout_marginTop="34dp"
+            android:text="播放时间"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/play_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView54"
+            android:layout_alignStart="@+id/textView54"
+            android:layout_marginTop="8dp"
+            android:text="00:30:23"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/highest_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView57"
+            android:layout_alignEnd="@+id/textView57"
+            android:layout_alignBottom="@+id/play_time"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="26dp"
+            android:layout_marginBottom="0dp"
+            android:text="80"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/textView57"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/textView54"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="46dp"
+            android:text="最高得分"
+            android:textSize="20dp" />
+    </RelativeLayout>
+</LinearLayout>
