@@ -32,6 +32,7 @@ import com.jaeger.library.StatusBarUtil;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack;
+import com.shuyu.gsyvideoplayer.listener.GSYVideoProgressListener;
 import com.shuyu.gsyvideoplayer.listener.LockClickListener;
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
@@ -145,7 +146,7 @@ public class Situational_dialogueActivity extends AppCompatActivity implements V
         }
     }
     private void initView() {
-        closeAnimTime();
+//        closeAnimTime();
         start_record_btn=findViewById(R.id.start_record_btn);
         //文字提示
         animTimer=new Timer();
@@ -159,26 +160,34 @@ public class Situational_dialogueActivity extends AppCompatActivity implements V
                 }
             }
         };
+        closeAnimTime();
         //视频播放
         videoPlayer = (StandardGSYVideoPlayer) findViewById(R.id.videoPlayer);
         qianYanPlayer=new QianYanPlayer(Situational_dialogueActivity.this,current_scence,videoPlayer);
         orientationUtils = new OrientationUtils(this, videoPlayer);
 
         qianYanPlayer.init();
+
         qianYanPlayer.play(new QianYanPlayer.TimeCallBack() {
             @Override
-            public void process_stop(String sentence,long m) {
-                mills=m;
-                Log.i("test_point",sentence);
-                showTips("请读出"+sentence);
-                start_record_btn.setEnabled(true);
-                voiceTool.setStandard_sentence(sentence);
-                current_sentence=sentence;
-//                qianYanPlayer.pause();
+            public void process_stop(String sentence) {
+                if(sentence.equals(QianYanPlayer.OVER_SIGN)){
+//                    videoPlayer.release();
+                    videoPlayer.onVideoResume();
+                }
+                else {
+                    Log.i("test_point",sentence);
+                    showTips("请读出"+sentence);
+                    start_record_btn.setEnabled(true);
+                    voiceTool.setStandard_sentence(sentence);
+                    current_sentence=sentence;
+                }
+
 
             }
         });
 //        qianYanPlayer.startListening();
+
 
 
 
@@ -187,7 +196,7 @@ public class Situational_dialogueActivity extends AppCompatActivity implements V
            public boolean onTouch(View view, MotionEvent motionEvent) {
                switch (motionEvent.getAction()){
                    case MotionEvent.ACTION_DOWN:
-                       showTips("请开始说话");
+
                         voiceTool.getVoice(Situational_dialogueActivity.this, LanguageTool.RIYU, new VoiceTool.GetVoiceCallback() {
                             @Override
                             public void onEndOfSpeech() {
@@ -203,9 +212,11 @@ public class Situational_dialogueActivity extends AppCompatActivity implements V
                             public void onResult(float res) {
                                 showTips(res+"");
 //                                videoPlayer.startPlayLogic();
-                                videoPlayer.setPlayPosition((int)mills);
+//                                videoPlayer.setPlayPosition((int)mills);
 //                                videoPlayer.seekTo(mills);
                                 videoPlayer.onVideoResume();
+                                qianYanPlayer.setScore(current_sentence,res);
+                                start_record_btn.setEnabled(false);
                             }
 
                             @Override
