@@ -3,17 +3,24 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 28
+    //处理.9图片冲突问题
+    aaptOptions.cruncherEnabled = false
+    aaptOptions.useNewCruncher = false
 
     lintOptions {
         checkReleaseBuilds false
         // Or, if you prefer, you can continue to check for errors in release builds,
         // but continue the build even when errors are found:
+<<<<<<< HEAD
         abortOnError false
     }
 
+=======
+    }
+>>>>>>> 4cbaa9088475ce336c91149e85d17bc3075ebeaa
     defaultConfig {
         applicationId "com.example.administrator.langues"
-        minSdkVersion 16
+        minSdkVersion 22
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -32,6 +39,7 @@ android {
 }
 
 dependencies {
+    implementation 'com.github.githubZYQ:easypermission:v1.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     compile fileTree(include: ['*.jar'], dir: 'libs')
     api 'com.android.support:appcompat-v7:28.0.0-alpha1'
@@ -46,8 +54,10 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:28.0.0'
     compile 'com.android.support:cardview-v7:28.0.0'
     compile 'de.hdodenhof:circleimageview:2.1.0'
+    //圆形图片
     compile files('libs/Volley.jar')
     implementation 'org.xutils:xutils:3.8.4'
     implementation project(':photopicker')
     implementation files('libs/fastjson-1.2.5.jar')
+    implementation project(':selectorlibrary')
 }

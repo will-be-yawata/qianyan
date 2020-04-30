@@ -10,36 +10,32 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.administrator.langues.R;
+import com.hyphenate.EMMessageListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import util.core.ChatOperation;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+
 public class TabFragment extends Fragment {
     private TabLayout tabLayout;
     private FragmentManager fm;
     private List<Fragment> fragments;
 
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         final View view=inflater.inflate(R.layout.fragment_tab, container, false);
         tabLayout = view.findViewById(R.id.tabs);
 
         fragments = new ArrayList<>();
         SeekFragment seekPersonFragment=new SeekFragment();
         fragments.add(seekPersonFragment);
-        //squareFindItemFragment squareFindItemFragment=new squareFindItemFragment();
-        //fragments.add(squareFindItemFragment);
 
         SquareFragment squareFragment=new SquareFragment();
         fragments.add(squareFragment);
 
-        NewsFragment newsFragment=new NewsFragment();
+        ContactsFragment newsFragment=new ContactsFragment();
         fragments.add(newsFragment);
         PersonalFragment personalFragment=new PersonalFragment();
         fragments.add(personalFragment);
@@ -94,4 +90,5 @@ public class TabFragment extends Fragment {
         fm.beginTransaction().replace(R.id.tablayout_frame,
                 fragments.get(position),"t"+position).commit();
     }
+
 }

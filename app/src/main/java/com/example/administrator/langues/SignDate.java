@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.example.administrator.langues.adapter.AdapterDate;
 import com.example.administrator.langues.adapter.AdapterWeek;
+import com.example.administrator.langues.view.InnerGridView;
 
 /**
  * Created by Administrator on 2017/8/16.

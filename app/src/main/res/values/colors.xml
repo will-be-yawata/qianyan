@@ -8,4 +8,10 @@
     <color name="colorReport">#00587e</color>
     <color name="colorMain">#b0e7ff</color>
     <color name="colorBtn">#3aaffd</color>
+
+    <color name="transparent">#00000000</color>
+
+    <color name="logout">#E02433</color>
+    <color name="logoutPress">#BA0916</color>
+
 </resources>

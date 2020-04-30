@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.Seek_loadingActivity"
+    tools:context=".activity.Matching.Seek_loadingActivity"
     android:background="#d2f1ff">
 
 
@@ -84,14 +84,6 @@
             android:layout_marginRight="68dp"
             android:layout_marginBottom="62dp"
             app:srcCompat="@mipmap/icon5" />
-        <!--<de.hdodenhof.circleimageview.MCircleImageView-->
-            <!--android:id="@+id/seek_loading_user"-->
-            <!--android:layout_width="70dp"-->
-            <!--android:layout_height="70dp"-->
-            <!--android:layout_centerInParent="true"-->
-            <!--android:layout_centerHorizontal="true"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:src="@mipmap/user"/>-->
         <ImageView
             android:id="@+id/seek_loading_user"
             android:layout_width="70dp"
@@ -99,15 +91,14 @@
             android:layout_centerInParent="true"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:src="@mipmap/user"/>
+            android:src="@mipmap/user" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_centerHorizontal="true"
             android:layout_below="@+id/icon3"
-            >
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp">
 
             <TextView
                 android:id="@+id/seek_loading_text"

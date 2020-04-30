@@ -5,56 +5,133 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.Friends_chatActivity">
-
-    <RelativeLayout
+    tools:context=".activity.Chat.Friends_chatActivity">
+    <!--顶部导航-->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <!--“返回”按钮-->
         <ImageButton
             android:id="@+id/friend_chat_return"
             android:layout_width="31dp"
             android:layout_height="31dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
             android:layout_marginStart="7dp"
             android:layout_marginTop="2dp"
             android:background="@android:color/transparent"
             android:scaleType="centerInside"
             android:src="@mipmap/return_btn" />
-
+        <!--聊天对象昵称-->
         <TextView
             android:id="@+id/friend_chat_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/account_return"
-            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
             android:layout_marginBottom="3dp"
+            android:gravity="center"
             android:text="昵称"
             android:textSize="20dp" />
-
+        <!--“更多”图标-->
         <ImageView
-            android:id="@+id/imageView8"
             android:layout_width="43dp"
             android:layout_height="30dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
             android:layout_marginTop="0dp"
             android:layout_marginEnd="0dp"
             android:background="@android:color/transparent"
             android:scaleType="centerInside"
             android:src="@mipmap/dot" />
-
-    </RelativeLayout>
-    <RelativeLayout
+    </LinearLayout>
+    <!--聊天内容列表-->
+    <com.example.administrator.langues.view.ChatRecyclerView
+        android:id="@+id/chat_recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </RelativeLayout>
-    <RelativeLayout
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:listSelector="@android:color/transparent"
+        android:divider="#0000">
+        <!--android:stackFromBottom="true"-->
+        <!--android:transcriptMode="alwaysScroll"-->
+    </com.example.administrator.langues.view.ChatRecyclerView>
+    <!--底部控件-->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </RelativeLayout>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#e6e6e6">
+        <!--聊天框左侧图标-->
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp">
+            <!--语音-->
+            <ImageButton
+                android:id="@+id/voice_btn"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="6dp"
+                android:layout_marginStart="3dp"
+                android:layout_marginEnd="2dp"
+                android:background="@android:color/transparent"
+                android:scaleType="centerInside"
+                app:srcCompat="@mipmap/voice" />
+            <!--键盘-->
+            <ImageButton
+                android:id="@+id/keyboard_btn"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="6dp"
+                android:layout_marginStart="3dp"
+                android:layout_marginEnd="2dp"
+                android:background="@android:color/transparent"
+                android:scaleType="centerInside"
+                android:visibility="invisible"
+                app:srcCompat="@mipmap/keyboard" />
+        </FrameLayout>
+        <!--聊天框内容-->
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <!--输入框-->
+                <EditText
+                    android:id="@+id/input_text"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:maxLines="2"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:background="#fff"/>
+                <!--发送-->
+                <Button
+                    android:id="@+id/chat_send"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="#1296db"
+                    android:text="发送" />
+            </LinearLayout>
+            <com.example.administrator.langues.view.AudioRecorderButton
+                android:id="@+id/voice_say"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginEnd="4dp"
+                android:layout_gravity="center"
+                android:scaleType="centerInside"
+                android:text="按住 说话"
+                android:visibility="invisible"/>
+        </FrameLayout>
+    </LinearLayout>
 
 </LinearLayout>

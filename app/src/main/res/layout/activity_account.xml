@@ -4,11 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.AccountActivity"
+    tools:context=".activity.MyPage.User_data.AccountActivity"
     android:orientation="vertical"
     >
-
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -32,13 +30,12 @@
             android:layout_alignBottom="@+id/account_return"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="3dp"
-            android:text="我的账户"
+            android:text="我的积分"
             android:textSize="20dp" />
 
 
     </RelativeLayout>
     <View
-        android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_above="@+id/textView2"
@@ -46,11 +43,128 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_marginTop="3dp"
-        android:layout_marginBottom="-27dp"
         android:background="#e1e1e1" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"></LinearLayout>
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/textView44"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="11dp"
+            android:layout_marginLeft="11dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginBottom="11dp"
+            android:text="当前积分：" />
+
+        <TextView
+            android:id="@+id/integral_Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/textView44"
+            android:layout_marginStart="1dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginTop="0dp"
+            android:layout_toEndOf="@+id/textView44"
+            android:layout_toRightOf="@+id/textView44"
+            android:text="0" />
+
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_above="@+id/textView44"
+        android:layout_below="@+id/textView44"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="3dp"
+        android:background="#e1e1e1" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/textView47"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="请选择充值金额：" />
+
+        <GridView
+            android:id="@+id/integral_gridview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:listSelector="@drawable/gridview_onclick_bg"
+            android:numColumns="3"
+            android:verticalSpacing="5dp"
+            android:horizontalSpacing="5dp"
+            android:layout_marginTop="40dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/amount_re"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="18dp">
+
+            <TextView
+                android:id="@+id/textView48"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="支付金额："
+                android:textColor="#f74f29" />
+
+            <TextView
+                android:id="@+id/amount_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="1dp"
+                android:layout_marginLeft="1dp"
+                android:layout_marginTop="0dp"
+                android:layout_toEndOf="@+id/textView48"
+                android:layout_toRightOf="@+id/textView48"
+                android:text="0"
+                android:textColor="#f74f29" />
+
+            <TextView
+                android:id="@+id/textView50"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="1dp"
+                android:layout_marginLeft="1dp"
+                android:layout_marginTop="0dp"
+                android:layout_toEndOf="@+id/amount_text"
+                android:layout_toRightOf="@+id/amount_text"
+                android:text="元"
+                android:textColor="#f74f29" />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/amount_btn"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/amount_re"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="21dp"
+            android:background="@drawable/amount_btn_bg"
+            android:textSize="18dp"
+            android:text="确 认 支 付" />
+
+
+    </RelativeLayout>
+
 </LinearLayout>

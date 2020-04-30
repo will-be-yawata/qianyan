@@ -42,11 +42,9 @@
             android:id="@+id/rg_repassword"
             android:layout_width="252dp"
             android:layout_height="wrap_content"
-
             android:layout_below="@+id/tg_password"
             android:layout_alignStart="@+id/rg_tellphone"
             android:layout_marginTop="12dp"
-
             android:ems="10"
             android:hint="确认密码"
             android:inputType="textPersonName" />

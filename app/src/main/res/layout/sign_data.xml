@@ -14,16 +14,16 @@
         android:gravity="center"
         android:textColor="@android:color/white"
         android:background="@color/colorAccent"/>
-    <com.example.administrator.langues.InnerGridView
+    <com.example.administrator.langues.view.InnerGridView
         android:id="@+id/gvWeek"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:numColumns="7">
-    </com.example.administrator.langues.InnerGridView>
-    <com.example.administrator.langues.InnerGridView
+    </com.example.administrator.langues.view.InnerGridView>
+    <com.example.administrator.langues.view.InnerGridView
         android:id="@+id/gvDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:numColumns="7">
-    </com.example.administrator.langues.InnerGridView>
+    </com.example.administrator.langues.view.InnerGridView>
 </LinearLayout>
