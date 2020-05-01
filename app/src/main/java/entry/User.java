@@ -122,9 +122,9 @@ public class User {
             }
         });
     }
-    public ArrayList<Friend> getFriends(UpdateFriendsCallback callback){
+    public ArrayList<Friend> getFriends(){
         if(friends==null)
-            updateFriends(callback);
+            friends=new ArrayList<>();
         return friends;
     }
     public void release(){Instance=null;}

@@ -31,8 +31,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import entry.User;
-import util.EMHelp;
 import util.Url;
+import util.core.ChatOperation;
 import util.core.PairingOperation;
 
 
@@ -70,26 +70,6 @@ public class Seek_loadingActivity extends AppCompatActivity {
             closeAnimTime();
             finish();
         });
-//        Button btn=findViewById(R.id.zjqbtn);
-//        btn.setOnClickListener(view-> {
-//            (new EMHelp()).answerCall();
-//            Intent intent=new Intent(Seek_loadingActivity.this,Communicate_loadingActivity.class);
-//            intent.putExtra("enemyImg","default.jpg");
-//            startActivity(intent);
-//        });
-//        user_img.setOnClickListener(view -> {
-//            Intent i=new Intent(getBaseContext(),Seek_successActivity.class);
-//            closeAnimTime();
-//            startActivity(i);
-//        });
-//        animTimer.schedule(new TimerTask() {
-//            public void run() {//5秒后跳转到Seek_successActivity页面
-//                Intent i=new Intent(getBaseContext(),Seek_successActivity.class);
-//                finish();
-//                closeAnimTime();
-//                startActivity(i);
-//            }
-//        }, 5000);// 这里百毫秒
     }
 
     @SuppressLint("HandlerLeak")
@@ -137,7 +117,7 @@ public class Seek_loadingActivity extends AppCompatActivity {
     private void startCount() {
         if(count==0){
             cancel_btn.setImageResource(R.mipmap.cancel_3);
-            startPairing();
+            runOnUiThread(this::startPairing);
         }else if(count==1){
             cancel_btn.setImageResource(R.mipmap.cancel_2);
         }else if(count==2){
@@ -151,52 +131,61 @@ public class Seek_loadingActivity extends AppCompatActivity {
     }
     private void startPairing(){
          cancelPairing= pairingOperation.pairing(new PairingOperation.PairingCallback() {
-                    public void onSuccess(int status, HashMap<String, String> data) {
-                        EMHelp emHelp=new EMHelp();
-                        if(status==PairingOperation.WAIT){
-                            runOnUiThread(()-> Toast.makeText(Seek_loadingActivity.this,"if(status==pairingop...)",Toast.LENGTH_SHORT).show());
-                            emHelp.receiveListener(Seek_loadingActivity.this, from ->{
-                                runOnUiThread(()-> Toast.makeText(Seek_loadingActivity.this,"get from...",Toast.LENGTH_LONG).show());
-                                    pairingOperation.getEnemy(from, new PairingOperation.GetEnemyCallback() {
-                                public void onSuccess(HashMap<String, String> data) {
-                                    runOnUiThread(()-> Toast.makeText(Seek_loadingActivity.this,"getEnemySuccess",Toast.LENGTH_LONG).show());
-                                    Intent intent=new Intent(Seek_loadingActivity.this,Seek_successActivity.class);
-                                    intent.putExtra("status",PairingOperation.WAIT);
-                                    intent.putExtra("enemyPhone",from);
-                                    intent.putExtra("enemyImg",data.get("img"));
+                public void onSuccess(int status, HashMap<String, String> data) {
+                    ChatOperation chatOperation=new ChatOperation();
+                    if(status==PairingOperation.WAIT){
+                        runOnUiThread(()-> Toast.makeText(Seek_loadingActivity.this,"if(status==pairingop...)",Toast.LENGTH_SHORT).show());
+                        chatOperation.receiveListener(Seek_loadingActivity.this, from ->{
+                            runOnUiThread(()-> Toast.makeText(Seek_loadingActivity.this,"get from...",Toast.LENGTH_LONG).show());
+                                pairingOperation.getEnemy(from, new PairingOperation.GetEnemyCallback() {
+                            public void onSuccess(HashMap<String, String> data) {
+                                runOnUiThread(()-> Toast.makeText(Seek_loadingActivity.this,"getEnemySuccess",Toast.LENGTH_LONG).show());
+                                Intent intent=new Intent(Seek_loadingActivity.this,Seek_successActivity.class);
+                                intent.putExtra("status",PairingOperation.WAIT);
+                                intent.putExtra("enemyPhone",from);
+                                intent.putExtra("enemyImg",data.get("img"));
 //                                        intent.putExtra("enemyName",data.get("name"));
 //                                        intent.putExtra("enemyDan",data.get("dan"));
-                                    closeAnimTime();
-                                    closeCountTime();
-                                    startActivity(intent);
-                                    finish();
-                                }
-                                public void onError(String msg) {
-                                    runOnUiThread(()->Toast.makeText(Seek_loadingActivity.this,"onError:"+msg,Toast.LENGTH_LONG).show());
-                                }
-                            });
-                            });
-                        }else if(status==PairingOperation.PAIRING){
-                            Intent intent=new Intent(Seek_loadingActivity.this,Seek_successActivity.class);
-                            intent.putExtra("status",PairingOperation.PAIRING);
-                            intent.putExtra("enemyPhone",data.get("owner"));
-                            intent.putExtra("enemyImg",data.get("img"));
+//                                    closeAnimTime();
+  //                                  closeCountTime();
+//                                    startActivity(intent);
+//                                    finish();
+//                                }
+//                                public void onError(String msg) {
+//
+//                                }
+//                            });});
+//                        }else if(status==PairingOperation.PAIRING){
+//                            Intent intent=new Intent(Seek_loadingActivity.this,Seek_successActivity.class);
+//                            intent.putExtra("status",PairingOperation.PAIRING);
+//                            intent.putExtra("enemyPhone",data.get("owner"));
+//                            intent.putExtra("enemyImg",data.get("img"));
+                                closeAnimTime();
+                                closeCountTime();
+                                startActivity(intent);
+                                finish();
+                            }
+                            public void onError(String msg) {
+                                runOnUiThread(()->Toast.makeText(Seek_loadingActivity.this,"onError:"+msg,Toast.LENGTH_LONG).show());
+                            }
+                        });
+                        });
+                    }else if(status==PairingOperation.PAIRING){
+                        Intent intent=new Intent(Seek_loadingActivity.this,Seek_successActivity.class);
+                        intent.putExtra("status",PairingOperation.PAIRING);
+                        intent.putExtra("enemyPhone",data.get("owner"));
+                        intent.putExtra("enemyImg",data.get("img"));
 //                            intent.putExtra("enemyName",data.get("?"));
 //                            intent.putExtra("enemyDan",data.get("name"));
-                            closeAnimTime();
-                            closeCountTime();
-                            startActivity(intent);
-                            finish();
-//                            emHelp.voiceCall(data.get("owner"));
-////                            //跳转页面并渲染
-////                            Log.i("mData","头像:"+data.get("img"));
-////                            Log.i("mData","房间id:"+data.get("id"));
-////                            Log.i("mData","段位:"+data.get("name"));
-                        }
+                        closeAnimTime();
+                        closeCountTime();
+                        startActivity(intent);
+                        finish();
                     }
-                    public void onCancelled() {}
-                    public void onError(String msg) {}
-                });
+                }
+                public void onCancelled() {}
+                public void onError(String msg) {}
+         });
     }
     private void restartAnim() {
         icon1.clearAnimation();

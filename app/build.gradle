@@ -18,6 +18,8 @@ android {
             jniLibs.srcDirs = ['libs']
         }
     }
+
+
     defaultConfig {
         applicationId "com.example.administrator.langues"
         minSdkVersion 22
@@ -43,6 +45,7 @@ android {
         }
     }
 
+
     useLibrary 'org.apache.http.legacy'
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -51,6 +54,7 @@ android {
 
 
 }
+
 
 dependencies {
 

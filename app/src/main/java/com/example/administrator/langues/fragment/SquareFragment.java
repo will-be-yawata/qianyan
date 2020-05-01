@@ -62,8 +62,10 @@ public class SquareFragment extends Fragment {
 
     private void initFragments(){
         fragments = new ArrayList<>();
-        SquareFriendFragment SquareFriendFragment =new SquareFriendFragment();
-        fragments.add(SquareFriendFragment);
+
+        SquareFriendFragment squareFriendFragment =new SquareFriendFragment();
+        fragments.add(squareFriendFragment);
+
         SquareFindFragment squareFindFragment =new SquareFindFragment();
         fragments.add(squareFindFragment);
         titles = new ArrayList<>();

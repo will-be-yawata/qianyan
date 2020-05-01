@@ -25,8 +25,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import entry.User;
-import util.EMHelp;
 import util.Url;
+import util.core.ChatOperation;
 import util.core.PairingOperation;
 
 public class Seek_successActivity extends AppCompatActivity {
@@ -40,7 +40,7 @@ public class Seek_successActivity extends AppCompatActivity {
             objectAnimator4,objectAnimator5,objectAnimator6,objectAnimator7;
     private AnimatorSet animSet,animSet1,animSet2;
     private Handler mHandler;
-    private EMHelp emHelp=new EMHelp();
+    private ChatOperation chatOperation=new ChatOperation();
     private boolean stopAnim=false;
     private int status=2;
     @Override
@@ -53,11 +53,11 @@ public class Seek_successActivity extends AppCompatActivity {
         listener();
         if(status== PairingOperation.WAIT) {
             runOnUiThread(()->Toast.makeText(Seek_successActivity.this,"status:WAIT",Toast.LENGTH_SHORT).show());
-            emHelp.answerCall();
+            chatOperation.answerCall();
         }else if(status== PairingOperation.PAIRING){
             String enemyPhone=getIntent().getStringExtra("enemyPhone");
             runOnUiThread(()->Toast.makeText(Seek_successActivity.this,"status:PAIRING\nenemyPhone:"+enemyPhone,Toast.LENGTH_SHORT).show());
-            emHelp.voiceCall(enemyPhone);
+            chatOperation.voiceCall(enemyPhone);
         }else{
             closeTime();
             finish();
@@ -137,7 +137,7 @@ public class Seek_successActivity extends AppCompatActivity {
         };
     }
     private void listener(){
-        emHelp.addCallStateListener(new EMHelp.StateListenerCallback() {
+        chatOperation.addCallStateListener(new ChatOperation.StateListenerCallback() {
             public void accepted() {
                 Intent intent=new Intent(Seek_successActivity.this,Communicate_loadingActivity.class);
                 intent.putExtra("enemyPhone",getIntent().getStringExtra("enemyPhone"));
@@ -145,7 +145,7 @@ public class Seek_successActivity extends AppCompatActivity {
                 startActivity(intent);
                 closeTime();
                 finish();
-                emHelp.closeCallStateListener();
+                chatOperation.closeCallStateListener();
             }
             public void disconnected() {}
         });

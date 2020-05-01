@@ -11,22 +11,24 @@ import android.widget.Toast;
 
 import com.example.administrator.langues.R;
 
-import util.EMHelp;
+import util.core.ChatOperation;
+import util.core.LoginOperation;
+
 
 public class RegisterActivity extends AppCompatActivity {
 
 private EditText name;
 private EditText pwd;
 private Button btn;
-private EMHelp emHelp;
+private ChatOperation chatOperation;
+private LoginOperation loginOperation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         initView();
-        emHelp=new EMHelp();
-        emHelp.init(this);
-        emHelp.answerCall();
+        chatOperation=new ChatOperation();
+        chatOperation.answerCall();
         btn.setOnClickListener(view -> {
             Log.i("mData",name.getText().toString());
             Log.i("mData",pwd.getText().toString());
@@ -36,12 +38,12 @@ private EMHelp emHelp;
     private void initView() {
         name=findViewById(R.id.rg_tellphone);
         pwd=findViewById(R.id.tg_password);
-        btn=findViewById(R.id.rg_register_btn);
+        btn=findViewById(R.id.rg_code_btn);
     }
     private void register() {
             String userName=name.getText().toString();
             String userPwd=pwd.getText().toString();
-            emHelp.registered(userName, userPwd, isRegister -> {
+            loginOperation.registered(userName, userPwd, isRegister -> {
                 if(isRegister){
                     runOnUiThread(()->Toast.makeText(getApplicationContext(),"注册成功",Toast.LENGTH_LONG).show());
                     startActivity(new Intent(RegisterActivity.this,LoginActivity.class));

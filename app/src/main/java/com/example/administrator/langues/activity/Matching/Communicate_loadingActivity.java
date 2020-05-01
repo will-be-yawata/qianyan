@@ -22,8 +22,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import entry.User;
-import util.EMHelp;
 import util.Url;
+import util.core.ChatOperation;
 
 public class Communicate_loadingActivity extends AppCompatActivity {
     private final static int COUNTTIME=0;
@@ -39,7 +39,7 @@ public class Communicate_loadingActivity extends AppCompatActivity {
     private TextView userName;
     private Handler mHandl ;
 
-    private EMHelp emHelp=new EMHelp();
+    private ChatOperation chatOperation=new ChatOperation();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,14 +101,14 @@ public class Communicate_loadingActivity extends AppCompatActivity {
         });
         finish_btn.setOnClickListener(view -> {
             t_btn=true;
-            emHelp.endCall();
+            chatOperation.endCall();
             finish();
         });
-        emHelp.addCallStateListener(new EMHelp.StateListenerCallback() {
+        chatOperation.addCallStateListener(new ChatOperation.StateListenerCallback() {
             public void accepted() {}
             public void disconnected() {
                 finish();
-                emHelp.closeCallStateListener();
+                chatOperation.closeCallStateListener();
             }
         });
     }

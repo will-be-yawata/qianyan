@@ -30,10 +30,11 @@ import java.util.List;
 import org.xutils.x;
 
 import entry.User;
-import util.EMHelp;
 import util.core.FriendOperation;
+import util.core.LoginOperation;
 
 public class MyApplication extends Application {
+    private LoginOperation loginOperation=new LoginOperation();
     private boolean isBackground=true;
     @Override
     public void onCreate() {
@@ -127,41 +128,7 @@ public class MyApplication extends Application {
         }
     }
     private void notifyForeground(Activity activity) {
-        Log.i("mData","调用notifyForeground()");
-        Log.i("mData","isConnected():"+EMClient.getInstance().isLoggedInBefore());
-        Log.i("mData","isLoggedInBefore():"+EMClient.getInstance().isLoggedInBefore());
-        Log.i("mData","getCurrentUser():"+EMClient.getInstance().getCurrentUser());
-        Log.i("mData","getPhone():"+User.getInstance().getPhone());
-        if(EMClient.getInstance().isConnected())
-            if (EMClient.getInstance().isLoggedInBefore())
-                if(EMClient.getInstance().getCurrentUser()!=null && !EMClient.getInstance().getCurrentUser().equals(""))
-                    if (User.getInstance().getPhone()==null || User.getInstance().getPhone().equals("")) {
-                        ProgressDialog progressDialog = new ProgressDialog(activity);
-                        progressDialog.setTitle("自动登录");
-                        progressDialog.setMessage("正在获得用户信息...");
-                        progressDialog.setIndeterminate(true);
-                        progressDialog.setCancelable(false);
-                        progressDialog.show();
-                        new EMHelp().autologin(EMClient.getInstance().getCurrentUser(), new EMHelp.AutoLoginCallback() {
-                            public void onSuccess() {
-                                FriendOperation.getInstance().friendListener();
-                                Intent intent=new Intent(activity.getApplicationContext(), MainActivity.class);
-                                activity.startActivity(intent);
-                                activity.finish();
-                                Log.i("mData",User.getInstance().getPhone());
-                            }
-                            public void onError() {
-                                Toast.makeText(activity,"自动登录失败",Toast.LENGTH_LONG).show();
-                                Intent intent=new Intent(activity.getApplicationContext(), MainActivity.class);
-                                activity.startActivity(intent);
-                                activity.finish();
-                            }
-                            public void onFinished(){
-                                progressDialog.dismiss();
-                            }
-                        });
-                    }
-    }
+loginOperation.autoLogin(activity);    }
     private void notifyBackground() {}
     public boolean isBackground() {
         return isBackground;

@@ -13,6 +13,7 @@
     <string name="image_selector_select_none">No image selected</string>
     <string name="tts_toast_format" formatted="false">缓冲进度为%d%%，播放进度为%d%%</string>
 
+
     <!-- 请替换成在语音云官网申请的appid -->
     <string name="app_id">5e4d34bb</string>
     <string name="example_explain">本示例为讯飞语音Android平台开发者提供语音听写、语法识别、语义理解和语音合成等代码样例，旨在让用户能够依据该示例快速开发出基于语音接口的应用程序。</string>
@@ -204,5 +205,10 @@
         <item>http://gz.voicecloud.cn/msp.do</item>
         <item>http://dx.xf-yun.com/msp.do</item>
     </string-array>
+
+
+    <string name="str_recorder_normal">按住 说话</string>
+    <string name="str_recorder_recording">松开 结束</string>
+    <string name="str_recorder_want_cancel">松开手指，取消发送</string>
 
 </resources>

@@ -104,9 +104,6 @@
 
 
 
-
-
-
         <activity
             android:name="cn.finalteam.rxgalleryfinal.ui.activity.MediaActivity"
             android:exported="true"
@@ -119,6 +116,10 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.Deliver_detail_Activity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".activity.Deliver_textActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.My_DeliverActivity"

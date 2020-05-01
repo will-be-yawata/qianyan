@@ -1,33 +1,20 @@
 package com.example.administrator.langues.fragment;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.GridView;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.administrator.langues.R;
-import com.example.administrator.langues.adapter.SquareFindAdapter;
 import com.example.administrator.langues.adapter.SquareFriendAdapter;
 import com.example.administrator.langues.view.RefreshListView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import entry.Dynamic;
 import util.core.DynamicOperation;
