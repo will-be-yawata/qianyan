@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:orientation="vertical">
+    <!--对方-->
+    <LinearLayout
+        android:id="@+id/chat_items_text_left"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/chat_items_text_left_photo"
+            android:layout_width="41dp"
+            android:layout_height="41dp"
+            android:layout_gravity="start"
+            android:src="@mipmap/user" />
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="start"
+            android:background="@drawable/talk">
+            <TextView
+                android:id="@+id/chat_items_text_left_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:textColor="#fff" />
+        </LinearLayout>
+    </LinearLayout>
+    <!--我-->
+    <LinearLayout
+        android:id="@+id/chat_items_text_right"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_gravity="end"
+        android:gravity="end"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="end"
+            android:background="@drawable/talk1">
+            <TextView
+                android:id="@+id/chat_items_text_right_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|end"
+                android:textColor="#fff"
+                android:layout_margin="10dp"/>
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/chat_items_text_right_photo"
+            android:layout_width="41dp"
+            android:layout_height="41dp"
+            android:layout_gravity="end"
+            android:src="@mipmap/person" />
+    </LinearLayout>
+</LinearLayout>

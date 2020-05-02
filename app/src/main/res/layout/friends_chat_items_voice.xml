@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:orientation="vertical">
+    <!--对方-->
+    <LinearLayout
+        android:id="@+id/chat_items_voice_left"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/chat_items_voice_left_photo"
+            android:src="@mipmap/user"
+            android:layout_width="41dp"
+            android:layout_height="41dp" />
+        <FrameLayout
+            android:id="@+id/chat_items_voice_left_length"
+            android:layout_width="wrap_content"
+            android:layout_height="41dp"
+            android:background="@drawable/talk">
+            <View
+                android:id="@+id/chat_items_voice_left_anim"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center"
+                android:background="@drawable/adj">
+            </View>
+        </FrameLayout>
+        <TextView
+            android:id="@+id/chat_items_voice_left_time"
+            android:layout_width="wrap_content"
+            android:textColor="#ff777777"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <!--我方-->
+    <LinearLayout
+        android:id="@+id/chat_items_voice_right"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:gravity="end">
+        <!--显示时间-->
+        <TextView
+            android:id="@+id/chat_items_voice_right_time"
+            android:layout_width="wrap_content"
+            android:textColor="#ff777777"
+            android:layout_height="wrap_content" />
+        <!--语音条-->
+        <FrameLayout
+            android:id="@+id/chat_items_voice_right_length"
+            android:layout_width="wrap_content"
+            android:layout_height="41dp"
+            android:background="@drawable/talk1">
+            <View
+                android:id="@+id/chat_items_voice_right_anim"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center"
+                android:background="@drawable/adj">
+            </View>
+        </FrameLayout>
+        <!--头像-->
+        <ImageView
+            android:id="@+id/chat_items_voice_right_photo"
+            android:src="@mipmap/user"
+            android:layout_width="41dp"
+            android:layout_height="41dp" />
+    </LinearLayout>
+</LinearLayout>
