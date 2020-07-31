@@ -6,7 +6,7 @@ package util;
 
 public class Url {
     public static String ROOT="http://119.23.216.103/qianyan/public/index.php/index/";
-    public static String UPLOAD_DYNAMIC="http://119.23.216.103/qianyan/public/upload/dynamic";
+    public static String UPLOAD_DYNAMIC="http://119.23.216.103/qianyan/public/upload/dynamic/";
     public static String UPLOAD_CHAT_VOICE="http://119.23.216.103/qianyan/public/upload/chat/voice/";
 
     public static String REGISTER="register/register.html";
